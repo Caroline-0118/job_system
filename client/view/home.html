@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>国信安就业管理系统</title>
+
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../assets/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="../assets/css/font-awesome1.min.css" />
+
+    <!--[if IE 7]>
+    <link rel="stylesheet" href="../assets/css/font-awesome-ie7.min.css" />
+    <![endif]-->
+
+    <link rel="stylesheet" href="../assets/css/jquery-ui-1.10.3.full.min.css" />
+    <link rel="stylesheet" href="../assets/css/jquery-ui-1.10.3.custom.min.css" />
+
+    <!--    jqgrid    -->
+    <link rel="stylesheet" href="../assets/css/ui.jqgrid.css" />
+    <link rel="stylesheet" href="../css/public.css"/>
+
+    <!-- ace styles -->
+
+    <link rel="stylesheet" href="../assets/css/ace.min.css" />
+    <link rel="stylesheet" href="../assets/css/ace-rtl.min.css" />
+    <link rel="stylesheet" href="../assets/css/ace-skins.min.css" />
+    <!--<link rel="stylesheet" href="../css/public.css" />-->
+    <style type="text/css">
+        .sidebar-shortcuts-large>.btn{height:32px;}
+        .bootbox-body{font-size: 20px;font-weight: 600;}
+        .quanxian{display:none !important;}
+    </style>
+
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="../assets/css/ace-ie.min.css" />
+    <![endif]-->
+
+    <!-- inline styles related to this page -->
+
+    <!-- ace settings handler -->
+
+    <script src="../assets/js/ace-extra.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+    <!--[if lt IE 9]>
+    <script src="../assets/js/html5shiv.js"></script>
+    <script src="../assets/js/respond.min.js"></script>
+    <![endif]-->
+
+
+</head>
+
+<body>
+<!--head开始-->
+<div class="navbar navbar-default" id="navbar" style="height:50px;">
+    <script type="text/javascript">
+        try{ace.settings.check('navbar' , 'fixed')}catch(e){}
+    </script>
+    <div class="navbar-container" id="navbar-container">
+        <!--logo-->
+        <div class="navbar-header pull-left">
+            <a class="navbar-brand" id="back_index">
+                <img style="float: left;margin-top:-5px;height: 40px" src="../images/logo_only.png" alt=""/>
+                <small style="line-height: 30px;padding-left: 5px">
+                    就业管理系统
+                </small>
+            </a>
+        </div>
+        <!--右边按钮开始-->
+        <div class="navbar-header pull-right" role="navigation">
+            <ul class="nav ace-nav">
+                <!--个人设置-->
+                <li class="light-blue">
+                    <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                        <img class="nav-user-photo" src="../images/touxiang.jpg" alt="Jason's Photo" />
+								<span class="user-info" id="uname">
+									<small>你好！</small>
+								</span>
+
+                        <i class="icon-caret-down"></i>
+                    </a>
+                    <!--下拉列表-->
+                    <ul id="mysetting" class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                        <!--个人中心-->
+                        <li>
+                            <a href="#modal-form" id="change_password" role="button" data-toggle="modal">
+                                <i class="icon-user"></i>
+                                修改密码
+                            </a>
+                        </li>
+                        <!--分割线-->
+                        <li class="divider"></li>
+                        <!--退出登录-->
+                        <li>
+                            <a id="myquit" href="#">
+                                <i class="icon-off"></i>
+                                退出登录
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!--右边按钮结束-->
+    </div>
+</div>
+<!--head结束-->
+<!--main-container 开始-->
+<div class="main-container" id="main-container" style="overflow:hidden;">
+    <script type="text/javascript">
+        try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+    </script>
+
+    <div class="main-container-inner">
+        <a class="menu-toggler" id="menu-toggler" href="#">
+            <span class="menu-text"></span>
+        </a>
+        <!--侧边导航栏开始-->
+        <div class="sidebar" id="sidebar">
+            <script type="text/javascript">
+                try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
+            </script>
+            <!--换肤-->
+            <div class="sidebar-shortcuts" id="sidebar-shortcuts">
+                <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+                    <button class="btn btn-success">
+                        <i class="icon-signal"></i>
+                    </button>
+
+                    <button class="btn btn-info">
+                        <i class="icon-pencil"></i>
+                    </button>
+
+                    <button class="btn btn-warning" id="backindex">
+                        <i class="icon-home home-icon"></i>
+                    </button>
+
+                    <div class="btn btn-danger" id="ace-settings-container">
+                        <div class=""  id="ace-settings-btn">
+                            <i class="icon-cog" style="line-height:24px"></i>
+                        </div>
+                        <div class="ace-settings-box" id="ace-settings-box" style="z-index:100;position: absolute;top: 28px;left: -5px;width: 110px;padding: 0 15px;">
+                            <!--换色功能-->
+                            <div>
+                                <div class="pull-left" style="margin-left: -5px">
+                                    <select id="skin-colorpicker" class="hide">
+                                        <option data-skin="default" value="#438EB9">#438EB9</option>
+                                        <option data-skin="skin-1" value="#222A2D">#222A2D</option>
+                                        <option data-skin="skin-2" value="#C6487E">#C6487E</option>
+                                        <option data-skin="skin-3" value="#D0D0D0">#D0D0D0</option>
+                                    </select>
+                                </div>
+                                <span>&nbsp;更换皮肤</span>
+                            </div>
+                            <div>
+                                <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-navbar" />
+                                <label class="lbl" for="ace-settings-navbar">&nbsp;固定页头</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-sidebar" />
+                                <label class="lbl" for="ace-settings-sidebar">&nbsp;固定导航</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+                    <span class="btn btn-success"></span>
+
+                    <span class="btn btn-info"></span>
+
+                    <span class="btn btn-warning"></span>
+
+                    <span class="btn btn-danger"></span>
+                </div>
+            </div>
+            <!--1级菜单-->
+            <ul id="my-menu" class="nav nav-list">
+            <!--学员管理-->
+                <li>
+                    <a href='#' class='w-menu dropdown-toggle'>
+                        <i class='icon-user'></i>
+                        <span class='menu-text'>学员管理</span>
+                        <b class='arrow icon-angle-down'></b>
+                    </a>
+                    <!--2级-->
+                    <ul class='submenu'>
+                        <!--学员基本信息-->
+                        <li>
+                            <a href="#" class="w-menu dropdown-toggle">
+                                <i class="icon-double-angle-right"></i>
+                                <span>学员基本信息</span>
+                            </a>
+                        </li>
+                        <!--学员就业信息-->
+                        <li>
+                            <a href="#" class="w-menu dropdown-toggle">
+                                <i class="icon-double-angle-right"></i>
+                                <span>学员就业信息</span>
+                            </a>
+                        </li>
+                        <!--学员回访信息-->
+                        <li>
+                            <a href="#" class="w-menu dropdown-toggle">
+                                <i class="icon-double-angle-right"></i>
+                                <span>学员回访信息</span>
+                            </a>
+                        </li>
+                        <!--学员回访信息-->
+                        <li>
+                            <a href="#" class="w-menu dropdown-toggle">
+                                <i class="icon-double-angle-right"></i>
+                                <span>添加学员回访</span>
+                            </a>
+                        </li>
+                        <!--班级信息-->
+                        <li>
+                            <a href="#" class="w-menu dropdown-toggle">
+                                <i class="icon-double-angle-right"></i>
+                                <span>班级信息</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            <!--面试管理-->
+                <li>
+                    <a href='#' class='w-menu dropdown-toggle'>
+                        <i class='icon-eye-open'></i>
+                        <span class='menu-text'>面试管理</span>
+                        <b class='arrow icon-angle-down'></b>
+                    </a>
+                    <!--2级-->
+                    <ul class='submenu'>
+                        <!--面试信息-->
+                        <li>
+                            <a href="#" class="w-menu dropdown-toggle">
+                                <i class="icon-double-angle-right"></i>
+                                <span>面试信息</span>
+                            </a>
+                        </li>
+                        <!--添加面试-->
+                        <li>
+                            <a href="#" class="w-menu dropdown-toggle">
+                                <i class="icon-double-angle-right"></i>
+                                <span>添加面试</span>
+                            </a>
+                        </li>
+                        <!--面试企业信息-->
+                        <li>
+                            <a href="#" class="w-menu dropdown-toggle">
+                                <i class="icon-double-angle-right"></i>
+                                <span>面试企业信息</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            <!--统计-->
+                <li>
+                    <a href='#' class='w-menu dropdown-toggle'>
+                        <i class='icon-list-alt'></i>
+                        <span class='menu-text'>统计</span>
+                        <b class='arrow icon-angle-down'></b>
+                    </a>
+                    <!--2级-->
+                    <ul class='submenu'>
+                        <!--班级就业状态统计-->
+                        <li>
+                            <a href="#" class="w-menu dropdown-toggle">
+                                <i class="icon-double-angle-right"></i>
+                                <span>班级就业进度</span>
+                            </a>
+                        </li>
+                        <!--班级就业详细-->
+                        <li>
+                            <a href="#" class="w-menu dropdown-toggle">
+                                <i class="icon-double-angle-right"></i>
+                                <span>班级就业统计</span>
+                            </a>
+                        </li>
+                        <!--员工推荐详细-->
+                        <li>
+                            <a href="#" class="w-menu dropdown-toggle">
+                                <i class="icon-double-angle-right"></i>
+                                <span>员工推荐统计</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!--系统管理-->
+                <li class="quanxian">
+                    <a href='#' class='w-menu dropdown-toggle'>
+                        <i class='icon-desktop'></i>
+                        <span class='menu-text'>系统管理</span>
+                        <b class='arrow icon-angle-down'></b>
+                    </a>
+                    <!--2级-->
+                    <ul class='submenu'>
+                        <!--用户管理-->
+                        <li>
+                            <a href="#" class="w-menu dropdown-toggle">
+                                <i class="icon-double-angle-right"></i>
+                                <span>用户管理</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <!--导航条收缩-->
+            <div class="sidebar-collapse" id="sidebar-collapse">
+                <i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
+            </div>
+
+            <script type="text/javascript">
+                try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
+            </script>
+        </div>
+        <!--侧边导航栏结束-->
+
+        <!--主要内容开始-->
+        <div class="main-content">
+            <div class="breadcrumbs" id="breadcrumbs">
+                <script type="text/javascript">
+                    try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+                </script>
+                <!--上方导航开始-->
+                <ul id="breadcrumb" class="breadcrumb" style="margin-top:10px;">
+                    <li>
+                        <i class="icon-home home-icon"></i>
+                        首页
+                    </li>
+                </ul>
+                <!--上方导航结束-->
+
+            </div>
+
+            <!--正式内容开始-->
+
+            <div class="page-content" style="padding-bottom:0;">
+                <div class="row">
+                    <div id="w-page" class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+                        <!-- PAGE CONTENT ENDS -->
+                    </div>
+                    <!--主要内容-->
+                </div>
+            </div>
+            <!--正式内容结束-->
+        </div>
+        <!--主要类容结束-->
+    </div>
+
+</div>
+<!--<div><button id="load12">下载</button></div>-->
+
+
+<!--修改密码弹框-->
+<div id="modal-form" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width:400px">
+            <!--弹框内容开始-->
+            <form id="changepass-form" action="/changepass.do" class="form-horizontal" style="margin: 0" role="form">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="widget-box" style="margin: 0">
+                            <div class="widget-header">
+                                <h4 style="line-height: 45px">修改密码</h4>
+                                <h4 class="widget-toolbar ">
+                                    <a href="#" class="close" data-dismiss="modal">
+                                        <i class="icon-remove"></i>
+                                    </a>
+                                </h4>
+                            </div>
+                            <!--main-->
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <!--旧密码-->
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right"> 原密码： </label>
+                                        <div class="col-sm-9">
+                                            <input type="password" id="u_password" name="u_password" class="col-xs-12">
+                                        </div>
+                                    </div>
+                                    <!--用户密码-->
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right"> 新密码： </label>
+                                        <div class="col-sm-9">
+                                            <input type="password" id="password" name="password" class="col-xs-12">
+                                        </div>
+                                    </div>
+                                    <!--用户密码-->
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right"> 重复密码： </label>
+                                        <div class="col-sm-9">
+                                            <input type="password" id="re_password" name="re_password" class="col-xs-12">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer form-btn">
+                    <button class="btn btn-sm btn-primary" type="submit">
+                        <i class="icon-ok"></i>
+                        提交
+                    </button>
+                </div>
+            </form>
+            <!--弹框内容结束-->
+        </div>
+    </div>
+</div>
+<!--main-container 结束-->
+
+
+<!-- basic scripts -->
+
+<!--[if !IE]> -->
+
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='../assets/js/jquery-2.0.3.min.js'>"+"<"+"/script>");
+</script>
+
+<!-- <![endif]-->
+
+<!--[if IE]>
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='../assets/js/jquery-1.10.2.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+
+<script type="text/javascript">
+    if("ontouchend" in document) document.write("<script src='../assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+</script>
+
+
+<script src="../assets/js/bootstrap.min.js"></script>
+<script src="../assets/js/typeahead-bs2.min.js"></script>
+<script src="../assets/js/bootstrapValidator.min.js"></script>
+
+<!-- jqGrid scripts -->
+<script src="../assets/js/jqGrid/jquery.jqGrid.min.js"></script>
+<script src="../assets/js/jqGrid/i18n/grid.locale-en.js"></script>
+
+<!-- ace scripts -->
+<script src="../assets/js/ace-elements.min.js"></script>
+<script src="../assets/js/ace.min.js"></script>
+<!--confirm alert-->
+<script src="../assets/js/bootbox.min.js"></script>
+
+<!--日期选择-->
+<script type="text/javascript" src="../assets/js/moment.min.js"></script>
+<script type="text/javascript" src="../assets/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="../assets/js/date-time/moment.min.js"></script>
+<!-- inline scripts related to this page -->
+<script src="../js/home.js"></script>
+<script>
+    $("#load12").click(function () {
+        alert(111);
+        $.post("/downstu.do",function(data){
+            console.log(data)
+        })
+    });
+    $("#backindex").click(function(){
+        $("#w-page").load("../view/index.html");
+        for(var i=0;i<$(".submenu .w-menu").length;i++){
+            $($(".submenu .w-menu")[i]).find("i").css("display","");
+            $($(".submenu .w-menu")[i]).css("color","");
+        }
+    });
+</script>
+</body>
+</html>

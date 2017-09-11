@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>国信安就业管理系统</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="assets/css/ace.min.css"/>
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="css/login.css"/>
+
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
+    <![endif]-->
+</head>
+<body>
+<!--header-->
+<div id="header" class="container" >
+    <img src="images/logo1.png" id="logo_image" alt="" style="height:100px"/>
+</div>
+<!--main-->
+<div id="main" class="back-5896cc overflow-hidden">
+    <!--轮播-->
+    <div class="" id="banner">
+        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner  overflow-hidden" role="listbox">
+                <div class=" item  position-re active overflow-hidden" style="background: #5996cd">
+                    <div class="container">
+                        <img src="images/11.png" alt="">
+                    </div>
+                </div>
+                <div class="  item position-re overflow-hidden"  style="background: #00a9a4">
+                    <div class="container">
+                        <img src="images/22.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--登录框-->
+    <div id="contain" class="container position-re">
+        <div class="row position-re ">
+            <div>
+                <div id="login-form" class="container" >
+                    <div class="login-back"></div>
+                    <form>
+                        <h3 class="header white lighter bigger border-none">欢迎登录！</h3>
+                        <P id="warning">&nbsp;</P>
+                        <!--用户名-->
+                        <label class="block clearfix ">
+                            <span class="block input-icon input-icon-right">
+                                <input type="text" id="username" name="username"  class="form-control " placeholder="请输入账户">
+                                <i class="ace-icon fa fa-user"></i>
+                            </span>
+                        </label>
+                        <!--密码-->
+                        <label class="block clearfix">
+                            <span class="block input-icon input-icon-right">
+                                <input type="password" id="password" name="password" class="form-control" placeholder="请输入密码">
+                                <i class="ace-icon fa fa-user"></i>
+                            </span>
+                        </label>
+                        <!--登录按钮-->
+                        <label class="block clearfix">
+                            <button type="button" id="login" class="width-100 btn btn-sm btn-danger">
+                                登录
+                            </button>
+                        </label>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--footer-->
+<div id="footer" class="container position-re">
+    <div>
+        <ul class="display-inblock">
+            <!--<li class="float-L"><a href="#">移动版下载</a></li>-->
+            <!--<li class="float-L"><a href="#">帮助</a></li>-->
+            <!--<li class="float-L"><a href="#">综合门户</a></li>-->
+        </ul>
+    </div>
+</div>
+
+<!--[if !IE]> -->
+
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='assets/js/jquery-2.0.3.min.js'>"+"<"+"/script>");
+</script>
+
+<!-- <![endif]-->
+
+<!--[if IE]>
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='assets/js/jquery-1.10.2.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+<script src="assets/js/bootstrap.min.js"></script>
+<script>
+    $('.carousel').carousel({
+        interval: 4000
+    });
+</script>
+<script src="js/login.js"></script>
+</body>
+</html>

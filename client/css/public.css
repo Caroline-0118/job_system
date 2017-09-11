@@ -1,0 +1,50 @@
+ul{  list-style: none;  }
+a{  color: inherit;cursor:pointer  }
+.modal-content{
+    margin:30px auto!important;
+}
+.alert{
+    border:1px solid #bfeaf3;
+    /*overflow: hidden;*/
+    margin-bottom: 0!important;
+}
+.w-line{
+    height:1px;
+    border:none;
+    border-top:1px dashed #0066CC;
+    margin: 5px 0;
+}
+.w-tableCon{
+    list-style: none;
+    /*overflow: hidden;*/
+    margin:0;
+    height:30px
+}
+.w-tableCon form{
+    margin:0
+}
+.w-tableCon li{
+    float: left;
+    width: 80px;
+    height: 30px;
+    line-height: 30px;
+}
+.w-tableCon li a{
+    text-decoration: none;
+}
+.w-tableCon li a:hover{
+    cursor: pointer;
+}
+.form-group .form-control-feedback{
+    line-height: 28px!important;
+    margin-right: 5px!important;
+}
+form.form-horizontal{
+    margin:0!important
+}
+a[role="button"]{
+    color: #337ab7;
+}
+.form-search label{margin-right: 20px}
+.form-search label input{padding-left: 6px}
+

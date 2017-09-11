@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div class="alert alert-block alert-info" style="border:1px solid #bfeaf3;">
+
+    <ul class="w-tableCon">
+        <!--添加-->
+        <li>
+            <a href="#modal-form" id="add-user" role="button" data-toggle="modal">
+                <span>
+                    <i class="icon-plus"></i>
+                </span>
+                添加
+            </a>
+        </li>
+        <!--编辑-->
+        <li>
+            <a href="#" id="edit-user" role="button" data-toggle="modal">
+                <i class="icon-pencil"></i>
+                编辑
+            </a>
+        </li>
+    </ul>
+</div>
+<hr class="w-line"/>
+<div id="w-table" style="width: 100%;outline:1px solid #c5d0dc">
+    <!--jqGrid表格-->
+    <table id="user-table"></table>
+
+    <div id="user-pager"></div>
+</div>
+<script type="text/javascript">
+    var $path_base = "/";//this will be used in gritter alerts containing images
+</script>
+
+<!--添加编辑弹框-->
+<div id="modal-form" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width:400px">
+            <!--弹框内容开始-->
+            <form id="user-form" action="" class="form-horizontal" style="margin: 0" role="form">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="widget-box" style="margin: 0">
+                            <div class="widget-header">
+                                <h4 style="line-height: 45px">添加用户</h4>
+                                <h4 class="widget-toolbar ">
+                                    <a href="#" class="close" data-dismiss="modal">
+                                        <i class="icon-remove"></i>
+                                    </a>
+                                </h4>
+                            </div>
+                            <!--main-->
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <!--用户名-->
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right"> 用户名： </label>
+                                        <div class="col-sm-9">
+                                            <input type="text" id="u_name" name="u_name" class="col-xs-12">
+                                        </div>
+                                    </div>
+                                    <!--用户密码-->
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right"> 用户密码： </label>
+                                        <div class="col-sm-9">
+                                            <input type="text" id="u_password" name="u_password" class="col-xs-12">
+                                        </div>
+                                    </div>
+                                    <!--用户状态-->
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right"> 用户状态： </label>
+                                        <div class="col-sm-9">
+                                            <select name="u_stutas" id="u_stutas" class="col-xs-12">
+                                                <option value="0">admin</option>
+                                                <option value="1">在职</option>
+                                                <option value="2">离职</option>
+                                                <option value="3">管理员</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer form-btn">
+                    <button class="btn btn-sm btn-primary" type="submit">
+                        <i class="icon-ok"></i>
+                        提交
+                    </button>
+                </div>
+            </form>
+            <!--弹框内容结束-->
+        </div>
+    </div>
+</div>
+
+<!--js-->
+<script type="text/javascript" src="../js/userInfo.js"></script>
+<script>
+</script>
+</body>
+</html>

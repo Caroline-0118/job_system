@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../assets/css/bootstrap-datetimepicker.min.css" />
+    <link rel="stylesheet" href="../assets/css/bootstrap-select.min.css" />
+    <style>
+        .form-search{
+            padding: 12px;
+            position:absolute;
+            top: 0;
+            right: 12px;
+            background-color: #d9edf7;
+            z-index: 10
+        }
+        .bootstrap-select{height: auto}
+        .dropdown-toggle{padding: 0;padding-left:5px }
+    </style>
+</head>
+<body>
+<div class="alert alert-block alert-info" style="border:1px solid #bfeaf3;overflow: hidden">
+
+    <ul class="w-tableCon">
+        <!--编辑-->
+        <!--<li>-->
+            <!--<a href="#" id="edit-stu" role="button" data-toggle="modal">-->
+                <!--<i class="icon-pencil"></i>-->
+                <!--编辑-->
+            <!--</a>-->
+        <!--</li>-->
+        <!--导出-->
+        <li>
+            <a href="#" role="button" data-toggle="modal" onclick="ExportToExcel('stu-table')">
+                <i class="icon-download-alt"></i>
+                导出
+            </a>
+        </li>
+        <!--弹出选择菜单-->
+        <button style="float: right;height: 30px" class="btn btn-sm btn-primary" id="showSearch" type="button">
+            查询
+        </button>
+
+    </ul>
+    <!--查询-->
+
+    <form id="form-search" class="form-search" style="display: none">
+        <!--班级-->
+        <label>
+            班级:
+            <span class="input-icon">
+                <select id="calss-search" name="c_id" class="selectpicker form-control" data-style="btn-info"  data-live-search="true"></select>
+            </span>
+        </label>
+        <!--姓名-->
+        <label>
+            姓名:
+            <span class="input-icon">
+                <input type="text" name="s_name" style="width: 100px" autocomplete="off">
+            </span>
+        </label>
+        <!--学校-->
+        <label>
+            学校:
+            <span class="input-icon">
+                <input type="text" name="s_school" style="width: 100px" autocomplete="off">
+            </span>
+        </label>
+        <!--就业状态-->
+        <label>
+            就业状态:
+            <span class="input-icon">
+                <select name="s_jobstatus">
+                    <option value="">全部</option>
+                    <option value="1">未就业</option>
+                    <option value="2">已就业(自主就业)</option>
+                    <option value="3">已就业(推荐就业)</option>
+                    <option value="4">推迟就业</option>
+                    <option value="5">放弃就业</option>
+                    <option value="6">再就业</option>
+                </select>
+            </span>
+        </label>
+        <!--就业时间:-->
+        <label>
+            就业时间:
+            <span class="input-icon">
+                <input name="s_starttime" id="starttime-search" type="text" style="width: 100px" autocomplete="off">
+            </span>
+            至
+            <span class="input-icon">
+                <input name="s_overtime" id="overtime-search" type="text" style="width: 100px" autocomplete="off">
+            </span>
+        </label>
+        <!--就业企业-->
+        <label>
+            就业企业:
+            <span class="input-icon">
+                <input name="s_jobunit" type="text" style="width: 100px" autocomplete="off">
+            </span>
+        </label>
+        <!--查询-->
+            <button class="" id="search" type="button">
+                <i class="icon-search nav-search-icon"></i>
+            </button>
+    </form>
+</div>
+<hr class="w-line"/>
+<div id="w-table" style="width: 100%;outline:1px solid #c5d0dc">
+    <!--jqGrid表格-->
+    <table id="stu-table"></table>
+
+    <div id="stu-pager"></div>
+</div>
+<script type="text/javascript">
+    var $path_base = "/";//this will be used in gritter alerts containing images
+</script>
+
+<!--添加编辑弹框-->
+<div id="modal-form" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width:400px">
+            <!--弹框内容开始-->
+            <form id="stuJob-form" action="/editstu.do" class="form-horizontal" style="margin: 0" role="form">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="widget-box" style="margin: 0">
+                            <div class="widget-header">
+                                <h4 style="line-height: 45px">修改就业信息</h4>
+                                <h4 class="widget-toolbar ">
+                                    <a href="#" class="close" data-dismiss="modal">
+                                        <i class="icon-remove"></i>
+                                    </a>
+                                </h4>
+                            </div>
+                            <!--main-->
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <!--就业状态-->
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right"> 就业状态： </label>
+                                        <div class="col-sm-9">
+                                            <select name="s_jobstatus" id="s_jobstatus" class="col-xs-12">
+                                                <option value="1">未就业</option>
+                                                <option value="2">已就业(自主就业)</option>
+                                                <option value="3">已就业(推荐就业)</option>
+                                                <option value="4">推迟就业</option>
+                                                <option value="5">放弃就业</option>
+                                                <option value="6">再就业</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!--就业时间-->
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right"> 就业时间： </label>
+                                        <div class="col-sm-9">
+                                            <input type="text" disabled="disabled" name="s_getjobtime" id="s_getjobtime" class="col-xs-12">
+                                        </div>
+                                    </div>
+                                    <!--就业企业-->
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right"> 就业企业： </label>
+                                        <div class="col-sm-9">
+                                            <input type="text" disabled="disabled" name="s_jobunit" class="col-xs-12">
+                                        </div>
+                                    </div>
+                                    <!--试用工资-->
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right"> 试用工资： </label>
+                                        <div class="col-sm-9">
+                                            <input type="text" disabled="disabled" name="s_shixijodpay" class="col-xs-12">
+                                        </div>
+                                    </div>
+                                    <!--转正工资-->
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right"> 转正工资： </label>
+                                        <div class="col-sm-9">
+                                            <input type="text" disabled="disabled" name="s_jodpay" class="col-xs-12">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer form-btn">
+                    <button class="btn btn-sm btn-primary" type="submit">
+                        <i class="icon-ok"></i>
+                        提交
+                    </button>
+                </div>
+            </form>
+            <!--弹框内容结束-->
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="../assets/js/bootstrap-select.js"></script>
+<!--js-->
+<script type="text/javascript" src="../js/stuJob.js"></script>
+</body>
+</html>

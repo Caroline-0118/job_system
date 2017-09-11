@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div class="alert alert-block alert-info" style="border:1px solid #bfeaf3;">
+
+    <ul class="w-tableCon">
+        <!--添加-->
+        <li>
+            <a href="#modal-form" id="add-bus" role="button" data-toggle="modal">
+                <span>
+                    <i class="icon-plus"></i>
+                </span>
+                添加
+            </a>
+        </li>
+        <!--编辑-->
+        <li>
+            <a href="#" id="edit-bus" role="button" data-toggle="modal">
+                <i class="icon-pencil"></i>
+                编辑
+            </a>
+        </li>
+        <!--删除-->
+        <li class="quanxian">
+            <a href="#" id="del-bus" role="button" data-toggle="modal">
+                <i class="icon-trash"></i>
+                删除
+            </a>
+        </li>
+        <!--查询-->
+        <form class="form-search" style="height: 30px;float:right;margin:0;">
+            <label>
+                公司名称:
+                <span class="input-icon">
+                    <input type="text" class="nav-search-input" id="busname-search" autocomplete="off">
+                </span>
+            </label>
+            <label>
+                <button class="btn btn-sm btn-primary" id="search" type="button">
+                    <i class="icon-search nav-search-icon"></i>
+                </button>
+            </label>
+        </form>
+    </ul>
+</div>
+<hr class="w-line"/>
+<div id="w-table" style="width: 100%;outline:1px solid #c5d0dc">
+    <!--jqGrid表格-->
+    <table id="bus-table"></table>
+
+    <div id="bus-pager"></div>
+</div>
+<script type="text/javascript">
+    var $path_base = "/";//this will be used in gritter alerts containing images
+</script>
+
+<!--添加编辑弹框-->
+<div id="modal-form" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width:400px">
+            <!--弹框内容开始-->
+            <form id="bus-form" action="" class="form-horizontal" style="margin: 0" role="form">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="widget-box" style="margin: 0">
+                            <div class="widget-header">
+                                <h4 style="line-height: 45px">添加公司</h4>
+                                <h4 class="widget-toolbar ">
+                                    <a href="#" class="close" data-dismiss="modal">
+                                        <i class="icon-remove"></i>
+                                    </a>
+                                </h4>
+                            </div>
+                            <!--main-->
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <!--公司名称-->
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right"> 公司名称： </label>
+                                        <div class="col-sm-9">
+                                            <input type="text" id="b_name" name="b_name" class="col-xs-12">
+                                        </div>
+                                    </div>
+                                    <!--公司地址-->
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right"> 公司地址： </label>
+                                        <div class="col-sm-9">
+                                            <input type="text" id="b_address" name="b_address" class="col-xs-12">
+                                        </div>
+                                    </div>
+                                    <!--联系人-->
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right"> 联系人： </label>
+                                        <div class="col-sm-9">
+                                            <input type="text" id="b_contactor" name="b_contactor" class="col-xs-12">
+                                        </div>
+                                    </div>
+                                    <!--联系电话-->
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right"> 联系电话： </label>
+                                        <div class="col-sm-9">
+                                            <input type="text" id="b_contactnum" name="b_contactnum" class="col-xs-12">
+                                        </div>
+                                    </div>
+                                    <!--备注-->
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right"> 备注： </label>
+                                        <div class="col-sm-9">
+                                            <textarea id="b_remark" style="height: 50px" placeholder="请输入200字以内备注信息！" name="b_remark" class="col-xs-12"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer form-btn">
+                    <button class="btn btn-sm btn-primary" type="submit">
+                        <i class="icon-ok"></i>
+                        提交
+                    </button>
+                </div>
+            </form>
+            <!--弹框内容结束-->
+        </div>
+    </div>
+</div>
+
+<!--js-->
+<script type="text/javascript" src="../js/businessInfo.js"></script>
+</body>
+</html>

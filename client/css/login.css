@@ -1,0 +1,104 @@
+
+@media screen and (min-width: 1000px) {
+    #login-form{
+        float: right;
+    }
+    .login-back{
+        opacity: 0.3;
+        /*ie*/
+        filter:Alpha(Opacity=30);
+        background: black;
+    }
+}
+@media screen and (max-width: 1000px){
+    .login-back{
+        background: #437099;
+    }
+}
+@media screen and (max-width: 500px) {
+    #header img{
+        width: 100%;
+    }
+}
+
+
+
+.back-5896cc{  background: #5896cc; }
+.color-white{  color: white;  }
+.border-none{  border: none;  }
+.float-R{  float: right;  }
+.float-L{  float: left;  }
+.border-radius-5{  border-radius: 5px !important;  }
+.position-re{  position: relative;  }
+.display-inblock{  display: inline-block;  }
+.overflow-hidden{  overflow: hidden;  }
+
+
+
+
+/*轮播*/
+#banner{
+    position: absolute;
+    z-index: 0;
+    width: 100%;
+}
+
+/*登录框*/
+#login-form{
+    width: 285px;
+}
+#login-form form{
+    position: relative;
+    z-index: 1;
+}
+.login-back{
+    position: absolute;
+    width: 285px;
+    height: 100%;
+    /*background: #5996cd;*/
+    /*opacity: 0.3;*/
+    margin-left: -12px;
+    border-radius: 5px;
+    z-index: 0;
+}
+#warning{
+    color: red;
+}
+
+
+/*页脚*/
+#footer li{
+    color: #828282;
+    padding: 0 10px;
+    border-right: 1px solid #828282;
+}
+#footer li:last-of-type{
+    border-right: none;
+}
+.form-control {
+    height: 44px;
+}
+textarea, input[type="text"], input[type="password"],
+input[type="datetime"], input[type="datetime-local"],
+input[type="date"], input[type="month"], input[type="time"],
+input[type="week"], input[type="number"], input[type="email"],
+input[type="url"], input[type="search"], input[type="tel"], input[type="color"],button {
+    border-radius: 5px !important;
+}
+.header {
+    margin: 30px 0 20px;
+}
+
+#footer>div{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -17px 0 0 -115px;
+}
+label.clearfix{
+    margin-bottom: 20px;
+}
+label.clearfix button{
+    height: 40px;
+    margin: 40px 0 20px;
+}

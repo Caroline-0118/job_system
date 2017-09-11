@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../assets/css/bootstrap-datetimepicker.min.css" />
+    <link rel="stylesheet" href="../assets/css/bootstrap-select.min.css" />
+    <style>
+        .form-search{
+            padding: 12px;
+            position:absolute;
+            top: 0;
+            right: 12px;
+            background-color: #d9edf7;
+            z-index: 12;
+        }
+        .nav>li, .nav>li>a{z-index: 10}
+        .bootstrap-select{height: auto}
+        .dropdown-toggle{padding: 0;padding-left:5px }
+    </style>
+</head>
+<body>
+<div class="alert alert-block alert-info" style="border:1px solid #bfeaf3;overflow: hidden">
+
+    <ul class="w-tableCon">
+        <!--编辑-->
+        <li>
+            <a href="#" id="edit-inter" role="button" data-toggle="modal">
+                <i class="icon-pencil"></i>
+                编辑
+            </a>
+        </li>
+        <!--导出-->
+        <li>
+            <a href="#" role="button" id="daochu" data-toggle="modal">
+                <i class="icon-download-alt"></i>
+                导出
+            </a>
+        </li>
+        <!--面试反馈-->
+        <li style="width: 120px">
+            <a href="#" id="edit-unemploy" role="button" data-toggle="modal">
+                <i class="icon-pencil"></i>
+                未录用标记
+            </a>
+        </li>
+
+
+        <!--弹出选择菜单-->
+        <button style="float: right;height: 30px" class="btn btn-sm btn-primary" id="showSearch" type="button">
+            查询
+        </button>
+
+    </ul>
+    <!--查询-->
+
+    <form id="form-search" class="form-search" style="display: none">
+        <!--班级-->
+        <label>
+            班级:
+            <span class="input-icon">
+                <select id="calss-search" name="c_id" class="selectpicker form-control" data-style="btn-info"  data-live-search="true"></select>
+            </span>
+        </label>
+        <!--姓名-->
+        <label>
+            姓名:
+            <span class="input-icon">
+                <input type="text" name="s_name" style="width: 100px" autocomplete="off">
+            </span>
+        </label>
+        <!--推荐人-->
+        <label>
+            推荐人:
+            <span class="input-icon">
+                <select id="user-search" name="u_id"></select>
+            </span>
+        </label>
+        <!--面试时间:-->
+        <label>
+            <span class="interType">面试</span>时间:
+            <span class="input-icon">
+                <input type="text" style="width: 100px" id="starttime-search" name="i_starttime" autocomplete="off">
+            </span>
+            至
+            <span class="input-icon">
+                <input type="text" style="width: 100px" id="endtime-search" name="i_endtime" autocomplete="off">
+            </span>
+        </label>
+        <!--面试企业-->
+        <label>
+            <span class="interType">面试</span>企业:
+            <span class="input-icon">
+                <input name="b_name" type="text" style="width: 100px" autocomplete="off">
+            </span>
+        </label>
+        <!--面试反馈-->
+        <label id="mianshifankui">
+            面试反馈:
+            <span class="input-icon">
+                <select name="i_employ">
+                    <option value="">全部</option>
+                    <option value="-1">未结束</option>
+                    <option value="0">录用</option>
+                    <option value="1">未录用</option>
+                </select>
+            </span>
+        </label>
+        <!--查询-->
+        <button class="" id="search" type="button">
+            <i class="icon-search nav-search-icon"></i>
+        </button>
+    </form>
+</div>
+<hr class="w-line"/>
+<div class="tabbable">
+    <ul class="nav nav-tabs padding-12 tab-color-blue background-blue" id="myTab4">
+        <li class="active">
+            <a data-toggle="tab" href="#interview">面试列表</a>
+        </li>
+
+        <li class="">
+            <a data-toggle="tab" href="#recommend">推荐列表</a>
+        </li>
+    </ul>
+    <!--表格-->
+    <div class="tab-content" style="padding: 0">
+        <!--面试列表-->
+        <div id="interview" class="tab-pane active">
+            <table id="inter-table"></table>
+            <div id="inter-pager"></div>
+        </div>
+        <!--推荐列表-->
+        <div id="recommend" class="tab-pane">
+            <table id="reco-table"></table>
+            <div id="reco-pager"></div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var $path_base = "/";//this will be used in gritter alerts containing images
+</script>
+
+<!--添加编辑弹框-->
+<div id="modal-form" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width:400px">
+            <!--弹框内容开始-->
+            <form id="interview-form" action="/interresult.do" class="form-horizontal" style="margin: 0" role="form">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="widget-box" style="margin: 0">
+                            <div class="widget-header">
+                                <h4 style="line-height: 45px">面试结果</h4>
+                                <h4 class="widget-toolbar ">
+                                    <a href="#" class="close" data-dismiss="modal">
+                                        <i class="icon-remove"></i>
+                                    </a>
+                                </h4>
+                            </div>
+                            <!--main-->
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <!--笔试结果-->
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right"> 笔试结果： </label>
+                                        <div class="col-sm-9">
+                                            <select name="i_writeresult" id="i_writeresult" class="col-xs-12">
+                                                <option value=""></option>
+                                                <option value="0">未通过</option>
+                                                <option value="1">通过</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!--面试结果-->
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right"> 面试结果： </label>
+                                        <div class="col-sm-9">
+                                            <select name="i_faceresult" id="i_faceresult" class="col-xs-12">
+                                                <option value=""></option>
+                                                <option value="0">未通过</option>
+                                                <option value="1">通过</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!--复试结果-->
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right"> 复试结果： </label>
+                                        <div class="col-sm-9">
+                                            <select name="i_retestresult" id="i_retestresult" class="col-xs-12">
+                                                <option value=""></option>
+                                                <option value="0">未通过</option>
+                                                <option value="1">通过</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!--录用结果-->
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right"> 录用结果： </label>
+                                        <div class="col-sm-9">
+                                            <select name="i_employ" id="i_employ" class="col-xs-12">
+                                                <option value=""></option>
+                                                <option value="0">未通过</option>
+                                                <option value="1">通过</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!--是否入职-->
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right"> 是否入职： </label>
+                                        <div class="col-sm-9">
+                                            <select name="i_entryresult" id="i_entryresult" class="col-xs-12">
+                                                <option value=""></option>
+                                                <option value="0">未通过</option>
+                                                <option value="1">通过</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!--试用薪资-->
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right"> 试用薪资： </label>
+                                        <div class="col-sm-9">
+                                            <input type="text" disabled="disabled" id="s_shixijobpay" name="s_shixijobpay" class="col-xs-12">
+                                        </div>
+                                    </div>
+                                    <!--正式薪资-->
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right"> 正式薪资： </label>
+                                        <div class="col-sm-9">
+                                            <input type="text" disabled="disabled" id="s_jobpay" name="s_jobpay" class="col-xs-12">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer form-btn">
+                    <button class="btn btn-sm btn-primary" type="submit">
+                        <i class="icon-ok"></i>
+                        提交
+                    </button>
+                </div>
+            </form>
+            <!--弹框内容结束-->
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="../assets/js/bootstrap-select.js"></script>
+<!--js-->
+<script type="text/javascript" src="../js/interviewInfo.js"></script>
+</body>
+</html>

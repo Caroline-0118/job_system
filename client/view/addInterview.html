@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../assets/css/bootstrap-datetimepicker.min.css" />
+    <link rel="stylesheet" href="../assets/css/bootstrap-select.min.css" />
+    <style>
+        #form-search>label{
+            margin-bottom: 0;
+        }
+        .xiugai{display: inline}
+
+        #hasselect th{font-size: 20px}
+        .bootstrap-select{height: auto}
+        .dropdown-toggle{padding: 0;padding-left:5px }
+        .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
+            width: 150px;
+        }
+        .tab-content{z-index: inherit}
+    </style>
+</head>
+<body>
+<div class="tabbable">
+    <ul class="nav nav-tabs padding-12 tab-color-blue background-blue" id="myTab4">
+        <li class="active">
+            <a data-toggle="tab" href="#student">学员列表</a>
+        </li>
+
+        <li class="">
+            <a data-toggle="tab" id="gongsi" href="#buss">公司列表</a>
+        </li>
+    </ul>
+    <!--表格-->
+    <div class="tab-content" style="padding: 0">
+        <!--面试列表-->
+        <div id="student" class="tab-pane active">
+            <div class="alert alert-block alert-info" style="padding: 10px">
+
+                <!--查询-->
+
+                <form id="form-search" class="form-search">
+                    <!--班级-->
+                    <label>
+                        班级:
+            <span class="input-icon">
+                <select id="calss-search" name="c_id" class="selectpicker form-control" data-style="btn-info"  data-live-search="true"></select>
+            </span>
+                    </label>
+                    <!--姓名-->
+                    <label>
+                        姓名:
+            <span class="input-icon">
+                <input type="text" name="s_name" style="width: 100px" id="name-search" autocomplete="off">
+            </span>
+                    </label>
+                    <!--性别-->
+                    <label>
+                        性别:
+            <span class="input-icon">
+                <select name="s_sex" id="sex-search">
+                    <option value="">全部</option>
+                    <option value="男">男</option>
+                    <option value="女">女</option>
+                </select>
+            </span>
+                    </label>
+                    <!--专业技能评级-->
+                    <label>
+                        专业技能评级:
+            <span class="input-icon">
+                <select name="s_skill" id="skill-search">
+                    <option value="">全部</option>
+                    <option value="1">D</option>
+                    <option value="2">C-</option>
+                    <option value="3">C</option>
+                    <option value="4">C+</option>
+                    <option value="5">B-</option>
+                    <option value="6">B</option>
+                    <option value="7">B+</option>
+                    <option value="8">A-</option>
+                    <option value="9">A</option>
+                    <option value="10">A+</option>
+                </select>
+            </span>
+                    </label>
+                    <!--综合素质评级-->
+                    <label>
+                        综合素质评级:
+            <span class="input-icon">
+                <select name="s_quality" id="quality-search">
+                    <option value="">全部</option>
+                    <option value="1">D</option>
+                    <option value="2">C-</option>
+                    <option value="3">C</option>
+                    <option value="4">C+</option>
+                    <option value="5">B-</option>
+                    <option value="6">B</option>
+                    <option value="7">B+</option>
+                    <option value="8">A-</option>
+                    <option value="9">A</option>
+                    <option value="10">A+</option>
+                </select>
+            </span>
+                    </label>
+                    <!--毕业时间:-->
+                    <label>
+                        毕业时间:
+            <span class="input-icon">
+                <input name="s_graduation" type="text" style="width: 100px" id="endtime-search" autocomplete="off">
+            </span>
+                    </label>
+                    <!--学历-->
+                    <label>
+                        学历:
+            <span class="input-icon">
+                <select name="s_education" id="education-search">
+                    <option value="">全部</option>
+                    <option value="1">初中</option>
+                    <option value="2">高中/中专</option>
+                    <option value="4">专科</option>
+                    <option value="6">本科</option>
+                    <option value="8">研究生</option>
+                    <option value="9">博士</option>
+                </select>
+            </span>
+                    </label>
+                    <!--外语等级-->
+                    <label>
+                        外语等级:
+            <span class="input-icon">
+                <input name="s_english" type="text" style="width: 100px" id="english-search" autocomplete="off">
+            </span>
+                    </label>
+                    <!--查询-->
+                    <button class="" style="height: 28px" id="mysearch" type="button">
+                        <i class="icon-search nav-search-icon"></i>
+                    </button>
+                </form>
+            </div>
+            <hr class="w-line">
+            <div id="w-table" style="width: 100%;outline:1px solid #c5d0dc">
+                <!--jqGrid表格-->
+                <table id="stu-table"></table>
+
+                <div id="stu-pager"></div>
+            </div>
+        </div>
+
+        <!--推荐列表-->
+        <div id="buss" class="tab-pane">
+        </div>
+    </div>
+</div>
+
+<hr class="w-line"/>
+<div class="row" style="padding: 20px">
+    <div><button id="addinterstu" class="btn btn-info" style="margin: 0 auto">添加学员</button></div>
+
+    <table id="hasselect" class="col-sm-12" style="">
+        <thead><tr><th>学员ID</th><th>姓名</th><th>班级</th><th>性别</th><th>电话</th><th>下载简历</th><th>删除</th></tr></thead>
+        <tbody></tbody>
+    </table>
+</div>
+<hr class="w-line"/>
+<div style="padding-top: 20px">
+    <div style="margin-bottom: 10px">
+        <input style="margin-left: 10px" name="change_reco" value="0" checked type="radio"/> 添加新面试
+        <input style="margin-left: 10px" name="change_reco" value="1" type="radio"/> 添加新推荐
+    </div>
+    <form action="/addinter.do" id="interInfo">
+        <div class="form-group col-sm-4">
+            <label class="control-label no-padding-right"> <span class="chang_name">面试</span>时间： </label>
+            <input type="text" id="i_time" name="i_time">
+        </div>
+        <div class="form-group col-sm-4">
+            <label class="control-label no-padding-right"> <span class="chang_name">面试</span>岗位： </label>
+            <input type="text" id="i_job" name="i_job">
+        </div>
+        <div class="form-group col-sm-4">
+            <label class="control-label no-padding-right"> 推荐人： </label>
+            <select id="i_u_id" name="i_u_id">
+                <option value=""></option>
+            </select>
+        </div>
+    </form>
+    <form action="/addbus.do" id="interbus" class="form-group" style="float:left;padding-top: 20px">
+        <div class="form-group col-sm-6">
+            <label class="control-label no-padding-right"> <span class="chang_name">面试</span>企业： </label>
+            <input type="hidden" id="bus_id" name="bus_id"/>
+            <input type="text" disabled="disabled" id="bus_name" name="bus_name">
+        </div>
+        <div class="form-group col-sm-6">
+            <label class="control-label no-padding-right"> 公司面试地点： </label>
+            <input type="text" disabled="disabled" id="bus_address" name="bus_address">
+            <div class="xiugai"></div>
+        </div>
+        <div class="form-group col-sm-6">
+            <label class="control-label no-padding-right"> 联 系 人： </label>
+            <input type="text" disabled="disabled" id="bus_contactor" name="bus_contactor">
+            <div class="xiugai"></div>
+        </div>
+        <div class="form-group col-sm-6">
+            <label class="control-label no-padding-right">&nbsp;&nbsp;联系电话： </label>
+            <input type="text" disabled="disabled" id="bus_contactnum" name="bus_contactnum">
+            <div class="xiugai"></div>
+        </div>
+        <div class="form-group col-sm-6">
+            <label class="control-label no-padding-right" style="vertical-align: top;"> 备注： </label>
+            <textarea name="bus_remark" style="width: 250px;height: 100px" disabled="disabled" id="bus_remark"></textarea>
+            <div class="xiugai"></div>
+        </div>
+    </form>
+    <div class="form-group col-sm-12">
+        <button class="btn btn btn-lg btn-primary" id="addinter" type="button" style="margin-left: 400px;"> 添加新<span class="chang_name">面试</span> </button>
+    </div>
+</div>
+<script type="text/javascript">
+    var $path_base = "/";//this will be used in gritter alerts containing images
+</script>
+<a href="#tongzhi-form" id="intertongzhi" role="button" style="display: none" data-toggle="modal"></a>
+
+<!--通知弹框-->
+<div id="tongzhi-form" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width:400px">
+            <!--弹框内容开始-->
+            <form id="stu-form" action="" class="form-horizontal" style="margin: 0" role="form">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="widget-box" style="margin: 0">
+                            <div class="widget-header">
+                                <h4 style="line-height: 45px">面试通知</h4>
+                                <h4 class="widget-toolbar ">
+                                    <a href="#" class="close" data-dismiss="modal">
+                                        <i class="icon-remove"></i>
+                                    </a>
+                                </h4>
+                            </div>
+                            <!--main-->
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <p id="mytongzhi"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer form-btn">
+                    <button class="btn btn-sm btn-primary" data-dismiss="modal" type="button">
+                        关闭
+                    </button>
+                </div>
+            </form>
+            <!--弹框内容结束-->
+        </div>
+    </div>
+</div>
+
+<!--select-->
+<script type="text/javascript" src="../assets/js/bootstrap-select.js"></script>
+<!--js-->
+<script type="text/javascript" src="../js/addInterview.js"></script>
+</body>
+</html>
