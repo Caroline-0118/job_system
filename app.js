@@ -36,6 +36,7 @@ app.configure(function(){
     app.use(express.errorHandler());//打印错误日志
 });
 app.listen(8888);//设置服务器端口号
+console.log("服务器已经从8888端口启动");
 
 //拦截前台路由
 //用户模块

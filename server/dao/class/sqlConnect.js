@@ -15,11 +15,11 @@ var mysql = require("../../node_modules/mysql");
 
 exports.sqlConnect=function(option){
     var myConnect=mysql.createConnection({
-        host: "localhost",
+        host: "47.94.98.159",
         user: "root",
-        password: "123456",
+        password: "mysqlpasswd",
         port: "3306",
-        database: "job"
+        database: "job_system"
     });
     myConnect.connect();//¿ªÆôÊý¾Ý¿â
     myConnect.query(option.sql,option.dataArr,function(error,data){

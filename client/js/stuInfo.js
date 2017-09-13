@@ -107,7 +107,7 @@ $("#search,#down-stu").click(function(){
     jQuery("#stu-table").jqGrid("setGridParam",{
         url:"/querystulist.do?"+data
     }).trigger("reloadGrid");
-    $("#form-search").css("display","none");
+    // $("#form-search").css("display","none");
     //if(this.innerHTML.indexOf("导出")>0){}
 });
 
@@ -216,7 +216,8 @@ function formValidator(){
 }
 
 //弹出查询
-$("#showSearch").click(function () {
+// $("#showSearch").click(function () {
+    // 默认展示查询信息
     $("#form-search").css({"display":"block","width":$(".alert-block").width()+30+"px"});
     $.ajax({
         url:"/queryclasslist.do",
@@ -230,7 +231,7 @@ $("#showSearch").click(function () {
             $("#calss-search").selectpicker();
         }
     });
-});
+// });
 
 //查看详情
 $("#stu-table").on("click",".take_detail",function(){

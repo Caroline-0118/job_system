@@ -67,7 +67,7 @@ $("#search").click(function(){
     jQuery("#stu-table").jqGrid("setGridParam",{
         url:"/querystulist.do?"+data
     }).trigger("reloadGrid");
-    $("#form-search").css("display","none");
+    // $("#form-search").css("display","none");
 });
 
 
@@ -110,7 +110,7 @@ $("#stuJob-form").submit(function(e){
 });
 
 //弹出查询
-$("#showSearch").click(function () {
+// $("#showSearch").click(function () {
     $("#form-search").css("display","block");
     $.ajax({
         url:"/queryclasslist.do",
@@ -124,7 +124,7 @@ $("#showSearch").click(function () {
             $("#calss-search").selectpicker();
         }
     });
-});
+// });
 //时间编辑器
 $("#starttime-search,#overtime-search,#s_getjobtime").datetimepicker({
         format: 'YYYY-MM-DD',
