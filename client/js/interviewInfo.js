@@ -155,6 +155,7 @@ $("#myTab4 a").click(function () {
 });
 
 //查询
+//
 $("#search").click(function(){
     var data=$("#form-search").serialize();
     if(gridType==1)jQuery("#inter-table").jqGrid("setGridParam",{url:"/queryinterlist.do?"+data}).trigger("reloadGrid");
@@ -262,7 +263,7 @@ $("#edit-unemploy").click(function(){
 });
 
 //弹出查询
-$("#showSearch").click(function () {
+// $("#showSearch").click(function () {
     $("#form-search").css("display","block");
     //初始化下拉菜单
     $.ajax({
@@ -288,7 +289,7 @@ $("#showSearch").click(function () {
             }
         }
     });
-})
+// })
 
 //导出
 $("#daochu").click(function(){
