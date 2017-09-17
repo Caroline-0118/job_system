@@ -127,6 +127,26 @@ function getclass(){
     });
 }
 
+// 毕业状态更改
+$("#gradu_state").change(function(){
+    var status = $(this).val();
+    var time = new Date();
+    var dataTime = time.toLocaleDateString();
+
+    if(status == '1'){
+        $("#starttime-search").val('');
+        $("#endtime-search").val(dataTime);
+    }else if(status =='2'){
+        $("#starttime-search").val(dataTime);
+        $("#endtime-search").val('');
+    }
+})
+$("#starttime-search").click(function(){
+    $("#gradu_state").val('0')
+})
+$("#endtime-search").click(function(){
+    $("#gradu_state").val('0')
+})
 //添加学员
 $("#add-stu").click(function(){
     //重置表单
