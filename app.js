@@ -23,13 +23,13 @@ app.configure(function(){
     app.use(session({//启用和配置session模块
         secret:"123",
         name:"test",
-        //cookie:{maxAge:10000},//session存储时间(毫秒)
+        // cookie:{maxAge:10000},//session存储时间(毫秒)
         resave:false,
         saveUninitialized:true
     }));
     app.use(express.logger('dev'));
 
-    app.use(express.bodyParser({uploadDir:upload.join("//")+"//client//files"}));
+    app.use(express.bodyParser({uploadDir:upload.join("\\")+"\\client\\files"}));
     app.use(express.methodOverride());
     app.use(app.router);
     app.use(express.static(__dirname+"/client"));
@@ -91,6 +91,7 @@ app.post("/delvisited.do",visited.delvisited);//删除回访
 app.post("/upstu.do", load.upstu);//导入学员
 //app.post("/downstu.do", load.downstu);//导出
 app.post("/up_semue.do", load.upResume);//上传简历
+app.post("/up_avata.do", load.upAvata);//上传头像
 
 //统计
 app.post("/getclass.do", census.getclassstu);//班级统计

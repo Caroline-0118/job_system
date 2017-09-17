@@ -52,6 +52,9 @@ $.ajax({
                                     if(this.innerHTML==$student.s_jobstatus) this.selected=true;
                                     else this.selected=false;
                                 });
+                                if($student.s_avata){
+                                    $("#yushow").attr('src','/files/'+$student.s_avata);//设置头像  
+                                }
                                 $("#s_u_id").selectpicker({noneSelectedText:''});
                                 $("button[data-id='s_u_id']").removeClass("btn").removeClass("btn-default").removeClass("dropdown-toggle")
                                     .css({"width":"83.3%","height":"100%"})
@@ -263,4 +266,53 @@ $("#s_getjobtime").datetimepicker({
         close: 'fa fa-times'
     }
 });
-
+ /**
+  * 图片上传
+  * @return {[type]} [description]
+  */
+ function uploadBtn(){
+      $("#up_avata").click();
+  }
+ //图片预览
+ function previewImg(imgFile){
+     console.log(imgFile);//这里打印出是整个input标签
+     var extension = imgFile.value.substring(imgFile.value.lastIndexOf("."),imgFile.value.length);//扩展名
+     extension = extension.toLowerCase();//把文件扩展名转换为小写
+     if ((extension!='.jpg')&&(extension!='.gif')&&(extension!='.jpeg')&&(extension!='.png')&&(extension!='.bmp')){
+         layer.msg("对不起，系统仅支持标准格式的照片，请您调整格式后重新上传，谢谢 !");
+         $(".btn-uploading").focus();//将焦点定位在文件上传的按钮上，可以直接按确定键再次触发
+     }else{
+         var path;//预览地址
+         if(document.all){//IE
+             imgFile.select();
+                 path = document.selection.createRange().text;
+         }else{//火狐，谷歌
+             path = window.URL.createObjectURL(imgFile.files[0]);
+         }
+         $("#yushow").attr("src",path);//设置预览地址
+         uploadImg(imgFile);
+     }
+ }
+ 
+ //开始上传
+ function uploadImg(imgFile){
+    var data = new FormData();
+        data.append('up_avata',imgFile.files[0]);
+        $.ajax({
+            url:'/up_avata.do?s_id='+stu_id,
+            cache: false,
+            type: 'post',
+            dataType: 'json',
+            data : data,
+            contentType: false,
+            processData: false,
+            success : function (data) {
+                $('.close').trigger('click');//关闭弹框
+                if(data.result) {
+                    alertBox({message:"上传头像成功！"})
+                }
+                else alertBox({message:"上传头像失败！"});
+            }
+        });
+ }
+ 

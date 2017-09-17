@@ -125,7 +125,7 @@ exports.upResume=function(req, response) {
         console.log(req.files.true_sesume.path);
         var path1= req.files.true_sesume.path;
         if(path1){
-            var true_path =path1.split("//");//获取文件保存路径
+            var true_path =path1.split("\\");//获取文件保存路径
             resume_address.true_resume=true_path[true_path.length-1];
         }
     }
@@ -135,7 +135,7 @@ exports.upResume=function(req, response) {
         var path2=req.files.false_sesume.path;
         console.log();
         if(path2){
-            var false_path = path2.split("//");//获取文件保存路径
+            var false_path = path2.split("\\");//获取文件保存路径
             resume_address.false_resume=false_path[false_path.length-1];
         }
     }
@@ -155,6 +155,48 @@ exports.upResume=function(req, response) {
     console.log(dataArr)
     if(update_resume.length>0){
         var upresumeSql="UPDATE em_student SET "+update_resume.join()+" WHERE s_id=? ";
+        mysqlConnect.sqlConnect({
+            sql:upresumeSql,
+            dataArr:dataArr,
+            success:function(data){
+                console.log(data);
+                response.send({result:true});
+            },
+            error: function(error){
+                console.log(error);
+                response.send({result:false});
+            }
+        });
+    }
+
+};
+//上传头像
+exports.upAvata=function(req, response) {
+    var up_avata = "";
+    if (req.files && req.files.up_avata != undefined) {
+        console.log(req.files.up_avata.path);
+        var path1= req.files.up_avata.path;
+        if(path1){
+            var true_path =path1.split("\\");//获取文件保存路径
+            up_avata=true_path[true_path.length-1];
+        }
+    }
+    var update_avata=[];
+    var dataArr=[];
+    if(up_avata!=""){
+        update_avata.push("s_avata=?");
+        dataArr.push(up_avata);
+    }else{
+        response.send({result:false});  
+    }
+    dataArr.push(req.query.s_id);
+    console.log(typeof req.files.false_sesume);
+    console.log(req.files.false_sesume);
+
+    console.log(update_avata)
+    console.log(dataArr)
+    if(update_avata.length>0){
+        var upresumeSql="UPDATE em_student SET "+update_avata.join()+" WHERE s_id=? ";
         mysqlConnect.sqlConnect({
             sql:upresumeSql,
             dataArr:dataArr,

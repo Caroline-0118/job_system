@@ -194,10 +194,18 @@
 
         <div class="col-sm-4">
             <div>
-                <span class="profile-picture" style="height: 140px;width: 100px;position:relative; left:50%;margin-left: -50px;margin-bottom: 15px">
+<!--                 <span class="profile-picture" style="height: 140px;width: 100px;position:relative; left:50%;margin-left: -50px;margin-bottom: 15px">
                     <img src="" style="height: 130px;width: 90px">
-                </span>
-                <div style="width: 83.3%;margin-left: 8.3%">
+                </span> -->
+                 <div >
+                     <div class="img-box" onclick="uploadBtn();">
+                         <img src="" id="yushow"/>
+                        <!--  <button class="btn-uploading" onclick="uploadBtn();">上传图片</button> -->
+                         <a class="deleteImg" style="display: none" onclick="deleteImg();">删除</a>
+                     </div>
+                     <input type="file" name="file" id="up_avata" style="display:none;" onchange="previewImg(this);"  accept="image/*"/>
+                 </div>
+                <div style="width: 83.3%;margin-left: 8.3%;margin-top: 20px">
                     <input type="file" id="true-resume">
                     <input type="file" id="false-resume">
                 </div>

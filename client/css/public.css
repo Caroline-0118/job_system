@@ -49,3 +49,47 @@ a[role="button"]{
 .form-search label{margin-right: 20px}
 .form-search label input{padding-left: 6px}
 
+/*图片上传*/
+.img-box{
+     margin:0 auto;
+     top:50%;
+     width: 100px;
+     height: 140px;
+     position:relative;
+     background: rgb(249,249,249);
+     border: 1px solid rgb(197, 190, 190);
+ }
+ .img-box img{
+     max-width: 100%;
+     max-height: 100%;
+     position: absolute;/*绝对定位*/
+     top:50%;
+     left: 50%;
+     -webkit-transform: translate(-50%,-50%); /*-webkit-是厂商前缀*/
+         -ms-transform: translate(-50%,-50%); /*-ms-是厂商前缀*/
+             transform: translate(-50%,-50%);/*translate是移动属性，两个-50%代表着像原始位置向左、向上各移动50%*/
+ }
+ 
+ .btn-uploading{    
+     background-color: #3598db;
+     font-size: 15px;
+     line-height: 38px;
+     color: #fff;
+     position:absolute;
+     top:50%;
+     margin-top:-16px;
+     left: 50%;
+     margin-left: -39px;
+     text-align: center;
+     border-radius: 3px;
+     z-index: 5;
+     cursor: pointer;
+ }
+ .icon-uploading{
+     width: 27px;
+     height: 27px;
+     display: inline-block;
+     background: url(/images/upload//upload.png) no-repeat;
+     position: relative;
+     top:6px;
+ }

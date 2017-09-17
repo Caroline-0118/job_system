@@ -135,6 +135,7 @@ CREATE TABLE `em_student` (
   `s_u_id` int(11) DEFAULT NULL,
   `s_trueresume` varchar(50) DEFAULT NULL,
   `s_falseresume` varchar(50) DEFAULT NULL,
+  `s_avata` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`s_id`),
   KEY `s_c_id` (`s_c_id`),
   CONSTRAINT `em_student_ibfk_1` FOREIGN KEY (`s_c_id`) REFERENCES `em_class` (`c_id`)
