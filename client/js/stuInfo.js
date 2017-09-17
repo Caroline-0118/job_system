@@ -262,17 +262,31 @@ $("#del-stu").click(function () {
 });
 
 //时间编辑器
+$("#s_graduation,#starttime-search").datetimepicker({
+    format: 'YYYY-MM-DD',
+    icons: {
+        time: 'fa fa-clock-o',
+        date: 'fa fa-calendar',
+        up: 'fa fa-chevron-up',
+        down: 'fa fa-chevron-down',
+        previous: 'fa fa-chevron-left',
+        next: 'fa fa-chevron-right',
+        today: 'fa fa-arrows ',
+        clear: 'fa fa-trash',
+        close: 'fa fa-times'
+    }
+});
 $("#s_graduation,#endtime-search").datetimepicker({
-        format: 'YYYY-MM-DD',
-        icons: {
-            time: 'fa fa-clock-o',
-            date: 'fa fa-calendar',
-            up: 'fa fa-chevron-up',
-            down: 'fa fa-chevron-down',
-            previous: 'fa fa-chevron-left',
-            next: 'fa fa-chevron-right',
-            today: 'fa fa-arrows ',
-            clear: 'fa fa-trash',
-            close: 'fa fa-times'
-        }
-    });
+    format: 'YYYY-MM-DD',
+    icons: {
+        time: 'fa fa-clock-o',
+        date: 'fa fa-calendar',
+        up: 'fa fa-chevron-up',
+        down: 'fa fa-chevron-down',
+        previous: 'fa fa-chevron-left',
+        next: 'fa fa-chevron-right',
+        today: 'fa fa-arrows ',
+        clear: 'fa fa-trash',
+        close: 'fa fa-times'
+    }
+});

@@ -42,6 +42,7 @@ exports.getstulist=function(request,response){
                 if(key=="s_jobstatus") option.limitname+=" AND s_jobstatus=?";
                 if(key=="s_skill") option.limitname+=" AND s_skill>=?";
                 if(key=="s_quality") option.limitname+=" AND s_quality>=?";
+                if(key=="s_graduate") option.limitname+=" AND s_graduation>?";
                 if(key=="s_graduation") option.limitname+=" AND s_graduation<?";
                 if(key=="s_education") option.limitname+=" AND s_education>=?";
                 if(key=="s_english"){
