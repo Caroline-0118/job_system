@@ -1,17 +1,22 @@
-//×¢ÈëÀà
+//Ã—Â¢ÃˆÃ«Ã€Ã 
 var getlist=require("./class/getlist.js");
 var add=require("./class/add.js");
 var edit=require("./class/edit.js");
 var mydelete=require("./class/delete.js");
 var date_edit=require("./class/date_edit.js");
 
-//»ñÈ¡»Ø·ÃÁÐ±í
+//Â»Ã±ÃˆÂ¡Â»Ã˜Â·ÃƒÃÃÂ±Ã­
 exports.getvisitedlist=function(request,response){
-    var c_id=request.query.c_id,s_id=request.query.s_id,s_name=request.query.s_name,start_time=request.query.start_time,end_time=request.query.end_time;
+    var c_id=request.query.c_id,
+    s_id=request.query.s_id,
+    s_name=request.query.s_name,
+    u_name=request.query.u_name,
+    start_time=request.query.start_time,
+    end_time=request.query.end_time;
     var option={
-        request:request,  //ÇëÇó²ÎÊý
-        table:"em_visited,em_student,em_class,em_user",  //²éÑ¯µÄÊý¾Ý±í
-        order:"v_id"  //ÅÅÐòÁÐ
+        request:request,  //Ã‡Ã«Ã‡Ã³Â²ÃŽÃŠÃ½
+        table:"em_visited,em_student,em_class,em_user",  //Â²Ã©Ã‘Â¯ÂµÃ„ÃŠÃ½Â¾ÃÂ±Ã­
+        order:"v_id"  //Ã…Ã…ÃÃ²ÃÃ
     };
     option.limitdata=[];
     option.limitname="WHERE v_s_id=s_id AND v_u_id=u_id AND s_c_id=c_id";
@@ -27,6 +32,10 @@ exports.getvisitedlist=function(request,response){
         option.limitname+=" AND s_name like ?";
         option.limitdata.push("%"+s_name+"%")
     }
+    if (u_name) {
+        option.limitname += " AND u_name like ?";
+        option.limitdata.push("%"+u_name+"%");
+    }
     if(start_time!=undefined&&start_time!=""&&start_time!=null){
         option.limitname+=" AND v_time>=?";
         option.limitdata.push(start_time)
@@ -35,7 +44,8 @@ exports.getvisitedlist=function(request,response){
         option.limitname+=" AND v_time<=?";
         option.limitdata.push(end_time)
     }
-    option.success=function(data){  //·µ»ØÊý¾Ý´¦Àíº¯Êý
+    // console.log(option);
+    option.success=function(data){  //Â·ÂµÂ»Ã˜ÃŠÃ½Â¾ÃÂ´Â¦Ã€Ã­ÂºÂ¯ÃŠÃ½
         for(var i=0;i<data.content.length;i++){
             if(data.content[i].v_time) data.content[i].v_time =date_edit.datetime(data.content[i].v_time);
             else data.content[i].v_time ="";
@@ -45,7 +55,7 @@ exports.getvisitedlist=function(request,response){
     getlist.getlist(option);
 };
 
-//Ìí¼Ó°à¼¶
+//ÃŒÃ­Â¼Ã“Â°Ã Â¼Â¶
 exports.addvisited=function(request,response){
     request.body.v_u_id=request.session.u_id;
     request.body.v_time=date_edit.datetime(new Date());
@@ -58,13 +68,13 @@ exports.addvisited=function(request,response){
     });
 };
 
-//É¾³ý»Ø·Ã
+//Ã‰Â¾Â³Ã½Â»Ã˜Â·Ãƒ
 exports.delvisited=function(request,response){
     var v_id=request.body.v_id;
     mydelete.dele({
         del_id:v_id,
         table:"em_visited",
-        sel_id:"v_id",  //±à¼­ÁÐµÄid¼üÃû
+        sel_id:"v_id",  //Â±Ã Â¼Â­ÃÃÂµÃ„idÂ¼Ã¼ÃƒÃ»
         success:function(data){
             response.send(data);
         }

@@ -13,6 +13,7 @@ a{  color: inherit;cursor:pointer  }
     border:none;
     border-top:1px dashed #0066CC;
     margin: 5px 0;
+    clear:both;
 }
 .w-tableCon{
     list-style: none;

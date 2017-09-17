@@ -29,7 +29,7 @@ app.configure(function(){
     }));
     app.use(express.logger('dev'));
 
-    app.use(express.bodyParser({uploadDir:upload.join("\\")+"\\client\\files"}));
+    app.use(express.bodyParser({uploadDir:upload.join("//")+"//client//files"}));
     app.use(express.methodOverride());
     app.use(app.router);
     app.use(express.static(__dirname+"/client"));

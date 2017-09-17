@@ -62,8 +62,8 @@ $("#visit-table").jqGrid({
 //查询
 $("#search").click(function(){
     jQuery("#visit-table").jqGrid("setGridParam",{
-        url:"/getvisitedlist.do?c_id="+$("#class-search").val()+"&s_name="+$("#stu-search").val()
-        +"&start_time="+$("#start-search").val()+"&end_time="+$("#end-search").val()
+        url:"/getvisitedlist.do?c_id="+$("#class-search").val()+"&s_name="+$("#stu-search").val()+
+        "&u_name="+$("#u_name").val()+"&start_time="+$("#start-search").val()+"&end_time="+$("#end-search").val()
     }).trigger("reloadGrid");
 });
 

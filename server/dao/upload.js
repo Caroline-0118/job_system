@@ -125,7 +125,7 @@ exports.upResume=function(req, response) {
         console.log(req.files.true_sesume.path);
         var path1= req.files.true_sesume.path;
         if(path1){
-            var true_path =path1.split("\\");//获取文件保存路径
+            var true_path =path1.split("//");//获取文件保存路径
             resume_address.true_resume=true_path[true_path.length-1];
         }
     }
@@ -135,7 +135,7 @@ exports.upResume=function(req, response) {
         var path2=req.files.false_sesume.path;
         console.log();
         if(path2){
-            var false_path = path2.split("\\");//获取文件保存路径
+            var false_path = path2.split("//");//获取文件保存路径
             resume_address.false_resume=false_path[false_path.length-1];
         }
     }

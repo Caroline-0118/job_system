@@ -14,14 +14,14 @@
     </style>
 </head>
 <body>
-<div class="alert alert-block alert-info" style="height:60px;border:1px solid #bfeaf3;">
+<div class="alert alert-block alert-info" style="border:1px solid #bfeaf3;">
     <!--导出-->
         <a href="#" role="button" data-toggle="modal" onclick="ExportToExcel('visit-table')">
             <i class="icon-download-alt"></i>
             导出
         </a>
     <!--查询-->
-    <form class="form-search" style="height: 30px;float:right;margin:0;">
+    <form class="form-search" style="margin:0;">
 
         <label>
             班级:
@@ -35,6 +35,12 @@
             姓名:
             <span class="input-icon">
                 <input type="text" class="nav-search-input" id="stu-search" autocomplete="off">
+            </span>
+        </label>
+        <label>
+            回访人:
+            <span class="input-icon">
+                <input type="text" class="nav-search-input" id="u_name" autocomplete="off">
             </span>
         </label>
         <label>

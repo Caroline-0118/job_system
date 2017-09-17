@@ -30,6 +30,7 @@ Thumbs.db
 
 #grunt
 node_modules
+files
 #dist
 #.tmp
 #.sass-cache
