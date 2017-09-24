@@ -66,7 +66,12 @@ $("#search").click(function(){
         "&u_name="+$("#u_name").val()+"&start_time="+$("#start-search").val()+"&end_time="+$("#end-search").val()
     }).trigger("reloadGrid");
 });
-
+//监听回车查询
+$(".form-search").on("keydown",'input',function(key){
+    if(key.keyCode == 13){
+        $("#search").click();
+    }
+})
 //初始化班级下拉菜单
 $.ajax({
     url:"/queryclasslist.do",

@@ -111,6 +111,12 @@ $("#search,#down-stu").click(function(){
     //if(this.innerHTML.indexOf("导出")>0){}
 });
 
+//监听回车查询
+$("#form-search").on("keydown",'input',function(key){
+    if(key.keyCode == 13){
+        $("#search").click();
+    }
+})
 //初始化班级下拉菜单
 function getclass(){
     $("#calss-search").html("");

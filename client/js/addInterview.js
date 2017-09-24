@@ -116,7 +116,12 @@ $("#mysearch").click(function(){
         url:"/querystulist.do?s_jobstatus=1&"+data
     }).trigger("reloadGrid");
 });
-
+//监听回车查询
+$(".form-search").on("keydown",'input',function(key){
+    if(key.keyCode == 13){
+        $("#mysearch").click();
+    }
+})
 //初始化班级下拉菜单
 $.ajax({
     url:"/queryclasslist.do",
@@ -188,7 +193,6 @@ $("#hasselect").on("click",".delstu",function(){
 
 //配置添加面试表单
 $("#addinter").click(function(){
-    alert(1111);
     $("#interInfo").submit();
 });
 $("#interInfo").bootstrapValidator({
@@ -275,7 +279,7 @@ setTimeout(function () {
         url:"/queryreclist.do?r_id="+recoId,
         success:function(data){
             data=JSON.parse(data);
-            $("#b_id").val(data.content[0].r_b_id);
+            $("#bus_id").val(data.content[0].r_b_id);
             $("#i_job").val(data.content[0].r_job);
             var resume="";
             if(data.content[0].s_trueresume)resume+="<a style='color: #0092ef' href='../files/"+data.content[0].s_trueresume+"'>真实简历 </a>";

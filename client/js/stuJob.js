@@ -70,7 +70,12 @@ $("#search").click(function(){
     // $("#form-search").css("display","none");
 });
 
-
+//监听回车查询
+$("#form-search").on("keydown",'input',function(key){
+    if(key.keyCode == 13){
+        $("#search").click();
+    }
+})
 //    编辑学员
 //    判断选择一行
 $("#stu-table").click(function () {

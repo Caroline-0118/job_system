@@ -160,9 +160,14 @@ $("#search").click(function(){
     var data=$("#form-search").serialize();
     if(gridType==1)jQuery("#inter-table").jqGrid("setGridParam",{url:"/queryinterlist.do?"+data}).trigger("reloadGrid");
     if(gridType==2)jQuery("#reco-table").jqGrid("setGridParam",{url:"/queryreclist.do?"+data}).trigger("reloadGrid");
-    $("#form-search").css("display","none");
+    // $("#form-search").css("display","none");
 });
-
+//监听回车查询
+$(".form-search").on("keydown",'input',function(key){
+    if(key.keyCode == 13){
+        $("#search").click();
+    }
+})
 //录用薪资输入
 $("#i_employ").change(function(){
     if($("#i_employ").val()=="1"){
@@ -293,8 +298,12 @@ $("#edit-unemploy").click(function(){
 
 //导出
 $("#daochu").click(function(){
-    if(gridType==1) ExportToExcel("inter-table");
-    else  ExportToExcel("reco-table");
+    // window.open('/daochu.do');
+     
+     var data=$("#form-search").serialize();
+     var URL = '/queryreclist.do?'+data
+     URL += '&isExport=true&fileName=studentRecommend.xlsx'
+     window.location = URL
 });
 
 //推荐生成面试

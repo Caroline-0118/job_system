@@ -4,7 +4,7 @@ var edit=require("./class/edit.js");
 var date_edit=require("./class/date_edit.js");
 var mydelete=require("./class/delete.js");
 var mysqlConnect=require("./class/sqlConnect.js");
-
+var nodeExcel = require('excel-export');
 //获取推荐列表
 exports.queryreclist=function(request,response){
     //定义数据
@@ -14,6 +14,8 @@ exports.queryreclist=function(request,response){
             rows:request.query.rows
         }
     };
+    var isExport = request.query.isExport || false ;//判断是否是导出
+    var fileName = request.query.fileName || "查询结果";
     //发送请求项
     var option={
         request:req,
@@ -69,7 +71,66 @@ exports.queryreclist=function(request,response){
             //推荐时间
             data.content[i].r_time=date_edit.datetime(data.content[i].r_time);
         }
-        response.send(JSON.stringify(data));
+        // 判断是否是导出
+        if(!isExport){
+            response.send(JSON.stringify(data));
+        }else{
+            var conf = {}
+
+            // 导出数据
+            conf.stylesXmlFile =  __dirname+"/export.xml";
+            conf.name = "mysheet";
+            conf.cols = [{
+                caption:'推荐时间',
+                type:'string',
+                width:20
+            },{
+                caption:'班级',
+                type:'string',
+                width:15
+            },{
+                caption:'姓名',
+                type:'string',
+                width:15
+            },{
+                caption:'面试企业',
+                type:'string',
+                width:20
+            },{
+                caption:'推荐人',
+                type:'string',
+                width:15
+            },{
+                caption:'推荐职位',
+                type:'string',
+                width:20
+            },{
+                caption:'备注',
+                type:'string',
+                width:30
+            }];
+            var rows = [];
+            for(var i=0;i<data.content.length;i++){
+                var rr = [];
+
+
+                rr.push(data.content[i].r_time); //推荐时间
+                rr.push(data.content[i].c_name); //班级
+                rr.push(data.content[i].s_name); //姓名
+                rr.push(data.content[i].b_name); //企业
+                rr.push(data.content[i].u_name); //推荐人
+                rr.push(data.content[i].r_job); //推荐职位
+                rr.push(data.content[i].r_remark); //备注
+                rows.push(rr);
+            }
+            conf.rows = rows;
+
+            var result = nodeExcel.execute(conf);
+            response.setHeader('Content-Type', 'application/vnd.openxmlformats');
+            response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+            response.end(result, 'binary');
+        }
+        
     };
     option.error=function(e){
         response.send(JSON.stringify(e));

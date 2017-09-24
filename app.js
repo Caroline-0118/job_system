@@ -77,7 +77,7 @@ app.post("/delinter.do",interview.delinter);//删除面试
 app.post("/interresult.do",interview.interresult);//面试结果
 
 //推荐模块
-app.get("/queryreclist.do",recommend.queryreclist);//获取推荐列表
+app.get("/queryreclist.do",recommend.queryreclist);//获取推荐列表，导出推荐列表
 app.post("/addrec.do",recommend.addrec);//添加推荐
 app.post("/editrec.do",recommend.editrec);//修改推荐
 app.post("/delreco.do",recommend.delrec);//删除面试
@@ -89,7 +89,6 @@ app.post("/delvisited.do",visited.delvisited);//删除回访
 
 //导入导出
 app.post("/upstu.do", load.upstu);//导入学员
-//app.post("/downstu.do", load.downstu);//导出
 app.post("/up_semue.do", load.upResume);//上传简历
 app.post("/up_avata.do", load.upAvata);//上传头像
 
