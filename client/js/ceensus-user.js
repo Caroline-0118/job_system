@@ -1,6 +1,6 @@
 
 //初始化
-$.post("/getuserreco.do",function(data){
+$.get("/getuserreco.do",function(data){
     showtable(data);
     $('#user-table').dataTable({
         "lengthMenu": [ 5, 10, 15 ],
@@ -13,9 +13,14 @@ $.post("/getuserreco.do",function(data){
 
 //时间筛选
 $("#time-search").click(function () {
-    $.post("/getuserreco.do","start="+$("#starttime").val()+"&end="+$("#endtime").val(),function(data){showtable(data);});
+    $.get("/getuserreco.do","start="+$("#starttime").val()+"&end="+$("#endtime").val(),function(data){showtable(data);});
 });
-
+// 导出
+$('#export').click(function(){
+    var data = $("#form-search").serialize();
+    var URL = "/getuserreco.do?isExport=true&fileName=staffPicks.xlsx&start="+$("#starttime").val()+"&end="+$("#endtime").val()
+    window.location = URL
+})
 //table配置函数
 function showtable(data){
     $("#user-table tbody").html("");

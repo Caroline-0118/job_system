@@ -5,6 +5,7 @@ var edit=require("./class/edit.js");
 var mydelete=require("./class/delete.js");
 var date_edit=require("./class/date_edit.js");
 var mysqlConnect=require("./class/sqlConnect.js");
+var nodeExcel = require('excel-export');
 var fs = require('fs');
 
 
@@ -18,6 +19,8 @@ exports.getstulist=function(request,response){
             rows:request.query.rows
         }
     };
+    var isExport = request.query.isExport || false ;//判断是否是导出
+    var fileName = request.query.fileName || "查询结果";
     //发送请求项
     var option={
         request:req,  //请求参数
@@ -131,7 +134,93 @@ exports.getstulist=function(request,response){
                 case "9" : obj="A+"; break;
             }
         }
-        response.send(JSON.stringify(data));
+        // 判断是否是导出
+        if(!isExport){
+            response.send(JSON.stringify(data));
+        }else{
+            var conf = {}
+            // 导出数据
+            conf.stylesXmlFile =  __dirname+"/export.xml";
+            conf.name = "mysheet";
+            var rows = [];
+            if (request.query.type == 'stuInfo') {
+                 conf.cols = [{caption:'班级',type:'string',width:15
+                },{caption:'姓名',type:'string',width:15
+                },{caption:'性别',type:'string',width:20
+                },{caption:'联系电话',type:'string',width:15
+                },{caption:'就业状态',type:'string',width:20
+                },{caption:'专业技能评价',type:'string',width:30
+                },{caption:'综合素质评价',type:'string',width:30
+                },{caption:'学历',type:'string',width:30
+                },{caption:'毕业学校',type:'string',width:30
+                },{caption:'毕业专业',type:'string',width:30
+                },{caption:'毕业时间',type:'string',width:30
+                },{caption:'备注',type:'string',width:30
+                }];
+                
+                for(var i=0;i<data.content.length;i++){
+                    var rr = [];
+                    var skill = ''
+                    switch (data.content[i].s_skill.toString()){
+                        case "0" : skill="D"; break;
+                        case "1" : skill="C-"; break;
+                        case "2" : skill="C"; break;
+                        case "3" : skill="C+"; break;
+                        case "4" : skill="B-"; break;
+                        case "5" : skill="B"; break;
+                        case "6" : skill="B+"; break;
+                        case "7" : skill="A-"; break;
+                        case "8" : skill="A"; break;
+                        case "9" : skill="A+"; break;
+                        default : skill = "暂无"; break;
+                    }
+                    rr.push(data.content[i].c_name); //班级
+                    rr.push(data.content[i].s_name); //姓名
+                    rr.push(data.content[i].s_sex); //性别
+                    rr.push(data.content[i].s_phone); //联系电话
+                    rr.push(data.content[i].s_jobstatus); //就业状态
+                    rr.push(skill); //专业技能评价
+                    rr.push(data.content[i].s_english); //综合素质评价
+                    rr.push(data.content[i].s_education); //学历
+                    rr.push(data.content[i].s_school); //毕业学校
+                    rr.push(data.content[i].s_major); //毕业专业
+                    rr.push(data.content[i].s_graduation); //毕业时间
+                    rr.push(data.content[i].s_remark); //备注
+                    rows.push(rr);   
+                    }
+                }else if(request.query.type == 'stuJob'){
+                     conf.cols = [{caption:'班级',type:'string',width:15
+                    },{caption:'姓名',type:'string',width:15
+                    },{caption:'毕业学校',type:'string',width:30
+                    },{caption:'就业状态',type:'string',width:30
+                    },{caption:'就业企业',type:'string',width:30
+                    },{caption:'试用／实习期工资',type:'string',width:30
+                    },{caption:'转正工资',type:'string',width:30
+                    },{caption:'备注',type:'string',width:30
+                    }];
+                    
+                    for(var i=0;i<data.content.length;i++){
+                        var rr = [];
+                        rr.push(data.content[i].c_name); //班级
+                        rr.push(data.content[i].s_name); //姓名
+                        rr.push(data.content[i].s_school); //毕业学校
+                        rr.push(data.content[i].s_jobstatus); //就业状态
+                        rr.push(data.content[i].s_jobunit); //就业企业
+                        rr.push(data.content[i].s_shixijobpay); //试用／实习期工资
+                        rr.push(data.content[i].s_jobpay); //转正工资
+                        rr.push(data.content[i].s_remark); //备注
+                        rows.push(rr); 
+                }
+            }
+            
+            conf.rows = rows;
+
+            var result = nodeExcel.execute(conf);
+            response.setHeader('Content-Type', 'application/vnd.openxmlformats');
+            response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+            response.end(result, 'binary');
+        }
+        // response.send(JSON.stringify(data));
     };
     getlist.getlist(option);
 

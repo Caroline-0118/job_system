@@ -70,6 +70,11 @@ $("#search").click(function(){
     // $("#form-search").css("display","none");
 });
 
+$('#export').click(function(){
+    var data = $("#form-search").serialize();
+    var URL = '/querystulist.do?isExport=true&fileName=studentInfo.xlsx&type=stuJob&'+data
+    window.location = URL
+})
 //监听回车查询
 $("#form-search").on("keydown",'input',function(key){
     if(key.keyCode == 13){

@@ -102,7 +102,7 @@ $("#stu-table").jqGrid({
 });
 
 //查询
-$("#search,#down-stu").click(function(){
+$("#search").click(function(){
     var data=$("#form-search").serialize();
     jQuery("#stu-table").jqGrid("setGridParam",{
         url:"/querystulist.do?"+data
@@ -110,6 +110,13 @@ $("#search,#down-stu").click(function(){
     // $("#form-search").css("display","none");
     //if(this.innerHTML.indexOf("导出")>0){}
 });
+// 导出
+$('#down-stu').click(function(){
+    var data = $("#form-search").serialize();
+    var URL = '/querystulist.do?isExport=true&fileName=studentInfo.xlsx&type=stuInfo&'+data
+    window.location = URL
+
+})
 
 //监听回车查询
 $("#form-search").on("keydown",'input',function(key){

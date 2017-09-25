@@ -4,7 +4,7 @@ var add=require("./class/add.js");
 var edit=require("./class/edit.js");
 var mydelete=require("./class/delete.js");
 var date_edit=require("./class/date_edit.js");
-
+var nodeExcel = require('excel-export');
 //»ñÈ¡»Ø·ÃÁÐ±í
 exports.getvisitedlist=function(request,response){
     var c_id=request.query.c_id,
@@ -13,6 +13,8 @@ exports.getvisitedlist=function(request,response){
     u_name=request.query.u_name,
     start_time=request.query.start_time,
     end_time=request.query.end_time;
+    var isExport = request.query.isExport || false ;//判断是否是导出
+    var fileName = request.query.fileName || "查询结果";
     var option={
         request:request,  //ÇëÇó²ÎÊý
         table:"em_visited,em_student,em_class,em_user",  //²éÑ¯µÄÊý¾Ý±í
@@ -50,7 +52,66 @@ exports.getvisitedlist=function(request,response){
             if(data.content[i].v_time) data.content[i].v_time =date_edit.datetime(data.content[i].v_time);
             else data.content[i].v_time ="";
         }
-        response.send(JSON.stringify(data));
+        // response.send(JSON.stringify(data));
+        // 判断是否是导出
+        if(!isExport){
+            response.send(JSON.stringify(data));
+        }else{
+            var conf = {}
+
+            // 导出数据
+            conf.stylesXmlFile =  __dirname+"/export.xml";
+            conf.name = "mysheet";
+            conf.cols = [{
+                caption:'沟通时间',
+                type:'string',
+                width:20
+            },{
+                caption:'沟通方式',
+                type:'string',
+                width:15
+            },{
+                caption:'学员班级',
+                type:'string',
+                width:15
+            },{
+                caption:'学员姓名',
+                type:'string',
+                width:20
+            },{
+                caption:'回访人',
+                type:'string',
+                width:15
+            },{
+                caption:'沟通内容',
+                type:'string',
+                width:20
+            },{
+                caption:'备注',
+                type:'string',
+                width:30
+            }];
+            var rows = [];
+            for(var i=0;i<data.content.length;i++){
+                var rr = [];
+
+
+                rr.push(data.content[i].v_time); 
+                rr.push(data.content[i].v_type); 
+                rr.push(data.content[i].c_name); 
+                rr.push(data.content[i].s_name); 
+                rr.push(data.content[i].u_name); 
+                rr.push(data.content[i].v_content); 
+                rr.push(data.content[i].v_remark); 
+                rows.push(rr);
+            }
+            conf.rows = rows;
+
+            var result = nodeExcel.execute(conf);
+            response.setHeader('Content-Type', 'application/vnd.openxmlformats');
+            response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+            response.end(result, 'binary');
+        }
     };
     getlist.getlist(option);
 };

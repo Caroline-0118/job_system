@@ -5,7 +5,7 @@ var date_edit=require("./class/date_edit.js");
 var mydelete=require("./class/delete.js");
 var mysqlConnect=require("./class/sqlConnect.js");
 var async=require("../node_modules/async");
-
+var nodeExcel = require('excel-export');
 //获取面试列表
 exports.getinterlist=function(request,response){
     //定义数据
@@ -98,7 +98,102 @@ exports.getinterlist=function(request,response){
                 case 1 : data.content[i].i_entryresult="成功"; break;
             }
         }
-        response.send(JSON.stringify(data));
+        // 判断是否是导出
+        var isExport = request.query.isExport || false ;//判断是否是导出
+        var fileName = request.query.fileName || "查询结果";
+        if(!isExport){
+            response.send(JSON.stringify(data));
+        }else{
+            var conf = {}
+
+            // 导出数据
+            conf.stylesXmlFile =  __dirname+"/export.xml";
+            conf.name = "mysheet";
+            conf.cols = [{
+                caption:'面试反馈',
+                type:'string',
+                width:20
+            },{
+                caption:'班级',
+                type:'string',
+                width:15
+            },{
+                caption:'姓名',
+                type:'string',
+                width:15
+            },{
+                caption:'面试时间',
+                type:'string',
+                width:20
+            },{
+                caption:'面试企业',
+                type:'string',
+                width:15
+            },{
+                caption:'推荐人',
+                type:'string',
+                width:20
+            },{
+                caption:'笔试',
+                type:'string',
+                width:30
+            },{
+                caption:'面试',
+                type:'string',
+                width:30
+            },{
+                caption:'复试',
+                type:'string',
+                width:30
+            },{
+                caption:'录用',
+                type:'string',
+                width:30
+            },{
+                caption:'入职',
+                type:'string',
+                width:30
+            },{
+                caption:'试用薪资',
+                type:'string',
+                width:30
+            },{
+                caption:'正式薪资',
+                type:'string',
+                width:30
+            },{
+                caption:'备注',
+                type:'string',
+                width:30
+            }];
+            var rows = [];
+            for(var i=0;i<data.content.length;i++){
+                var rr = [];
+                rr.push(data.content[i].i_employ ? '已反馈' : '未反馈' ); 
+                rr.push(data.content[i].c_name); 
+                rr.push(data.content[i].s_name); 
+                rr.push(data.content[i].i_time); 
+                rr.push(data.content[i].b_name); 
+                rr.push(data.content[i].u_name); 
+                rr.push(data.content[i].i_writeresult); 
+                rr.push(data.content[i].i_faceresult); 
+                rr.push(data.content[i].i_retestresult); 
+                rr.push(data.content[i].i_employ); 
+                rr.push(data.content[i].i_entryresult); 
+                rr.push(data.content[i].i_xishijobpay); 
+                rr.push(data.content[i].i_jobpay); 
+                rr.push(data.content[i].i_remark); 
+
+
+                rows.push(rr);
+            }
+            conf.rows = rows;
+
+            var result = nodeExcel.execute(conf);
+            response.setHeader('Content-Type', 'application/vnd.openxmlformats');
+            response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+            response.end(result, 'binary');
+        }
     };
     getlist.getlist(option);
 

@@ -160,6 +160,12 @@ $("#daochu").click(function(){
     var mycheck=$("#myTab4 li.active a").text();
     if(mycheck=="未结业班级") ExportToExcel("class-table");
     else  ExportToExcel("hasclass-table");
+
+// 导出功能尚未完善
+    // var data = $("#form-search").serialize();
+    // var URL = "/getclass.do?isExport=true&fileName=jobDetail.xlsx&start_time="+$("#starttime").val()+"end_time="+$("#endtime").val()
+    // window.location = URL
+
 });
 
 //时间编辑器

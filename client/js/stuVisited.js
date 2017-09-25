@@ -66,6 +66,12 @@ $("#search").click(function(){
         "&u_name="+$("#u_name").val()+"&start_time="+$("#start-search").val()+"&end_time="+$("#end-search").val()
     }).trigger("reloadGrid");
 });
+// 导出
+$('#export').click(function(){
+    var data = $("#form-search").serialize();
+    var URL = '/getvisitedlist.do?isExport=true&fileName=studentVisited.xlsx&'+data
+    window.location = URL
+})
 //监听回车查询
 $(".form-search").on("keydown",'input',function(key){
     if(key.keyCode == 13){

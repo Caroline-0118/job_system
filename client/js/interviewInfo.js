@@ -299,9 +299,15 @@ $("#edit-unemploy").click(function(){
 //导出
 $("#daochu").click(function(){
     // window.open('/daochu.do');
-     
+     if(gridType==1)jQuery("#inter-table").jqGrid("setGridParam",{url:"/queryinterlist.do?"+data}).trigger("reloadGrid");
+    if(gridType==2)jQuery("#reco-table").jqGrid("setGridParam",{url:"/queryreclist.do?"+data}).trigger("reloadGrid");
      var data=$("#form-search").serialize();
-     var URL = '/queryreclist.do?'+data
+     var URL = ''
+     if (gridType==1) {
+        URL = "/queryinterlist.do?"+data
+     }else if (gridType == 2) {
+        URL = "/queryreclist.do?"+data
+     }
      URL += '&isExport=true&fileName=studentRecommend.xlsx'
      window.location = URL
 });

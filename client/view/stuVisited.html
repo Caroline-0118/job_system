@@ -15,11 +15,7 @@
 </head>
 <body>
 <div class="alert alert-block alert-info" style="border:1px solid #bfeaf3;">
-    <!--导出-->
-        <a href="#" role="button" data-toggle="modal" onclick="ExportToExcel('visit-table')">
-            <i class="icon-download-alt"></i>
-            导出
-        </a>
+    
     <!--查询-->
     <form class="form-search" style="margin:0;">
 
@@ -61,6 +57,11 @@
     </form>
 </div>
 <hr class="w-line"/>
+<!--导出-->
+        <a href="#" role="button" data-toggle="modal" id="export">
+            <i class="icon-download-alt"></i>
+            导出
+        </a>
 <div id="w-table" style="width: 100%;outline:1px solid #c5d0dc">
     <!--jqGrid表格-->
     <table id="visit-table"></table>
