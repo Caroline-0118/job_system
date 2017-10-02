@@ -146,12 +146,14 @@ CREATE TABLE `em_student` (
 -- ----------------------------
 DROP TABLE IF EXISTS `em_user`;
 CREATE TABLE `em_user` (
-  `u_id` int(11) NOT NULL AUTO_INCREMENT,
-  `u_name` varchar(10) DEFAULT NULL,
-  `u_password` varchar(16) DEFAULT NULL,
-  `u_stutas` varchar(5) DEFAULT NULL,
-  PRIMARY KEY (`u_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+   `u_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '用户ID',
+   `u_name` varchar(10) DEFAULT NULL COMMENT '用户名',
+   `u_password` varchar(16) DEFAULT NULL COMMENT '用户密码',
+   `u_stutas` varchar(5) DEFAULT NULL COMMENT '用户状态',
+   `u_type` varchar(5) DEFAULT '03' COMMENT '用户类型，01超级管理员，02管理者，03普通用户，04人事专员，05推荐人用户',
+   `logic_delete_flag` int(2) DEFAULT '0' COMMENT '逻辑删除标志',
+   PRIMARY KEY (`u_id`)
+ ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8
 
 -- ----------------------------
 -- Table structure for em_visited
