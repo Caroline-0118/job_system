@@ -238,10 +238,10 @@ function formValidator(){
         $.post($form.attr('action'),data, function(data) {
             if($form.attr('action')=="/addstu.do"){
                 if(data.result) alertBox({message:"添加成功！"});
-                else alertBox({message:"添加失败！"});
+                else alertBox({message:data.message});
             }else{
                 if(data.result) alertBox({message:"修改成功！"});
-                else alertBox({message:"修改失败！"});
+                else alertBox({message:data.message});
             }
             $("#stu-table").trigger("reloadGrid");
         });
@@ -323,3 +323,5 @@ $("#s_graduation,#endtime-search").datetimepicker({
         close: 'fa fa-times'
     }
 });
+
+

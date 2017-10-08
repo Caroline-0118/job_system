@@ -61,7 +61,7 @@ exports.getclassstu= function (request, response) {
                 function aaaa(num){
                     function func(cb){
                         mysqlConnect.sqlConnect({
-                            sql:"SELECT s_jobstatus,COUNT(*) AS num FROM em_student WHERE s_c_id=? GROUP BY s_jobstatus",
+                            sql:"SELECT s_jobstatus,COUNT(*) AS num,GROUP_CONCAT(s_name) AS list FROM em_student WHERE s_c_id=? GROUP BY s_jobstatus ",
                             dataArr:[n[num].c_id],
                             success:function(data){
                                 var mydata={

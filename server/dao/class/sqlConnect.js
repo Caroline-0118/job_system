@@ -1,31 +1,31 @@
 
 /*
-ÆôÓÃmysql
- ²ÎÊý
+ï¿½ï¿½ï¿½ï¿½mysql
+ ï¿½ï¿½ï¿½ï¿½
  option={
- sql:"",  //sqlÓï¾ä
- dataArr:"",  //Êý¾ÝÊý×é
- success:function(data){},  //³É¹¦
- error:function(error){}  //Ê§°Ü
+ sql:"",  //sqlï¿½ï¿½ï¿½
+ dataArr:"",  //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ success:function(data){},  //ï¿½É¹ï¿½
+ error:function(error){}  //Ê§ï¿½ï¿½
  };
  */
 
-//ÒýÈëmysqlÄ£¿é
+//ï¿½ï¿½ï¿½ï¿½mysqlÄ£ï¿½ï¿½
 var mysql = require("../../node_modules/mysql");
 
 exports.sqlConnect=function(option){
     var myConnect=mysql.createConnection({
-        host: "47.94.98.159",
+        host: "127.0.0.1",
         user: "root",
-        password: "mysqlpasswd",
+        password: "123456",
         port: "3306",
         database: "job_system"
     });
-    myConnect.connect();//¿ªÆôÊý¾Ý¿â
+    myConnect.connect();//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½
     myConnect.query(option.sql,option.dataArr,function(error,data){
         if(!error) option.success(data);
         else option.error(error);
     });
-    myConnect.end();//¹Ø±ÕÊý¾Ý¿â
+    myConnect.end();//ï¿½Ø±ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½
 };
 

@@ -3,11 +3,12 @@ var mysqlConnect=require("./class/sqlConnect.js");
 var getlist=require("./class/getlist.js");
 var add=require("./class/add.js");
 var edit=require("./class/edit.js");
+var auth = require("../config/auth.json");
 
 //用户登录
 exports.login=function(request,response){
     var username=request.body.username,password=request.body.password;
-    var loginSql="select u_id,u_name from em_user where u_name=? and u_password=?";
+    var loginSql="select u_id,u_name,u_type from em_user where u_name=? and u_password=?";
     mysqlConnect.sqlConnect({
         sql:loginSql,   //sql语句
         dataArr:[username,password], //查询条件值
@@ -15,6 +16,7 @@ exports.login=function(request,response){
             if(data.length>0){
                 //设置session
                 request.session.u_id=data[0].u_id;
+                request.session.u_type=data[0].u_type;
                 response.send({result: true});
             }else{
                 response.send({result: false});
@@ -38,7 +40,7 @@ exports.getsession=function(request,response){
     var u_id=request.session.u_id,getCol=request.body.getcol;
     if(getCol=="id") response.send(u_id);//获取登录用户id
     else if(getCol=="name"){//获取登录用户姓名
-        var getunameSql="select u_name,u_id from em_user where u_id=?";
+        var getunameSql="select u_name,u_id,u_type from em_user where u_id=?";
         mysqlConnect.sqlConnect({
             sql:getunameSql,
             dataArr:[u_id],
@@ -49,6 +51,22 @@ exports.getsession=function(request,response){
     }
 };
 
+//获取session
+exports.getAuthInfo=function(request,response){
+    if (auth) {
+        response.json({
+            status:0,
+            data:auth,
+            message:""
+        }) 
+    }else{
+        response.json({
+            status:-1,
+            data:"",
+            message:"获取权限信息失败"
+        })
+    }
+};
 //获取用户列表
 exports.getuserlist=function(request,response){
 

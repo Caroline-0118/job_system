@@ -16,7 +16,7 @@ var recommend=require("./server/dao/recommend.js");//推荐
 var visited=require("./server/dao/visited.js");//回访
 var load=require("./server/dao/upload.js");//上传下载
 var census=require("./server/dao/census.js");//统计
-
+var auth = require("./server/config/auth.json");  //用户权限控制
 app.configure(function(){
     var upload=__dirname.split("\\");
     app.use(cookieParser());//启用cookie模块
@@ -38,8 +38,34 @@ app.configure(function(){
 app.listen(8888);//设置服务器端口号
 console.log("服务器已经从8888端口启动");
 
-//拦截前台路由
+// //拦截前台路由
+// app.post('*',function (req, res, next) {
+//     // 权限信息  01 超级管理员 02 管理员 03 普通用户 04 人事专员 05 推荐人用户  这里权限配置有问题 ！！！
+//     // 需要权限控制的请求都是post
+//     var url = req.url;   //请求地址
+//     var u_type = req.session.u_type ; //目前登录的用户类型
+//     if (u_type ) {
+//         auth.forEach(function(item){
+//             if (item.url == url) {
+//                 if (item.u_type.indexOf(u_type)>=0 ) {
+//                     console.log("用户鉴权成功");
+//                     next();
+//                 }else{
+//                     console.log("用户:"+req.session.name+"无权限访问"+url);
+//                     res.json({
+//                         result : false,
+//                         message : "您暂时没有权限执行该操作"
+//                     });
+//                 }
+//             }
+//         })
+//     }else{
+//         next()
+//     }
+// });
 //用户模块
+
+app.post("/getAuthInfo.do",user.getAuthInfo);//获取用户权限信息
 app.post("/login.do",user.login);//登录
 app.post("/logout.do",user.logout);//退出登录
 app.post("/getsession.do",user.getsession);//获取session

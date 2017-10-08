@@ -6,12 +6,42 @@
             console.log(document.cookie);
             if(data.length)$("#uname").html(data[0].u_name+"<small>你好！</small>");
             else window.location = "../index.html";
-            if(data[0].u_id=="1"){
-                $("head").append("<style type='text/css'>.quanxian{display:block !important;}</style>");
-            }
+            // if(data[0].u_id=="1"){
+            //     $("head").append("<style type='text/css'>.quanxian{display:block !important;}</style>");
+            // }
+
         }
     })
+
 })();
+
+/**
+ * 获取用户权限信息
+ * @param  {[type]} option [description]
+ * @return {[type]}        [description]
+ */
+var getAuthInfo = function (u_type){
+    $.ajax({
+        url:"/getAuthInfo.do",
+        data:{},//获取用户ID getcol:"id" 获取用户姓名 getcol:"name"
+        type:"post",
+        success:function(data){
+            if (data.status == 0) {
+                data.data.forEach(function(item){
+                    if (item.u_type.indexOf(u_type)<0) {
+                        var dataAuth = "[data-auth='"+ item.url+"' ]";
+                        $(dataAuth).css('display','none');  
+                    }
+                    
+                })
+           }else{
+            alert(data.message);
+           }
+        }
+    });
+}
+
+
 //会话超时
 $("body")[0].addEventListener('click',function(event){
     getsession({
@@ -23,6 +53,9 @@ $("body")[0].addEventListener('click',function(event){
                 else e.cancelBubble = true;
                 alert("会话超时!");
                 window.location = "../index.html";
+            }else{
+                var u_type = data[0].u_type
+                getAuthInfo(u_type);
             }
         }
     })
