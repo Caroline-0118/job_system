@@ -7,6 +7,7 @@ $("#time-search").click(function () {
     showtable($("#starttime").val(),$("#endtime").val());
 });
 
+var studentJobList = [];
 //table配置函数
 function showtable(start,end){
     var mydata=[];
@@ -20,6 +21,7 @@ function showtable(start,end){
             var allstu1= 0,shouldrecostu1= 0,hasjoballstu1= 0,hasjobrecostu1= 0,hasjobownstu1= 0,giveupstu1= 0,delaystu1= 0,regetjob1= 0,thisweekstu1= 0,nojobstu1=0;
             $("#class-table tbody").html("");
             $("#hasclass-table tbody").html("");
+            studentJobList = data;
             for(var k=0;k< d.length;k++){
                 for(var i=0;i<data.length;i++){
                     // nojob未就业 hasjob1自主就业 hasjob2推荐就业 giveupjob放弃就业 delayjob推迟就业 rejob再就业
@@ -72,16 +74,16 @@ function showtable(start,end){
                                 "<tr>"+
                                 "<td class='center'>"+d[k].c_endtime+"</td>"+   //结业时间
                                 "<td class='center'>"+data[i].c_name+"</td>"+   //班级名称
-                                "<td class='center' onclick=\"showJobDetail(\'"+hasjob2list.concat(hasjob1list).concat(rejoblist).concat(nojoblist).concat(giveupjoblist).concat(delayjoblist)+"\','所有人员')\" >"+(hasjob2+hasjob1+rejob+nojob+giveupjob+delayjob)+"</td>"+  //需要推荐人数
-                                "<td class='center' onclick=\"showJobDetail(\'"+hasjob2list.concat(hasjob1list).concat(nojoblist).concat(rejoblist)+"\','需要推荐人员')\" >"+(hasjob2+hasjob1+nojob+rejob)+"</td>"+   //已经就业人数
-                                "<td class='center' onclick=\"showJobDetail(\'"+hasjob2list.concat(hasjob1list).concat(rejoblist)+"\','已经就业人员')\">"+(hasjob2+hasjob1+rejob)+"</td>"+
-                                "<td class='center' onclick=\"showJobDetail(\'"+hasjob2list+"\','推荐就业人员')\">"+hasjob2+"</td>"+
-                                "<td class='center' onclick=\"showJobDetail(\'"+hasjob1list+"\','自主就业人员')\">"+hasjob1+"</td>"+
-                                "<td class='center' onclick=\"showJobDetail(\'"+giveupjoblist+"\','放弃就业人员')\">"+giveupjob+"</td>"+
-                                "<td class='center' onclick=\"showJobDetail(\'"+delayjoblist+"\','推迟就业人员')\">"+delayjob+"</td>"+
-                                "<td class='center' onclick=\"showJobDetail(\'"+rejoblist+"\','再就业人员')\">"+rejob+"</td>"+
-                                "<td class='center' onclick=\"showJobDetail(\'"+weeknum+"\','本周就业人员')\">"+weeknum+"</td>"+
-                                "<td class='center' onclick=\"showJobDetail(\'"+nojoblist+"\','剩余就业人员')\">"+nojob+"</td>"+
+                                "<td class='center' onclick=\"showJobDetail("+i+",1,'所有人员')\" >"+(hasjob2+hasjob1+rejob+nojob+giveupjob+delayjob)+"</td>"+  //需要推荐人数
+                                "<td class='center' onclick=\"showJobDetail("+i+",2,'需要推荐人员')\" >"+(hasjob2+hasjob1+nojob+rejob)+"</td>"+   //已经就业人数
+                                "<td class='center' onclick=\"showJobDetail("+i+",3,'已经就业人员')\">"+(hasjob2+hasjob1+rejob)+"</td>"+
+                                "<td class='center' onclick=\"showJobDetail("+i+",4,'推荐就业人员')\">"+hasjob2+"</td>"+
+                                "<td class='center' onclick=\"showJobDetail("+i+",5,'自主就业人员')\">"+hasjob1+"</td>"+
+                                "<td class='center' onclick=\"showJobDetail("+i+",6,'放弃就业人员')\">"+giveupjob+"</td>"+
+                                "<td class='center' onclick=\"showJobDetail("+i+",7,'推迟就业人员')\">"+delayjob+"</td>"+
+                                "<td class='center' onclick=\"showJobDetail("+i+",8,'再就业人员')\">"+rejob+"</td>"+
+                                "<td class='center' onclick=\"showJobDetail("+i+",9,'本周就业人员')\">"+weeknum+"</td>"+
+                                "<td class='center' onclick=\"showJobDetail("+i+",10,'剩余就业人员')\">"+nojob+"</td>"+
                                 "<td class='center'>"+Math.round(percent*100)/100+"%</td>"+
                                 "</tr>")
                         }else{
@@ -99,16 +101,16 @@ function showtable(start,end){
                                 "<tr>"+
                                 "<td class='center'>"+d[k].c_endtime+"</td>"+
                                 "<td class='center'>"+data[i].c_name+"</td>"+
-                                "<td class='center'>"+(hasjob2+hasjob1+rejob+nojob+giveupjob+delayjob)+"</td>"+
-                                "<td class='center' onclick=\"showJobDetail(\'"+hasjob2list.concat(hasjob1list).concat(nojoblist).concat(rejoblist)+"\','需要推荐人员')\" >"+(hasjob2+hasjob1+nojob+rejob)+"</td>"+
-                                "<td class='center' onclick=\"showJobDetail(\'"+hasjob2list.concat(hasjob1list).concat(rejoblist)+"\','已经就业人员')\">"+(hasjob2+hasjob1+rejob)+"</td>"+
-                                "<td class='center' onclick=\"showJobDetail(\'"+hasjob2list+"\','推荐就业人员')\">"+hasjob2+"</td>"+
-                                "<td class='center' onclick=\"showJobDetail(\'"+hasjob1list+"\','自主就业人员')\">"+hasjob1+"</td>"+
-                                "<td class='center' onclick=\"showJobDetail(\'"+giveupjoblist+"\','放弃就业人员')\">"+giveupjob+"</td>"+
-                                "<td class='center' onclick=\"showJobDetail(\'"+delayjoblist+"\','推迟就业人员')\">"+delayjob+"</td>"+
-                                "<td class='center' onclick=\"showJobDetail(\'"+rejoblist+"\','再就业人员')\">"+rejob+"</td>"+
-                                "<td class='center' onclick=\"showJobDetail(\'"+weeknum+"\','本周就业人员')\">"+weeknum+"</td>"+
-                                "<td class='center' onclick=\"showJobDetail(\'"+nojoblist+"\','剩余就业人员')\">"+nojob+"</td>"+
+                                "<td class='center' onclick=\"showJobDetail("+i+",1,'所有人员')\" >"+(hasjob2+hasjob1+rejob+nojob+giveupjob+delayjob)+"</td>"+  //需要推荐人数
+                                "<td class='center' onclick=\"showJobDetail("+i+",2,'需要推荐人员')\" >"+(hasjob2+hasjob1+nojob+rejob)+"</td>"+   //已经就业人数
+                                "<td class='center' onclick=\"showJobDetail("+i+",3,'已经就业人员')\">"+(hasjob2+hasjob1+rejob)+"</td>"+
+                                "<td class='center' onclick=\"showJobDetail("+i+",4,'推荐就业人员')\">"+hasjob2+"</td>"+
+                                "<td class='center' onclick=\"showJobDetail("+i+",5,'自主就业人员')\">"+hasjob1+"</td>"+
+                                "<td class='center' onclick=\"showJobDetail("+i+",6,'放弃就业人员')\">"+giveupjob+"</td>"+
+                                "<td class='center' onclick=\"showJobDetail("+i+",7,'推迟就业人员')\">"+delayjob+"</td>"+
+                                "<td class='center' onclick=\"showJobDetail("+i+",8,'再就业人员')\">"+rejob+"</td>"+
+                                "<td class='center' onclick=\"showJobDetail("+i+",9,'本周就业人员')\">"+weeknum+"</td>"+
+                                "<td class='center' onclick=\"showJobDetail("+i+",10,'剩余就业人员')\">"+nojob+"</td>"+
                                 "<td class='center'>"+Math.round(percent*100)/100+"%</td>"+
                                 "</tr>")
                         }
@@ -187,10 +189,73 @@ $("#daochu").click(function(){
 
 });
 
-var showJobDetail = function(list,title){
-    var userlist = list.toString();
+var showJobDetail = function(i,type,title){
+    var userlist = ""
+    var data = studentJobList
+    var nojoblist=[],hasjob1list= [],hasjob2list= [],giveupjoblist= [],delayjoblist = [],rejoblist=[];
+    for(var j=0;j<data[i].jobstatus_count.length;j++){
+        //全部学生
+        switch (data[i].jobstatus_count[j].s_jobstatus){
+            case 1 : 
+                    nojob      =parseInt(data[i].jobstatus_count[j].num); 
+                    nojoblist  = data[i].jobstatus_count[j].list;
+                break;
+            case 2 : 
+                    hasjob1    =parseInt(data[i].jobstatus_count[j].num); 
+                    hasjob1list = data[i].jobstatus_count[j].list;
+                    break;
+            case 3 : 
+                    hasjob2    =parseInt(data[i].jobstatus_count[j].num); 
+                    hasjob2list = data[i].jobstatus_count[j].list;
+                    break;
+            case 4 : 
+                    giveupjob  =parseInt(data[i].jobstatus_count[j].num); 
+                    giveupjoblist = data[i].jobstatus_count[j].list;
+                    break;
+            case 5 : 
+                    delayjob   =parseInt(data[i].jobstatus_count[j].num); 
+                    delayjoblist = data[i].jobstatus_count[j].list;
+                    break;
+            case 6 : 
+                    rejob      =parseInt(data[i].jobstatus_count[j].num); 
+                    rejoblist = data[i].jobstatus_count[j].list;
+                    break;
+        }
+    }
+
+    switch(type){
+        case 1: userlist = hasjob2list.concat(hasjob1list).concat(rejoblist).concat(nojoblist).concat(giveupjoblist).concat(delayjoblist) ;
+                break;
+        case 2 : userlist = hasjob2list.concat(hasjob1list).concat(nojoblist).concat(rejoblist);
+                break;
+        case 3 : userlist = hasjob2list.concat(hasjob1list).concat(rejoblist)
+                break;
+        case 4 : userlist = hasjob2list
+                break;
+        case 5 : userlist = hasjob1list
+                break;
+        case 6 : userlist = giveupjoblist
+                break;
+        case 7 : userlist = delayjoblist
+                break;
+        case 8 : userlist = rejoblist
+                break;
+        case 9 : userlist = weeknum
+                break;
+        case 10 : userlist = nojoblist
+                break;
+    }
+
+
+    var userTable = "<table style='width:100%'><th>学员姓名</th><th>推荐人</th><th>就业时间</th>"
+    for(var i=0;i<userlist.length;i++){
+        var recommend = userlist[i].recommend || ' '
+        var s_getjobtime = userlist[i].s_getjobtime ? (new Date(userlist[i].s_getjobtime)).toLocaleDateString() : ''
+        userTable = userTable + '<tr style="width:33%"><td>'+userlist[i].s_name+'</td><td>'+recommend+'</td><td>'+s_getjobtime+'</td></tr>'
+    }
+    userTable += '</table>'
     $("#myModalLabel").html(title)
-    $(".modal-body").html(userlist)
+    $(".modal-body").html(userTable)
     $('#myModal').modal('show') 
 }
 
