@@ -4,12 +4,13 @@ $("#user-table").jqGrid({
     url:"/queryuserlist.do",
     datatype: "json",
     height: $(window).height()-313,
-    colNames:['用户ID','用户名','用户密码','用户状态'],
+    colNames:['用户ID','用户名','用户密码','用户状态','用户类别'],
     colModel:[
         {name:'u_id',index:'u_id', width:50, sorttype:"text", editable: true},
         {name:'u_name',index:'u_name', width:100, sorttype:"text", editable: true},
         {name:'u_password',index:'u_password', width:100,editable: true, sorttype:"text"},
-        {name:'u_stutas',index:'u_stutas', width:100, editable: true, sorttype:"text"}
+        {name:'u_stutas',index:'u_stutas', width:100, editable: true, sorttype:"text"},
+        {name:'u_type',index:'u_type', width:100, editable: true, sorttype:"text"}
     ],
     viewrecords : true,
     rowNum:10,
