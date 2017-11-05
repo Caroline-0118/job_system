@@ -37,18 +37,25 @@ exports.logout=function(request,response){
 };
 //获取session
 exports.getsession=function(request,response){
-    var u_id=request.session.u_id,getCol=request.body.getcol;
-    if(getCol=="id") response.send(u_id);//获取登录用户id
-    else if(getCol=="name"){//获取登录用户姓名
-        var getunameSql="select u_name,u_id,u_type from em_user where u_id=?";
-        mysqlConnect.sqlConnect({
-            sql:getunameSql,
-            dataArr:[u_id],
-            success:function(data){
-                response.send(data)
-            }
-        });
-    }
+    // var u_id=request.session.u_id,getCol=request.body.getcol;
+    // if(getCol=="id") response.send(u_id);//获取登录用户id
+    // else if(getCol=="name"){//获取登录用户姓名
+    //     var getunameSql="select u_name,u_id,u_type from em_user where u_id=?";
+    //     mysqlConnect.sqlConnect({
+    //         sql:getunameSql,
+    //         dataArr:[u_id],
+    //         success:function(data){
+    //             response.send(data)
+    //         }
+    //     });
+    // }
+    response.send([
+        {
+          "u_name": "admin",
+          "u_id": 1,
+          "u_type": "01"
+        }
+      ])
 };
 
 //获取session

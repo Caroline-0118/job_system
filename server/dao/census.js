@@ -5,7 +5,8 @@ var async=require("../node_modules/async");
 var nodeExcel = require('excel-export');
 //°à¼¶¾ÍÒµÐÅÏ¢Í³¼Æ
 exports.getclassstu= function (request, response) {
-    async.waterfall([function(cb) {//Í¬²½ÇëÇó£¬ÏÈ²éÑ¯½áÒµ°à¼¶£¬ÔÚ²éÑ¯¸÷¸ö°à¼¶¾ÍÒµ×´Ì¬
+    async.waterfall([function(cb) 
+        {//Í¬²½ÇëÇó£¬ÏÈ²éÑ¯½áÒµ°à¼¶£¬ÔÚ²éÑ¯¸÷¸ö°à¼¶¾ÍÒµ×´Ì¬
             //var $nowdate=date_edit.date(new Date());
             var dataArr=[date_edit.date(new Date())],$limit='';
             if(request.body.start_time!=undefined&&request.body.start_time!=null&&request.body.start_time!=""){
@@ -29,61 +30,126 @@ exports.getclassstu= function (request, response) {
                 },
                 error: function (e) {console.log(e)}
             })
-        },function(n, cb) {
+        },
+        function(n, cb) {
             var $getstunum=[];
             if(request.body.type==1){//»ñÈ¡±¾ÖÜ¾ÍÒµÈËÊý
                 var week=date_edit.week();
-                function bbbb(num){//±Õ°üÌí¼Ó´«µÝº¯Êý
+                function bbbb(){//±Õ°üÌí¼Ó´«µÝº¯Êý
                     function func(cb){
                         mysqlConnect.sqlConnect({
-                            sql:"SELECT COUNT(*) AS num FROM em_student WHERE s_c_id=? AND s_getjobtime>=?"+
+                            sql:"SELECT s_name,s_c_id FROM em_student WHERE  s_getjobtime>=?"+
                             " AND s_getjobtime<=?",
-                            dataArr:[n[num].c_id,week[0],week[1]],
+                            dataArr:[week[0],week[1]],
                             success:function(data){
-                                var mydata={
-                                    c_name:n[num].c_name,
-                                    c_id:n[num].c_id,
-                                    c_endtime:n[num].c_endtime,
-                                    weeknum:data[0].num
-                                };
-                                cb(null,mydata);
+                                // var mydata={
+                                //     c_name:n[num].c_name,
+                                //     c_id:n[num].c_id,
+                                //     c_endtime:n[num].c_endtime,
+                                //     weeknum:data[0].num
+                                // };
+                                // 遍历每个学生
+                                for(var i=0;i<data.length;i++){
+                                    var stu = data[i]
+                                    // 遍历每个班级
+                                    for(var j=0;j<n.length;j++){
+                                        var cla = n[j]
+                                        // 找到所在的班级
+                                        if(stu.s_c_id == cla.c_id){
+                                            cla.weeknum = cla.weeknum++ 
+                                            cla.list += stu.s_name
+                                        }
+                                    }
+                                   
+                                }
+                                for(var k=0;k<n.length;k++){
+                                    if(!n[k].weeknum){
+                                        n[k].weeknum = 0
+                                    }
+                                }
+                                cb(null,n);
                             },
                             error: function (e) {console.log(e)}
                         })
                     }
                     return func;
                 }
-                for(var i=0;i< n.length;i++){
-                    $getstunum.push(bbbb(i));
-
-                }
+                // for(var i=0;i< n.length;i++){
+                //     $getstunum.push(bbbb(i));
+                // }
+                $getstunum.push(bbbb());
             }else{//°à¼¶¾ÍÒµ×´Ì¬ÈËÊýÍ³¼Æ
-                function aaaa(num){
+                function aaaa(){
                     function func(cb){
+                        var time1 = new Date();
+                        console.log('----------time1:'+time1.valueOf())
                         mysqlConnect.sqlConnect({
-                            sql:"SELECT s_jobstatus,COUNT(*) AS num,GROUP_CONCAT(s_name) AS list FROM em_student WHERE s_c_id=? GROUP BY s_jobstatus ",
-                            dataArr:[n[num].c_id],
+                            sql:"  SELECT s_jobstatus ,s_c_id,s_name FROM em_student",
                             success:function(data){
-                                var mydata={
-                                    c_name:n[num].c_name,
-                                    c_id:n[num].c_id,
-                                    c_endtime:n[num].c_endtime,
-                                    jobstatus_count:data
-                                };
-                                cb(null,mydata);
+                                var time2 = new Date();
+                                console.log('----------time2:'+time2.valueOf())
+                                console.log(time2.valueOf() - time1.valueOf());
+                                // var mydata={
+                                //     c_name:n[num].c_name,
+                                //     c_id:n[num].c_id,
+                                //     c_endtime:n[num].c_endtime,
+                                //     jobstatus_count:data
+                                // };
+                                //遍历每个学生
+                                for(var i=0;i<data.length;i++){
+                                    var stu = data[i];
+                                    //遍历所有班级
+                                    for(var j=0;j<n.length;j++){
+                                        var cla = n[j]
+                                        if(stu.s_c_id == cla.c_id){ //找到所在的班级
+                                            if(cla.jobstatus_count && cla.jobstatus_count.length>0){
+                                                //判断是否已经包含就业状态
+                                                var hasFill = false
+                                                cla.jobstatus_count.forEach(function(item){
+                                                    if(item.s_jobstatus == stu.s_jobstatus){
+                                                        item.list += ','+stu.s_name
+                                                        hasFill = true
+                                                        item.num ++
+                                                    }
+                                                })
+                                                if(!hasFill){
+                                                    cla.jobstatus_count.push({
+                                                        s_jobstatus : stu.s_jobstatus,
+                                                        num : 1,
+                                                        list : stu.s_name
+                                                    })
+                                                }
+                                            }else{ //新增工作状态数组
+                                                cla.jobstatus_count = [];   
+                                                cla.jobstatus_count.push({
+                                                    s_jobstatus : stu.s_jobstatus,
+                                                    num : 1,
+                                                    list : stu.s_name
+                                                })
+                                            }
+                                        }
+                                    }
+                                }
+                                for(var k=0;k<n.length;k++){
+                                    if(!n[k].jobstatus_count){
+                                        n[k].jobstatus_count = []
+                                    }
+                                }
+                                cb(null,n);
                             },
                             error: function (e) {console.log(e)}
                         })
                     }
                     return func;
                 }
-                for(var i=0;i< n.length;i++){
-                    $getstunum.push(aaaa(i));
-                }
+                $getstunum.push(aaaa());
+                // for(var i=0;i< n.length;i++){
+                //     $getstunum.push(aaaa(i));
+                // }
             }
             //Òì²½ÇëÇó£¬Í¬ÊÂ²éÑ¯¶à¸ö½áÒµ°à¼¶¾ÍÒµ×´Ì¬
             async.series($getstunum,function(err, values){
-                cb(null,values)
+                cb(null,values[0])
              });
         }],
         function(err, result) {

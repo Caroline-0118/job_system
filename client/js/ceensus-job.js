@@ -72,16 +72,16 @@ function showtable(start,end){
                                 "<tr>"+
                                 "<td class='center'>"+d[k].c_endtime+"</td>"+   //结业时间
                                 "<td class='center'>"+data[i].c_name+"</td>"+   //班级名称
-                                "<td class='center' data-list='"+hasjob2list+hasjob1list+rejoblist+nojoblist+giveupjoblist+delayjoblist+"'>"+(hasjob2+hasjob1+rejob+nojob+giveupjob+delayjob)+"</td>"+  //需要推荐人数
-                                "<td class='center'>"+(hasjob2+hasjob1+nojob+rejob)+"</td>"+   //已经就业人数
-                                "<td class='center'>"+(hasjob2+hasjob1+rejob)+"</td>"+
-                                "<td class='center'>"+hasjob2+"</td>"+
-                                "<td class='center'>"+hasjob1+"</td>"+
-                                "<td class='center'>"+giveupjob+"</td>"+
-                                "<td class='center'>"+delayjob+"</td>"+
-                                "<td class='center'>"+rejob+"</td>"+
-                                "<td class='center'>"+weeknum+"</td>"+
-                                "<td class='center'>"+nojob+"</td>"+
+                                "<td class='center' onclick=\"showJobDetail(\'"+hasjob2list+','+hasjob1list+','+rejoblist+','+nojoblist+','+giveupjoblist+','+delayjoblist+"\','所有人员')\" >"+(hasjob2+hasjob1+rejob+nojob+giveupjob+delayjob)+"</td>"+  //需要推荐人数
+                                "<td class='center' onclick=\"showJobDetail(\'"+hasjob2list+','+hasjob1list+"\','需要推荐人员')\" >"+(hasjob2+hasjob1+nojob+rejob)+"</td>"+   //已经就业人数
+                                "<td class='center' onclick=\"showJobDetail(\'"+hasjob2list+','+hasjob1list+','+rejoblist+"\','已经就业人员')\">"+(hasjob2+hasjob1+rejob)+"</td>"+
+                                "<td class='center' onclick=\"showJobDetail(\'"+hasjob2list+"\','推荐就业人员')\">"+hasjob2+"</td>"+
+                                "<td class='center' onclick=\"showJobDetail(\'"+hasjob1list+"\','自主就业人员')\">"+hasjob1+"</td>"+
+                                "<td class='center' onclick=\"showJobDetail(\'"+giveupjoblist+"\','放弃就业人员')\">"+giveupjob+"</td>"+
+                                "<td class='center' onclick=\"showJobDetail(\'"+delayjoblist+"\','推迟就业人员')\">"+delayjob+"</td>"+
+                                "<td class='center' onclick=\"showJobDetail(\'"+rejoblist+"\','再就业人员')\">"+rejob+"</td>"+
+                                "<td class='center' onclick=\"showJobDetail(\'"+weeknum+"\','本周就业人员')\">"+weeknum+"</td>"+
+                                "<td class='center' onclick=\"showJobDetail(\'"+nojoblist+"\','剩余就业人员')\">"+nojob+"</td>"+
                                 "<td class='center'>"+Math.round(percent*100)/100+"%</td>"+
                                 "</tr>")
                         }else{
@@ -187,9 +187,12 @@ $("#daochu").click(function(){
 
 });
 
-var showJobDetail = function(list1,list2){
-    debugger
+var showJobDetail = function(list,title){
+    $("#myModalLabel").html(title)
+    $(".modal-body").html(list)
+    $('#myModal').modal('show') 
 }
+
 //时间编辑器
 $("#starttime,#endtime").datetimepicker({
     format: 'YYYY-MM-DD',
