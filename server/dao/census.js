@@ -89,12 +89,6 @@ exports.getclassstu= function (request, response) {
                                 var time2 = new Date();
                                 console.log('----------time2:'+time2.valueOf())
                                 console.log(time2.valueOf() - time1.valueOf());
-                                // var mydata={
-                                //     c_name:n[num].c_name,
-                                //     c_id:n[num].c_id,
-                                //     c_endtime:n[num].c_endtime,
-                                //     jobstatus_count:data
-                                // };
                                 //遍历每个学生
                                 for(var i=0;i<data.length;i++){
                                     var stu = data[i];
@@ -107,7 +101,7 @@ exports.getclassstu= function (request, response) {
                                                 var hasFill = false
                                                 cla.jobstatus_count.forEach(function(item){
                                                     if(item.s_jobstatus == stu.s_jobstatus){
-                                                        item.list += ','+stu.s_name
+                                                        item.list.push(stu.s_name)
                                                         hasFill = true
                                                         item.num ++
                                                     }
@@ -116,7 +110,7 @@ exports.getclassstu= function (request, response) {
                                                     cla.jobstatus_count.push({
                                                         s_jobstatus : stu.s_jobstatus,
                                                         num : 1,
-                                                        list : stu.s_name
+                                                        list : [stu.s_name]
                                                     })
                                                 }
                                             }else{ //新增工作状态数组
@@ -124,7 +118,7 @@ exports.getclassstu= function (request, response) {
                                                 cla.jobstatus_count.push({
                                                     s_jobstatus : stu.s_jobstatus,
                                                     num : 1,
-                                                    list : stu.s_name
+                                                    list : [stu.s_name]
                                                 })
                                             }
                                         }
