@@ -84,7 +84,7 @@ exports.getclassstu= function (request, response) {
                         var time1 = new Date();
                         console.log('----------time1:'+time1.valueOf())
                         mysqlConnect.sqlConnect({
-                            sql:"  SELECT s_jobstatus ,s_c_id,s_name FROM em_student",
+                            sql:"  SELECT s_jobstatus ,s_c_id,s_name,s_getjobtime,(SELECT u_name FROM em_user AS U WHERE S.s_u_id = U.u_id) AS recommend FROM em_student AS S",
                             success:function(data){
                                 var time2 = new Date();
                                 console.log('----------time2:'+time2.valueOf())
@@ -101,7 +101,7 @@ exports.getclassstu= function (request, response) {
                                                 var hasFill = false
                                                 cla.jobstatus_count.forEach(function(item){
                                                     if(item.s_jobstatus == stu.s_jobstatus){
-                                                        item.list.push(stu.s_name)
+                                                        item.list.push(stu)
                                                         hasFill = true
                                                         item.num ++
                                                     }
@@ -110,7 +110,7 @@ exports.getclassstu= function (request, response) {
                                                     cla.jobstatus_count.push({
                                                         s_jobstatus : stu.s_jobstatus,
                                                         num : 1,
-                                                        list : [stu.s_name]
+                                                        list : [stu]
                                                     })
                                                 }
                                             }else{ //新增工作状态数组
@@ -118,7 +118,7 @@ exports.getclassstu= function (request, response) {
                                                 cla.jobstatus_count.push({
                                                     s_jobstatus : stu.s_jobstatus,
                                                     num : 1,
-                                                    list : [stu.s_name]
+                                                    list : [stu]
                                                 })
                                             }
                                         }
