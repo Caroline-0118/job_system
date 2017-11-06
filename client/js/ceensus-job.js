@@ -83,6 +83,7 @@ function showtable(start,end){
                                 "<td class='center' onclick=\"showJobDetail(\'"+weeknum+"\','本周就业人员')\">"+weeknum+"</td>"+
                                 "<td class='center' onclick=\"showJobDetail(\'"+nojoblist+"\','剩余就业人员')\">"+nojob+"</td>"+
                                 "<td class='center'>"+Math.round(percent*100)/100+"%</td>"+
+                                    "<td class='center' ><button>就业结班</button></td>"+
                                 "</tr>")
                         }else{
                             allstu1+=(hasjob2+hasjob1+rejob+nojob+giveupjob+delayjob);
@@ -110,6 +111,7 @@ function showtable(start,end){
                                 "<td class='center' onclick=\"showJobDetail(\'"+weeknum+"\','本周就业人员')\">"+weeknum+"</td>"+
                                 "<td class='center' onclick=\"showJobDetail(\'"+nojoblist+"\','剩余就业人员')\">"+nojob+"</td>"+
                                 "<td class='center'>"+Math.round(percent*100)/100+"%</td>"+
+                                "<td class='center' >已提交结班申请</td>"+
                                 "</tr>")
                         }
                     }
