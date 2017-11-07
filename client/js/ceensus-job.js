@@ -56,10 +56,10 @@ function showtable(start,end){
                                     break;
                         }
                     }
-                    var percent=(hasjob2+hasjob1+rejob)/(hasjob2+hasjob1+rejob+nojob)*100;
+                    var percent=Math.round((hasjob2+hasjob1+rejob)/(hasjob2+hasjob1+rejob+nojob)*100) || 0;
                     if(data[i].c_id==d[k].c_id){
                         var weeknum=d[k].weeknum;
-                        if(percent<100){
+                        if(data[i].c_status!='11'){
                             allstu+=(hasjob2+hasjob1+rejob+nojob+giveupjob+delayjob);
                             shouldrecostu+=(hasjob2+hasjob1+nojob+rejob);
                             hasjoballstu+=(hasjob2+hasjob1+rejob);
@@ -70,7 +70,46 @@ function showtable(start,end){
                             regetjob+=rejob;
                             thisweekstu+=weeknum;
                             nojobstu+=nojob;
-                            $("#class-table tbody").html($("#class-table tbody").html()+
+                            var classDOM = "<tr>"+
+                            "<td class='center'>"+d[k].c_endtime+"</td>"+
+                                "<td class='center'>"+data[i].c_name+"</td>"+
+                                "<td class='center' onclick=\"showJobDetail("+i+",1,'所有人员')\" >"+(hasjob2+hasjob1+rejob+nojob+giveupjob+delayjob)+"</td>"+  //需要推荐人数
+                                "<td class='center' onclick=\"showJobDetail("+i+",2,'需要推荐人员')\" >"+(hasjob2+hasjob1+nojob+rejob)+"</td>"+   //已经就业人数
+                                "<td class='center' onclick=\"showJobDetail("+i+",3,'已经就业人员')\">"+(hasjob2+hasjob1+rejob)+"</td>"+
+                                "<td class='center' onclick=\"showJobDetail("+i+",4,'推荐就业人员')\">"+hasjob2+"</td>"+
+                                "<td class='center' onclick=\"showJobDetail("+i+",5,'自主就业人员')\">"+hasjob1+"</td>"+
+                                "<td class='center' onclick=\"showJobDetail("+i+",6,'放弃就业人员')\">"+giveupjob+"</td>"+
+                                "<td class='center' onclick=\"showJobDetail("+i+",7,'推迟就业人员')\">"+delayjob+"</td>"+
+                                "<td class='center' onclick=\"showJobDetail("+i+",8,'再就业人员')\">"+rejob+"</td>"+
+                                "<td class='center' onclick=\"showJobDetail("+i+",9,'本周就业人员')\">"+weeknum+"</td>"+
+                                "<td class='center' onclick=\"showJobDetail("+i+",10,'剩余就业人员')\">"+nojob+"</td>"+
+                                "<td class='center'>"+percent+"%</td>";
+                                if (percent == 100) {
+                                    if (data[i].c_status == '00') {
+                                        classDOM += "<td class='center classClose'><button  data-id='"+data[i].c_id+"' data-auth='/applyCloseClass.do'>申请结班</button><button data-id='"+data[i].c_id+"' data-auth='/handleCloseClass.do'>处理</button></td>"
+                                    }else if(data[i].c_status == '01'){
+                                        classDOM +="<td class='center'>已提交结班申请</td>"
+                                    }else if(data[i].c_status == '02'){
+                                        classDOM +="<td class='center'>申请被拒绝</td>"
+                                    }
+                                }else{
+                                   classDOM +="<td class='center'>未结业班级</td>"
+                                }
+                                classDOM += "</tr>"
+                            $("#class-table tbody").html($("#class-table tbody").html()+ classDOM)
+                        }else{
+                            allstu1+=(hasjob2+hasjob1+rejob+nojob+giveupjob+delayjob);
+                            shouldrecostu1+=(hasjob2+hasjob1+nojob+rejob);
+                            hasjoballstu1+=(hasjob2+hasjob1+rejob);
+                            hasjobrecostu1+=hasjob2;
+                            hasjobownstu1+=hasjob1;
+                            giveupstu1+=giveupjob;
+                            delaystu1+=delayjob;
+                            regetjob1+=rejob;
+                            thisweekstu1+=weeknum;
+                            nojobstu1+=nojob;
+
+                            $("#hasclass-table tbody").html($("#hasclass-table tbody").html()+ 
                                 "<tr>"+
                                 "<td class='center'>"+d[k].c_endtime+"</td>"+   //结业时间
                                 "<td class='center'>"+data[i].c_name+"</td>"+   //班级名称
@@ -84,40 +123,14 @@ function showtable(start,end){
                                 "<td class='center' onclick=\"showJobDetail("+i+",8,'再就业人员')\">"+rejob+"</td>"+
                                 "<td class='center' onclick=\"showJobDetail("+i+",9,'本周就业人员')\">"+weeknum+"</td>"+
                                 "<td class='center' onclick=\"showJobDetail("+i+",10,'剩余就业人员')\">"+nojob+"</td>"+
-                                "<td class='center'>"+Math.round(percent*100)/100+"%</td>"+
-                                "</tr>")
-                        }else{
-                            allstu1+=(hasjob2+hasjob1+rejob+nojob+giveupjob+delayjob);
-                            shouldrecostu1+=(hasjob2+hasjob1+nojob+rejob);
-                            hasjoballstu1+=(hasjob2+hasjob1+rejob);
-                            hasjobrecostu1+=hasjob2;
-                            hasjobownstu1+=hasjob1;
-                            giveupstu1+=giveupjob;
-                            delaystu1+=delayjob;
-                            regetjob1+=rejob;
-                            thisweekstu1+=weeknum;
-                            nojobstu1+=nojob;
-                            $("#hasclass-table tbody").html($("#hasclass-table tbody").html()+
-                                "<tr>"+
-                                "<td class='center'>"+d[k].c_endtime+"</td>"+
-                                "<td class='center'>"+data[i].c_name+"</td>"+
-                                "<td class='center' onclick=\"showJobDetail("+i+",1,'所有人员')\" >"+(hasjob2+hasjob1+rejob+nojob+giveupjob+delayjob)+"</td>"+  //需要推荐人数
-                                "<td class='center' onclick=\"showJobDetail("+i+",2,'需要推荐人员')\" >"+(hasjob2+hasjob1+nojob+rejob)+"</td>"+   //已经就业人数
-                                "<td class='center' onclick=\"showJobDetail("+i+",3,'已经就业人员')\">"+(hasjob2+hasjob1+rejob)+"</td>"+
-                                "<td class='center' onclick=\"showJobDetail("+i+",4,'推荐就业人员')\">"+hasjob2+"</td>"+
-                                "<td class='center' onclick=\"showJobDetail("+i+",5,'自主就业人员')\">"+hasjob1+"</td>"+
-                                "<td class='center' onclick=\"showJobDetail("+i+",6,'放弃就业人员')\">"+giveupjob+"</td>"+
-                                "<td class='center' onclick=\"showJobDetail("+i+",7,'推迟就业人员')\">"+delayjob+"</td>"+
-                                "<td class='center' onclick=\"showJobDetail("+i+",8,'再就业人员')\">"+rejob+"</td>"+
-                                "<td class='center' onclick=\"showJobDetail("+i+",9,'本周就业人员')\">"+weeknum+"</td>"+
-                                "<td class='center' onclick=\"showJobDetail("+i+",10,'剩余就业人员')\">"+nojob+"</td>"+
-                                "<td class='center'>"+Math.round(percent*100)/100+"%</td>"+
-                                "</tr>")
+                                "<td class='center'>"+percent+"%</td>"+
+                                "<td class='center'>未结业班级</td>"+
+                                "</tr>" )
                         }
                     }
                 }
             }
-
+            var percc = Math.round((hasjoballstu/shouldrecostu)*10000)/100 || 0
             $("#class-table tbody").html($("#class-table tbody").html()+
                 "<tr>"+
                 "<td class='center'>/</td>"+
@@ -132,8 +145,10 @@ function showtable(start,end){
                 "<td class='center'>"+regetjob+"</td>"+
                 "<td class='center'>"+thisweekstu+"</td>"+
                 "<td class='center'>"+nojobstu+"</td>"+
-                "<td class='center'>"+Math.round((hasjoballstu/shouldrecostu)*10000)/100+"%</td>"+
+                "<td class='center'>"+percc+"%</td>"+
+                "<td class='center'>/</td>"+
                 "</tr>");
+            var percd = Math.round((hasjoballstu1/shouldrecostu1)*10000)/100 || 0
             $("#hasclass-table tbody").html($("#hasclass-table tbody").html()+
                 "<tr>"+
                 "<td class='center'>/</td>"+
@@ -148,7 +163,8 @@ function showtable(start,end){
                 "<td class='center'>"+regetjob1+"</td>"+
                 "<td class='center'>"+thisweekstu1+"</td>"+
                 "<td class='center'>"+nojobstu1+"</td>"+
-                "<td class='center'>"+Math.round((hasjoballstu1/shouldrecostu1)*10000)/100+"%</td>"+
+                "<td class='center'>"+percd+"%</td>"+
+                "<td class='center'>/</td>"+
                 "</tr>");
             //配置datatable
             if(start==undefined){
@@ -188,6 +204,29 @@ $("#daochu").click(function(){
     // window.location = URL
 
 });
+
+/**
+ * 申请结班和处理结班
+ * @param  {[type]} ){                 var url [description]
+ * @return {[type]}     [description]
+ */
+$(document).on('click','.classClose button',function(){
+    var url = $(this).attr('data-auth');
+    var c_id = $(this).attr('data-id');
+    $.ajax({
+        url : url,
+        data : {c_id:c_id},//获取用户ID getcol:"id" 获取用户姓名 getcol:"name"
+        type:"post",
+        success:function(data){
+            if (data.status == 0) {
+                alert('处理成功');
+           }else{
+                alert(data.message);
+           }
+        }
+    });
+    
+})
 
 var showJobDetail = function(i,type,title){
     var userlist = ""

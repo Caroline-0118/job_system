@@ -16,6 +16,7 @@ exports.login=function(request,response){
             if(data.length>0){
                 //设置session
                 request.session.u_id=data[0].u_id;
+                request.session.u_name=data[0].u_name;
                 request.session.u_type=data[0].u_type;
                 response.send({result: true});
             }else{
@@ -29,6 +30,7 @@ exports.login=function(request,response){
 exports.logout=function(request,response){
     try{
         request.session.u_id=null;
+        request.session.u_name=null;
         response.send({result:true});
     }catch(e){
         console.log(e);

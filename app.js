@@ -37,32 +37,6 @@ app.configure(function(){
 });
 app.listen(8888);//设置服务器端口号
 console.log("服务器已经从8888端口启动");
-
-// //拦截前台路由
-// app.post('*',function (req, res, next) {
-//     // 权限信息  01 超级管理员 02 管理员 03 普通用户 04 人事专员 05 推荐人用户  这里权限配置有问题 ！！！
-//     // 需要权限控制的请求都是post
-//     var url = req.url;   //请求地址
-//     var u_type = req.session.u_type ; //目前登录的用户类型
-//     if (u_type ) {
-//         auth.forEach(function(item){
-//             if (item.url == url) {
-//                 if (item.u_type.indexOf(u_type)>=0 ) {
-//                     console.log("用户鉴权成功");
-//                     next();
-//                 }else{
-//                     console.log("用户:"+req.session.name+"无权限访问"+url);
-//                     res.json({
-//                         result : false,
-//                         message : "您暂时没有权限执行该操作"
-//                     });
-//                 }
-//             }
-//         })
-//     }else{
-//         next()
-//     }
-// });
 //用户模块
 
 app.post("/getAuthInfo.do",user.getAuthInfo);//获取用户权限信息
@@ -80,6 +54,8 @@ app.get("/queryclasslist.do",classroom.getclassroomlist);//获取班级列表
 app.post("/addclass.do",classroom.addclass);//添加班级
 app.post("/editclass.do",classroom.editclass);//编辑班级
 app.post("/delclass.do",classroom.delclass);//删除班级
+app.post("/applyCloseClass.do",classroom.applyCloseClass);//申请结班
+app.post("/handleCloseClass.do",classroom.ensureCloseClass);//处理结班申请
 
 //学员模块
 app.get("/querystulist.do",student.getstulist);//获取学员列表

@@ -1,17 +1,18 @@
-//ע����
+//×¢ÈëÀà
 var getlist=require("./class/getlist.js");
 var add=require("./class/add.js");
 var edit=require("./class/edit.js");
 var mydelete=require("./class/delete.js");
+var util=require("./class/util.js");
 var date_edit=require("./class/date_edit.js");
-
-//��ȡ�༶�б�
+var mysqlConnect=require("./class/sqlConnect.js");
+//»ñÈ¡°à¼¶ÁÐ±í
 exports.getclassroomlist=function(request,response){
     var c_name=request.query.c_name,c_endtime=request.query.c_endtime,
         option={
-            request:request,  //�������
-            table:"em_class",  //��ѯ�����ݱ�
-            order:"c_id"  //������
+            request:request,  //ÇëÇó²ÎÊý
+            table:"em_class",  //²éÑ¯µÄÊý¾Ý±í
+            order:"c_id"  //ÅÅÐòÁÐ
         };
     if(c_name!=undefined){
         if(c_endtime==""){
@@ -22,14 +23,14 @@ exports.getclassroomlist=function(request,response){
             option.limitdata=["%"+c_name+"%",c_endtime]
         }
     }
-    option.success=function(data){  //�������ݴ�������
+    option.success=function(data){  //·µ»ØÊý¾Ý´¦Àíº¯Êý
         for(var i=0;i<data.content.length;i++) {
-            //����ʱ��
+            //¿ª°àÊ±¼ä
             if(data.content[i].c_begintime!="0000-00-00"&&data.content[i].c_begintime!=null)
                 data.content[i].c_begintime=date_edit.date(data.content[i].c_begintime);
             else
                 data.content[i].c_begintime="";
-            //��ҵʱ��
+            //½áÒµÊ±¼ä
             if(data.content[i].c_endtime!="0000-00-00"&&data.content[i].c_endtime!=null)
                 data.content[i].c_endtime=date_edit.date(data.content[i].c_endtime);
             else
@@ -40,7 +41,7 @@ exports.getclassroomlist=function(request,response){
     getlist.getlist(option);
 };
 
-//���Ӱ༶
+//Ìí¼Ó°à¼¶
 exports.addclass=function(request,response){
     add.add({
         request:request,
@@ -51,12 +52,12 @@ exports.addclass=function(request,response){
     });
 };
 
-//�༭�༶
+//±à¼­°à¼¶
 exports.editclass=function(request,response){
     edit.edit({
         request:request,
         table:"em_class",
-        editid:"c_id",  //�༭�е�id����
+        editid:"c_id",  //±à¼­ÁÐµÄid¼üÃû
         success:function(data){
             console.log(data);
             response.send(data);
@@ -64,7 +65,7 @@ exports.editclass=function(request,response){
     });
 };
 
-//ɾ���༶
+//É¾³ý°à¼¶
 exports.delclass=function(request,response){
     mydelete.dele({
         del_id:request.body.c_id,
@@ -74,4 +75,38 @@ exports.delclass=function(request,response){
             response.send(data);
         }
     })
+};
+// 申请结班
+exports.applyCloseClass=function(request,response){
+    var user_id = request.session.u_id ;
+    var user_name = request.session.u_name ;
+    var time = new Date().Format("yyyy-MM-dd hh:mm:ss");  
+    var class_id = request.body.c_id;
+    // 更改班级数据库状态
+    mysqlConnect.sqlConnect({
+        sql:"UPDATE em_class SET c_status='01' WHERE c_id = "+class_id,
+        success:function(data){
+            // 更新消息到message数据库
+            var content = time+','+user_name+"发起了结班申请"
+            var dataArr = [user_id,content]
+            mysqlConnect.sqlConnect({
+                sql:"insert into em_message values(null,now(),?,?,0,0);",
+                dataArr : dataArr,
+                success:function(data){
+                    // 申请成功回调
+                    response.send({
+                        status : 0,
+                        data:"申请成功",
+                        msg : ''
+                    })
+                },
+                error: function (e) {console.log(e)}
+            })
+        },
+        error: function (e) {console.log(e)}
+    })
+};
+// 处理结班申请、同意或者拒绝
+exports.ensureCloseClass=function(request,response){
+
 };
