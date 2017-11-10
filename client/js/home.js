@@ -27,13 +27,18 @@ var getAuthInfo = function (u_type){
         type:"post",
         success:function(data){
             if (data.status == 0) {
+                var authObj = {}
                 data.data.forEach(function(item){
                     if (item.u_type.indexOf(u_type)<0) {
                         var dataAuth = "[data-auth='"+ item.url+"' ]";
                         $(dataAuth).css('display','none');  
                     }
-                    
+                    authObj[item.url] = item.u_type
                 })
+                if(!localStorage.getItem('auth') ){
+                    localStorage.setItem("auth",JSON.stringify(authObj) );
+                }
+                
            }else{
             alert(data.message);
            }

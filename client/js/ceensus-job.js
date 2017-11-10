@@ -84,11 +84,23 @@ function showtable(start,end){
                                 "<td class='center' onclick=\"showJobDetail("+i+",9,'本周就业人员')\">"+weeknum+"</td>"+
                                 "<td class='center' onclick=\"showJobDetail("+i+",10,'剩余就业人员')\">"+nojob+"</td>"+
                                 "<td class='center'>"+percent+"%</td>";
+                                var auth = JSON.parse(localStorage.getItem('auth') )
                                 if (percent == 100) {
+                                    debugger
                                     if (data[i].c_status == '00') {
-                                        classDOM += "<td class='center classClose'><button  data-id='"+data[i].c_id+"' data-auth='/applyCloseClass.do'>申请结班</button><button data-id='"+data[i].c_id+"' data-auth='/handleCloseClass.do'>处理</button></td>"
+                                        if(auth && auth['/applyCloseClass.do'].indexOf('03')>=0){
+                                            classDOM += "<td class='center classClose'><button  data-id='"+data[i].c_id+"' data-auth='/applyCloseClass.do'>申请结班</button></td>"
+                                        }else{
+                                            classDOM += "<td class='center classClose'>就业结班级</td>"
+                                        }
+                                        
                                     }else if(data[i].c_status == '01'){
-                                        classDOM +="<td class='center'>已提交结班申请</td>"
+                                        if(auth && auth['/handleCloseClass.do'].indexOf('04')>=0){
+                                            classDOM += "<td class='center classClose'><button data-id='"+data[i].c_id+"' data-auth='/handleCloseClass.do'>处理</button></td>"
+                                        }else{
+                                            classDOM +="<td class='center'>已提交结班申请</td>"
+                                        }
+                                        
                                     }else if(data[i].c_status == '02'){
                                         classDOM +="<td class='center'>申请被拒绝</td>"
                                     }
