@@ -4,7 +4,7 @@ $("#class-table").jqGrid({
     url:"/queryclasslist.do",
     datatype: "json",
     height: $(window).height()-313,
-    colNames:['班级ID','班级名称','项目经理','人事经理','教室地址',"开班时间","结业时间","QQ群","备注"],
+    colNames:['班级ID','班级名称','项目经理','人事经理','教室地址',"开班时间","结业时间","QQ群","备注","操作"],
     colModel:[
         {name:'c_id',index:'c_id', width:50, sorttype:"text", editable: true},
         {name:'c_name',index:'c_name', width:100, sorttype:"text", editable: true},
@@ -14,7 +14,8 @@ $("#class-table").jqGrid({
         {name:'c_begintime',index:'c_begintime', width:100, editable: true, sorttype:"text"},
         {name:'c_endtime',index:'c_endtime', width:100, editable: true, sorttype:"text"},
         {name:'c_qq',index:'c_qq', width:100, editable: true, sorttype:"text"},
-        {name:'c_remark',index:'c_remark', width:100, editable: true, sorttype:"text"}
+        {name:'c_remark',index:'c_remark', width:100, editable: true, sorttype:"text"},
+        {name:'c_id',index:'c_id', width:70, editable: true,  formatter: handleFormatter},
     ],
     viewrecords : true,
     rowNum:10,
@@ -59,7 +60,17 @@ $("#class-table").jqGrid({
     caption: "班级列表",
     autowidth: true
 });
-
+/*
+*  查看班级详情
+*/
+jQuery("#class-table").navButtonAdd('#pager',{
+   caption:"Excel", 
+   buttonicon:"ui-icon-excel", 
+   onClickButton: function(){ 
+      alert("导出excel");
+   }, 
+   position:"last"
+});
 //查询
 $("#search").click(function(){
     jQuery("#class-table").jqGrid("setGridParam",{
@@ -109,6 +120,14 @@ $("#edit-class").click(function () {
 
 });
 
+//查看班级详情按钮
+function handleFormatter(cellvalue, options, rowdata){
+    return "<a data-id="+cellvalue+" class='class-info'>查看详情</a>"
+}
+$(document).on('click','.class-info',function(){
+    var class_id = $(this).attr('data-id');
+    $("#w-page").load("../view/class-detail.html");
+})
 //表单验证函数
 function formValidator(){
     if($('#class-form').data('bootstrapValidator')){//重置

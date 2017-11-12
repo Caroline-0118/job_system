@@ -52,6 +52,7 @@ app.post("/checkpass.do",user.checkpass);//校正密码
 
 //班级模块
 app.get("/queryclasslist.do",classroom.getclassroomlist);//获取班级列表
+app.get("/getClassDetail.do",classroom.getClassDetail);//获取班级详情
 app.post("/addclass.do",classroom.addclass);//添加班级
 app.post("/editclass.do",classroom.editclass);//编辑班级
 app.post("/delclass.do",classroom.delclass);//删除班级

@@ -109,3 +109,13 @@ a[role="button"]{
     display: inline-block;
     margin-right: 20px;
   }
+
+  .class-detail li{
+    line-height: 35px;
+  }
+  .class-title{
+    display: inline-block;
+    width: 150px;
+    text-align: right;
+    margin-right: 20px;
+  }

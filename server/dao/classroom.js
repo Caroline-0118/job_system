@@ -42,6 +42,46 @@ exports.getclassroomlist=function(request,response){
     getlist.getlist(option);
 };
 
+// 获取班级详细信息
+exports.getClassDetail = function(request,response){
+    var startTime = (new Date()).valueOf(); 
+    var c_id = request.query.c_id
+    var sql1 = "SELECT * FROM em_class WHERE c_id = ?";
+    var sql2 = "SELECT s_id,s_name,s_jobstatus,s_sex FROM em_student WHERE s_c_id=?";
+    var sql3 = "SELECT * FROM em_message WHERE m_c_id=?"
+    var sql = [sql1,sql2,sql3].join(";");
+    var dataArr = [c_id,c_id,c_id];
+    mysql.multiQuery(sql,dataArr,function(err,result){
+        if(err){
+            console.log('ERR : 数据库查询失败___'+err);
+            response.send({
+                status : -1,
+                data: "",
+                msg : "数据库查询失败"
+            })
+
+        }else{
+            var endTime = (new Date()).valueOf(); 
+            if(endTime - startTime>500){
+                console.log("查询时间："+ (endTime-startTime) );
+            }
+            console.log('SUCCESS : '+ result);
+            var baseInfo = result[0]
+            var stuInfo = result[1]
+            var approInfo = result[2]
+            response.send({
+                status : 0,
+                data : {
+                    baseInfo: baseInfo,
+                    stuInfo : stuInfo,
+                    approInfo : approInfo
+                },
+                msg : "查询成功"
+            })
+            
+        }
+    })
+}
 //Ìí¼Ó°à¼¶
 exports.addclass=function(request,response){
     add.add({
