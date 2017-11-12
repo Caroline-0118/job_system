@@ -5,7 +5,45 @@
     <title></title>
 </head>
 <body>
-<div class="alert alert-block alert-info" style="border:1px solid #bfeaf3;">
+<div class="alert alert-block alert-info" >
+    <form class="form-search" style="margin:0;">
+        <label>
+            姓名:
+            <span class="input-icon">
+                <input type="text" class="nav-search-input" id="user_name" name="u_name" autocomplete="off">
+            </span>
+        </label>
+        <label>
+            用户状态:
+            <span class="input-icon">
+                <select class="nav-search-input" id="user_status" name="u_stutas">
+                    <option value="">全部</option>
+                    <option value="1">在职</option>
+                    <option value="2">离职</option>
+                </select>
+            </span>
+        </label>
+        <label>
+            用户类型:
+            <span class="input-icon">
+                <select class="nav-search-input" id="user_type"  name="u_type">
+                    <option value="">全部</option>
+                    <option value="01">系统管理员</option>
+                    <option value="02">管理员</option>
+                    <option value="03">普通用户</option>
+                    <option value="04">人事专员</option>
+                    <option value="05">推荐人</option>
+                </select>
+            </span>
+        </label>
+        <label>
+            <button class="btn btn-sm btn-primary" id="search" type="button">
+                <i class="icon-search nav-search-icon"></i>
+            </button>
+        </label>
+    </form>
+</div>
+<div class="alert alert-block alert-info" style="border:1px solid #bfeaf3;margin-top: 10px;">
 
     <ul class="w-tableCon">
         <!--添加-->
@@ -76,10 +114,10 @@
                                         <label class="col-sm-3 control-label no-padding-right"> 用户状态： </label>
                                         <div class="col-sm-9">
                                             <select name="u_stutas" id="u_stutas" class="col-xs-12">
-                                                <option value="0">admin</option>
+                                                <!-- <option value="0">admin</option> -->
                                                 <option value="1">在职</option>
                                                 <option value="2">离职</option>
-                                                <option value="3">管理员</option>
+                                                <!-- <option value="3">管理员</option> -->
                                             </select>
                                         </div>
                                     </div>
@@ -88,10 +126,11 @@
                                         <label class="col-sm-3 control-label no-padding-right"> 用户类别： </label>
                                         <div class="col-sm-9">
                                             <select name="u_type" id="u_type" class="col-xs-12">
-                                                <option value="01">管理者</option>
-                                                <option value="02">普通用户</option>
-                                                <option value="03">人事专员</option>
-                                                <option value="04">推荐人用户</option>
+                                                <option value="01">超级管理员</option>
+                                                <option value="02">管理者</option>
+                                                <option value="03" selected>普通用户</option>
+                                                <option value="04">人事专员</option>
+                                                <option value="05">推荐人用户</option>
                                             </select>
                                         </div>
                                     </div>

@@ -93,3 +93,19 @@ a[role="button"]{
      position: relative;
      top:6px;
  }
+ .message li{
+    list-style: decimal;
+    line-height: 35px;
+    font-size: 14px;
+ }
+  .message li:hover{
+    background-color: #ededed;
+  }
+ .message li:hover a{
+    display: inline-block;
+  }
+  .message a{
+    float: right;
+    display: inline-block;
+    margin-right: 20px;
+  }

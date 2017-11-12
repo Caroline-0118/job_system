@@ -18,7 +18,7 @@ exports.getclassstu= function (request, response) {
                 $limit+=" AND c_endtime <=?"
             }
             mysqlConnect.sqlConnect({
-                sql:"select c_name,c_id,c_endtime,c_status from em_class where c_endtime<=?"+$limit,
+                sql:"select c_hr,c_closetime,c_name,c_id,c_endtime,c_status from em_class where c_endtime<=?"+$limit,
                 dataArr:dataArr,
                 success:function(data){
                     for(var i=0;i<data.length;i++){

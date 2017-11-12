@@ -9,7 +9,7 @@
             // if(data[0].u_id=="1"){
             //     $("head").append("<style type='text/css'>.quanxian{display:block !important;}</style>");
             // }
-
+            $("#msgNumber").text(data[0].noRead)
         }
     })
 
@@ -59,6 +59,7 @@ $("body")[0].addEventListener('click',function(event){
                 alert("会话超时!");
                 window.location = "../index.html";
             }else{
+                $("#msgNumber").text(data[0].noRead)
                 var u_type = data[0].u_type
                 getAuthInfo(u_type);
             }
@@ -98,6 +99,7 @@ $(".w-menu").click(function(e){
     if(my_menu=="班级就业统计") $("#w-page").load("../view/census-job.html");
     if(my_menu=="员工推荐统计") $("#w-page").load("../view/census-user.html");
     if(my_menu=="用户管理") $("#w-page").load("../view/userInfo.html");
+    if(my_menu=="消息管理") $("#w-page").load("../view/message.html");
     if(my_menu=="学员回访信息") $("#w-page").load("../view/stuVisited.html");
     if(my_menu=="添加学员回访") $("#w-page").load("../view/addvisited.html");
     //导航条显示
@@ -115,7 +117,10 @@ $(".w-menu").click(function(e){
         }
     }
 });
-
+// 跳转到消息列表
+$("#gotoMessage").click(function(){
+    $("#w-page").load("../view/message.html");
+})
 //修改密码
 $("#change_password").click(function(){
     $("#changepass-form").get(0).reset();

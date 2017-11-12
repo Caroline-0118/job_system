@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>消息管理</title>
+</head>
+<body>
+	<ul id="myTab" class="nav nav-tabs">
+		<li class="active" id="unMsg">
+			<a href="#msgNoT" data-toggle="tab" >
+				 我的未读消息（<span id="msgNo" style="color: red">0</span>）
+			</a>
+		</li>
+		<li id="Msg">
+			<a href="#msgRdT" data-toggle="tab">
+				我的已读消息（<span id="msgRd" style="color: gray">0</span>）
+			</a>
+		</li>
+	
+	</ul>
+	<!-- 消息内容 -->
+	<div id="myTabContent" class="tab-content">
+		<div class="tab-pane fade in active" id="msgNoT">
+			<ul class="messageList message">
+				<li>
+					暂无数据
+				</li>
+			</ul>
+		</div>
+		<div class="tab-pane fade" id="msgRdT">
+			<ul class="messageReadList message">
+				<li>
+					暂无数据
+				</li>
+			</ul>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="../assets/js/bootstrap-select.js"></script>
+<script type="text/javascript" src="../js/message.js"></script>
+</body>
+</html>

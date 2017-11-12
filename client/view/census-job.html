@@ -131,13 +131,17 @@
                 </div>  
                 <div class="modal-body">  
                      <h5>谢谢您对结班申请做出处理，如果您拒绝了申请，请填写相应的理由</h5>
+                     <input type="" name="" hidden id="c_id" /> 
                     <div>
-                        <textarea cols="60" id="refuse_reason"></textarea>
+                        <textarea cols="60" id="reason"></textarea>
                     </div>
                 </div>  
                 <div class="modal-footer">  
-                    <button type="button" class="btn btn-default" id="agree" data-dismiss="modal">同意</button>  
-                    <button type="button" class="btn btn-default" id="refuse" data-dismiss="modal">拒绝</button>  
+                    <button class="btn btn-sm btn-primary handler" type="button" data-type="11">
+                        <i class="icon-ok"></i>
+                        同意
+                    </button>
+                    <button type="button" class="btn btn-sm handler" data-type="02" data-dismiss="modal">拒绝</button>  
                 </div>  
             </div>  
         </div>  
@@ -145,7 +149,6 @@
     <!--datatable-->
     <script src="../assets/js/jquery.dataTables.min.js"></script>
     <script src="../assets/js/jquery.dataTables.bootstrap.js"></script>
-    <script src="../public/layer/layer.js"></script>
     <script src="../js/ceensus-job.js"></script>
 </div>
 </body>

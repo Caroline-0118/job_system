@@ -86,26 +86,28 @@ function showtable(start,end){
                                 "<td class='center'>"+percent+"%</td>";
                                 var auth = JSON.parse(localStorage.getItem('auth') )
                                 if (percent == 100) {
-                                    debugger
                                     if (data[i].c_status == '00') {
                                         if(auth && auth['/applyCloseClass.do'].indexOf('03')>=0){
-                                            classDOM += "<td class='center classClose'><button  data-id='"+data[i].c_id+"' data-auth='/applyCloseClass.do'>申请结班</button></td>"
+                                            classDOM += "<td class='center classClose'><button  data-id='"+data[i].c_id+"' id='applyClose' data-auth='/applyCloseClass.do'>申请结班</button></td>"
                                         }else{
                                             classDOM += "<td class='center classClose'>就业结班级</td>"
                                         }
                                         
                                     }else if(data[i].c_status == '01'){
+                                        debugger
                                         if(auth && auth['/handleCloseClass.do'].indexOf('04')>=0){
-                                            classDOM += "<td class='center classClose'><button data-id='"+data[i].c_id+"' data-auth='/handleCloseClass.do'>处理</button></td>"
+                                            classDOM += "<td class='center classClose'><button data-id='"+data[i].c_id+"' id='approval'>结班审批</button></td>"
                                         }else{
                                             classDOM +="<td class='center'>已提交结班申请</td>"
                                         }
                                         
                                     }else if(data[i].c_status == '02'){
                                         classDOM +="<td class='center'>申请被拒绝</td>"
+                                    }else if(data[i].c_status == '11'){
+                                        classDOM +="<td class='center'>已结班</td>"
                                     }
                                 }else{
-                                   classDOM +="<td class='center'>未结业班级</td>"
+                                   classDOM +="<td class='center'>未结班</td>"
                                 }
                                 classDOM += "</tr>"
                             $("#class-table tbody").html($("#class-table tbody").html()+ classDOM)
@@ -136,7 +138,7 @@ function showtable(start,end){
                                 "<td class='center' onclick=\"showJobDetail("+i+",9,'本周就业人员')\">"+weeknum+"</td>"+
                                 "<td class='center' onclick=\"showJobDetail("+i+",10,'剩余就业人员')\">"+nojob+"</td>"+
                                 "<td class='center'>"+percent+"%</td>"+
-                                "<td class='center'>未结业班级</td>"+
+                                "<td class='center'>已结班</td>"+
                                 "</tr>" )
                         }
                     }
@@ -218,11 +220,11 @@ $("#daochu").click(function(){
 });
 
 /**
- * 申请结班和处理结班
+ * 申请结班
  * @param  {[type]} ){                 var url [description]
  * @return {[type]}     [description]
  */
-$(document).on('click','.classClose button',function(){
+$(document).on('click','#applyClose',function(){
     var url = $(this).attr('data-auth');
     var c_id = $(this).attr('data-id');
     $.ajax({
@@ -239,7 +241,50 @@ $(document).on('click','.classClose button',function(){
     });
     
 })
-
+/**
+ * 结班审批
+ * @param  {[type]} ){} [description]
+ * @return {[type]}       [description]
+ */
+$(document).on('click','#approval',function(){
+    $("#myAppModalLabel").html("结班审批")
+    $("#c_id").val($(this).data('id'))
+    $('#applyModal').modal('show') 
+})
+/**
+ * 同意或者拒绝
+ * @param  {[type]} ){                                      var type [description]
+ */
+$(document).on('click','.handler',function(){
+    var type = $(this).attr('data-type');
+    var c_id = $("#c_id").val();
+    var url = '/handleCloseClass.do'
+    var reason = $('#reason').val()
+    var reqData = {
+        c_id:c_id,
+        c_status:type,
+        reason : reason
+    }
+    $.ajax({
+        url : url,
+        data : reqData,//获取用户ID getcol:"id" 获取用户姓名 getcol:"name"
+        type:"post",
+        success:function(data){
+            if (data.status == 0) {
+                alert('处理成功');
+           }else{
+                alert(data.message);
+           }
+        }
+    });
+})
+/**
+ * 展示详情
+ * @param  {[type]} i     [description]
+ * @param  {[type]} type  [description]
+ * @param  {[type]} title [description]
+ * @return {[type]}       [description]
+ */
 var showJobDetail = function(i,type,title){
     var userlist = ""
     var data = studentJobList

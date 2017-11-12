@@ -4,11 +4,12 @@ var getlist=require("./class/getlist.js");
 var add=require("./class/add.js");
 var edit=require("./class/edit.js");
 var auth = require("../config/auth.json");
-
+var mysql=require("./class/newSql.js");
 //用户登录
 exports.login=function(request,response){
     var username=request.body.username,password=request.body.password;
     var loginSql="select u_id,u_name,u_type from em_user where u_name=? and u_password=?";
+    
     mysqlConnect.sqlConnect({
         sql:loginSql,   //sql语句
         dataArr:[username,password], //查询条件值
@@ -40,16 +41,22 @@ exports.logout=function(request,response){
 //获取session
 exports.getsession=function(request,response){
     var u_id=request.session.u_id,getCol=request.body.getcol;
+    var u_name =  request.session.u_name;
     if(getCol=="id") response.send(u_id);//获取登录用户id
     else if(getCol=="name"){//获取登录用户姓名
-        var getunameSql="select u_name,u_id,u_type from em_user where u_id=?";
-        mysqlConnect.sqlConnect({
-            sql:getunameSql,
-            dataArr:[u_id],
-            success:function(data){
-                response.send(data)
+        var getunameSql="select u_name,u_id,u_type from em_user where u_id="+u_id;
+        var msgSql = "SELECT count(*) AS count FROM em_message where m_status=0 AND m_user='"+u_name+"'"
+        var sql = getunameSql + ';' + msgSql
+        mysql.multiQuery(sql,function(err,result){
+            if(err){
+                response.send([])
+            }else{
+                var res = result[0] //登录信息
+                var noRead = result[1][0].count //未读消息
+                res[0].noRead = noRead 
+                response.send(res)
             }
-        });
+        })
     }
 };
 
@@ -87,6 +94,11 @@ exports.getuserlist=function(request,response){
     if(u_name!=undefined){
         option.limitname+=" AND u_name LIKE ?";
         option.limitdata.push("%"+u_name+"%")
+    }
+    // 判断用户类型
+    if(request.query.u_type){
+        option.limitname+=" AND u_type = ?";
+        option.limitdata.push(request.query.u_type)
     }
     console.log(request.query.u_stutas);
     if(request.query.u_stutas){

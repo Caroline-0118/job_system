@@ -19,7 +19,8 @@ exports.sqlConnect=function(option){
         user: "root",
         password: "mysqlpasswd",
         port: "3306",
-        database: "job_system"
+        database: "job_system",
+        multipleStatements:true
     });
     myConnect.connect();//�������ݿ�
     myConnect.query(option.sql,option.dataArr,function(error,data){
@@ -28,4 +29,3 @@ exports.sqlConnect=function(option){
     });
     myConnect.end();//�ر����ݿ�
 };
-

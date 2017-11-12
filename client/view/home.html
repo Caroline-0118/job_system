@@ -69,7 +69,11 @@
         </div>
         <!--右边按钮开始-->
         <div class="navbar-header pull-right" role="navigation">
+
             <ul class="nav ace-nav">
+                <li style="margin-right: 15px" id="gotoMessage" >
+                    您有<span style="color:red" id="msgNumber">0</span>条未读消息
+                </li>
                 <!--个人设置-->
                 <li class="light-blue">
                     <a data-toggle="dropdown" href="#" class="dropdown-toggle">
@@ -301,6 +305,13 @@
                             <a href="#" class="w-menu dropdown-toggle">
                                 <i class="icon-double-angle-right"></i>
                                 <span>用户管理</span>
+                            </a>
+                        </li>
+                        <!--消息中心-->
+                        <li>
+                            <a href="#" class="w-menu dropdown-toggle">
+                                <i class="icon-double-angle-right"></i>
+                                <span>消息管理</span>
                             </a>
                         </li>
                     </ul>

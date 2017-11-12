@@ -16,6 +16,7 @@ var recommend=require("./server/dao/recommend.js");//推荐
 var visited=require("./server/dao/visited.js");//回访
 var load=require("./server/dao/upload.js");//上传下载
 var census=require("./server/dao/census.js");//统计
+var message=require("./server/dao/message.js");//消息
 var auth = require("./server/config/auth.json");  //用户权限控制
 app.configure(function(){
     var upload=__dirname.split("\\");
@@ -23,7 +24,7 @@ app.configure(function(){
     app.use(session({//启用和配置session模块
         secret:"123",
         name:"test",
-        // cookie:{maxAge:10000},//session存储时间(毫秒)
+        // cookie:{maxAge:600000},//session存储时间(毫秒)
         resave:false,
         saveUninitialized:true
     }));
@@ -100,3 +101,8 @@ app.get("/getuserreco.do", census.getuserreco);//用户统计
 app.post("/getwaitjobstu.do", census.getwaitjobstu);//待就业班级人数统计
 app.post("/getthisweek.do", census.getthisweek);//本周就业人数统计
 app.post("/nojoball.do", census.nojoball);//未就业总人数
+
+//消息
+app.post("/getMessageList.do", message.getMessageList);//获取消息列表
+app.post("/changeMsgStatus.do", message.changeMsgStatus);//消息标记为已读
+app.post("/deleteMessage.do", message.deleteMessage);//删除消息

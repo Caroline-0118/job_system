@@ -6,6 +6,7 @@ var mydelete=require("./class/delete.js");
 var util=require("./class/util.js");
 var date_edit=require("./class/date_edit.js");
 var mysqlConnect=require("./class/sqlConnect.js");
+var mysql=require("./class/newSql.js");
 //»ñÈ¡°à¼¶ÁÐ±í
 exports.getclassroomlist=function(request,response){
     var c_name=request.query.c_name,c_endtime=request.query.c_endtime,
@@ -87,8 +88,8 @@ exports.applyCloseClass=function(request,response){
         sql:"UPDATE em_class SET c_status='01' WHERE c_id = "+class_id,
         success:function(data){
             // 更新消息到message数据库
-            var content = time+','+user_name+"发起了结班申请"
-            var dataArr = [user_id,content]
+            var content = time+',     '+user_name+"发起了结班申请"
+            var dataArr = [user_name,content]
             mysqlConnect.sqlConnect({
                 sql:"insert into em_message values(null,now(),?,?,0,0);",
                 dataArr : dataArr,
@@ -108,5 +109,21 @@ exports.applyCloseClass=function(request,response){
 };
 // 处理结班申请、同意或者拒绝
 exports.ensureCloseClass=function(request,response){
-
+    var user_name = request.session.u_name ;
+    var time = new Date().Format("yyyy-MM-dd hh:mm:ss");  
+var c_id = request.body.c_id
+var c_status = request.body.c_status
+var res = (c_status=='11') ? '已经通过' : '被拒绝'
+var content = time+',     '+user_name+"对您的申请就行了审批，结班申请"+res+"，如有疑问请直接联系本人"
+var dataArr = [c_status,c_id,user_name,content]
+    var sql1 = 'UPDATE em_class SET c_status='+c_status+' WHERE c_id ='+c_id;
+    var sql2 = "insert into em_message values(null,now(),'"+user_name+"','"+content+"',0);";
+    var sql = sql1 + ';' + sql2
+    mysql.multiQuery(sql,dataArr,function(err,result){
+        if(err){
+            response.send({result:false})
+        }else{
+            response.send({result:true})
+        }
+    });
 };

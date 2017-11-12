@@ -56,13 +56,28 @@ $("#user-table").jqGrid({
         var mytd=$("td[aria-describedby='user-table_u_stutas']");
         for(var i=0;i<mytd.length;i++){
             if(mytd[i].innerHTML=="1")mytd[i].innerHTML="在职";
-            if(mytd[i].innerHTML=="1")mytd[i].innerHTML="离职";
+            if(mytd[i].innerHTML=="2")mytd[i].innerHTML="离职";
+        }
+        // 用户类型判断
+        var typelist=$("td[aria-describedby='user-table_u_type']");
+        for(var i=0;i<typelist.length;i++){
+            if(typelist[i].innerHTML=="01")typelist[i].innerHTML="超级管理员";
+            if(typelist[i].innerHTML=="02")typelist[i].innerHTML="管理员";
+            if(typelist[i].innerHTML=="03")typelist[i].innerHTML="普通用户";
+            if(typelist[i].innerHTML=="04")typelist[i].innerHTML="人事专员";
+            if(typelist[i].innerHTML=="05")typelist[i].innerHTML="推荐人";
         }
     },
     caption: "用户列表",
     autowidth: true
 });
-
+//查询
+$("#search").click(function(){
+    var data=$(".form-search").serialize();
+    jQuery("#user-table").jqGrid("setGridParam",{
+        url:"/queryuserlist.do?"+data
+    }).trigger("reloadGrid");
+});
 //添加用户
 $("#add-user").click(function(){
     //重置表单
@@ -92,6 +107,12 @@ $("#edit-user").click(function () {
         $("#u_password").val(seldata.u_password);
         if(seldata.u_stutas=="在职") $("#u_stutas").val("1");
         if(seldata.u_stutas=="离职") $("#u_stutas").val("2");
+        // 用户类型填充
+        if(seldata.u_type=="超级管理员") $("#u_type").val("01");
+        if(seldata.u_type=="管理员") $("#u_type").val("02");
+        if(seldata.u_type=="普通用户") $("#u_type").val("03");
+        if(seldata.u_type=="人事专员") $("#u_type").val("04");
+        if(seldata.u_type=="推荐人") $("#u_type").val("05");
         $("#user-form").attr('action','/edituser.do');
         formValidator();
     }else{
