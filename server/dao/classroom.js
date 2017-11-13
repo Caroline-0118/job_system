@@ -47,7 +47,7 @@ exports.getClassDetail = function(request,response){
     var startTime = (new Date()).valueOf(); 
     var c_id = request.query.c_id
     var sql1 = "SELECT * FROM em_class WHERE c_id = ?";
-    var sql2 = "SELECT s_id,s_name,s_jobstatus,s_sex FROM em_student WHERE s_c_id=?";
+    var sql2 = "SELECT s_id,s_name,s_jobstatus,s_education,s_sex FROM em_student WHERE s_c_id=?";
     var sql3 = "SELECT * FROM em_message WHERE m_c_id=?"
     var sql = [sql1,sql2,sql3].join(";");
     var dataArr = [c_id,c_id,c_id];

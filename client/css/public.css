@@ -111,11 +111,12 @@ a[role="button"]{
   }
 
   .class-detail li{
-    line-height: 35px;
+    line-height: 30px;
   }
   .class-title{
     display: inline-block;
     width: 150px;
+    vertical-align: top;
     text-align: right;
     margin-right: 20px;
   }

@@ -19,6 +19,73 @@ $(function(){
 				$('#c_qq').text(baseInfo.c_qq)
 				$('#c_status').text(baseInfo.c_status)
 				$('#c_closetime').text(baseInfo.c_closetime)
+				// 2. 填充班级学生信息
+				var mail = 0 ; //男生人数
+				var femail = 0 ; //女生人数
+				var stuInfo = data.data.stuInfo
+				var jobStuArr = [[],[],[],[],[],[],[]] //分别存放工作状态  分别存放 无工作， 自主就业，推荐就业，放弃工作，推迟就业，拒绝就业
+				var educateArr = [[],[],[],[],[],[],[],[],[],[]] //，1初中，2高中、中专，4专科，6本科，8研究生，9博士
+				stuInfo.forEach(function(stu){
+					stu.s_sex == '男' ? mail++ : femail++
+					jobStuArr[stu.s_jobstatus].push(stu.s_name)//就业状态
+					educateArr[stu.s_education].push(stu.s_name)//学历状况
+				})
+				var total = mail+femail 
+				$('#c_total').text(total+"人")//总人数
+				$('#c_sex').text("男生："+mail+"人，女生"+femail+"人")
+				// 拼接学历状况
+				var eduStr = ""
+				var eduObj = {
+					"1":"初中" ,
+					"2":"高中" ,
+					"3":"中专",
+					"4":"专科" ,
+					"5":"专科(自考)",
+					"6":"本科" ,
+					"7":"本科(自考)",
+					"8":"研究生" ,
+					"9":"博士" 
+				}
+				educateArr.forEach(function(edu,index){
+					if (edu.length>0) {
+						eduStr += "其中 "+eduObj[index]+edu.length+"人，"
+					}
+				})
+				$('#s_education').text(eduStr) 
+				// 拼接工作状况
+				var eduObj = {
+					"1":"无工作" ,
+					"2":"自主就业" ,
+					"3":"推荐就业" ,
+					"4":"放弃工作" ,
+					"5":"推迟就业" ,
+					"6":"拒绝就业" 
+				}
+				educateArr[2].length > 0 ? $('#self_job').text("自主就业"+educateArr[2].length+"人，"+educateArr[2].toString()) :  $('#self_job').hide()
+				educateArr[3].length > 0 ? $('#recom_job').text("推荐就业"+educateArr[3].length+"人，"+educateArr[3].toString()) :  $('#recom_job').hide()
+				educateArr[4].length > 0 ? $('#giveupjob').text("放弃就业"+educateArr[4].length+"人，"+educateArr[4].toString()) : $('#giveupjob').hide()
+				educateArr[5].length > 0 ? $('#delayjob').text("推迟就业"+educateArr[5].length+"人，"+educateArr[5].toString()) :  $('#delayjob').hide()
+				educateArr[6].length > 0 ? $('#rejob').text("再就业"+educateArr[6].length+"人，"+educateArr[6].toString()) :  $('#rejob').hide()
+				educateArr[1].length > 0 ? $('#nojob').text("再就业"+educateArr[1].length+"人，"+educateArr[6].toString()) :  $('#nojob').hide()
+				var percent = (educateArr[2].length + educateArr[3].length)/total
+				$("#c_percent").text("就业率："+percent*100+"%");
+				// 3. 填充最近动态
+				$(".approInfo").empty();
+				var approInfo = data.data.approInfo
+				approInfo.forEach(function(app){
+					var time  = (new Date(app.m_time)).toLocaleString()
+					var li = document.createElement('li');
+					var tt = document.createElement('strong');
+					tt.setAttribute('class','class-title');
+					tt.innerText = '消息内容：';
+
+					var content = document.createElement('span');
+					content.innerText = time + " , "+app.m_content ;
+					li.appendChild(tt);
+					li.appendChild(content);
+					$(".approInfo").append(li);
+				})
+
 			}else{
 				alert(data.msg);
 			}
