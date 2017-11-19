@@ -33,6 +33,8 @@ $("#login").click(function () {
         success:function(data){
             //登录失败动态更新页面
             if(data.result){
+                var user = JSON.stringify(data.data[0])
+                localStorage.setItem('user',user);
                 window.location = "view/home.html";
             }else{
                 $("#warning").html("用户名或密码错误！");

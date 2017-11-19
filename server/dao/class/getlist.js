@@ -1,9 +1,9 @@
 
 /*
-»ñÈ¡ÁÐ±íÍ¨Àà
+ï¿½ï¿½È¡ï¿½Ð±ï¿½Í¨ï¿½ï¿½
  */
 
-//ÒýÈësqlÁ¬½ÓÀà
+//ï¿½ï¿½ï¿½ï¿½sqlï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 var mysqlConnect=require("./sqlConnect.js");
 
 exports.getlist=function(option){
@@ -11,14 +11,14 @@ exports.getlist=function(option){
         page=parseInt(option.request.query.page),
         rows=parseInt(option.request.query.rows);
 
-    //ÅÐ¶ÏÊÇ·ñÐèÒª·ÖÒ³
+    //ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Òªï¿½ï¿½Ò³
     if(!page) fenye="";
     else fenye="LIMIT ?,?";
 
-    //ÅÐ¶¨ÊÇ·ñ¶¨ÒåÊä³öÊý¾ÝÁÐ£¬Ä¬ÈÏÎª*
+    //ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð£ï¿½Ä¬ï¿½ï¿½Îª*
     if(!option.showcol) option.showcol="*";
 
-    //ÅÐ¶ÏÊÇ·ñ´æÔÚ²éÑ¯Ìõ¼þ
+    //ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Ú²ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½
     if(!option.limitname) {
         limit="";
         dataArr=[(page-1)*rows,rows];
@@ -29,7 +29,7 @@ exports.getlist=function(option){
         dataArr.push(rows);
     }
 
-    //sqlÓï¾äÆ´½Ó
+    //sqlï¿½ï¿½ï¿½Æ´ï¿½ï¿½
     var querySql="SELECT "+option.showcol+",(SELECT COUNT(*) FROM "+option.table+
         " "+limit+") AS totalcount FROM "+option.table+
         " "+limit+" ORDER BY "+option.order+
@@ -38,9 +38,9 @@ exports.getlist=function(option){
     console.log(dataArr)
     //dataArr
     mysqlConnect.sqlConnect({
-        sql:querySql,             //sqlÓï¾ä
-        dataArr:dataArr, //²éÑ¯Ìõ¼þÖµ
-        success:function(data){   //²éÑ¯³É¹¦´¦Àíº¯Êý
+        sql:querySql,             //sqlï¿½ï¿½ï¿½
+        dataArr:dataArr, //ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½Öµ
+        success:function(data){   //ï¿½ï¿½Ñ¯ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             var totalcount,totalpage;
             for(var i=0;i<data.length;i++){
                 totalcount=data[i].totalcount;
@@ -48,12 +48,12 @@ exports.getlist=function(option){
             totalpage=Math.ceil(totalcount/rows);
             var result={
                 content:data,
-                totalpage:totalpage,//×ÜÒ³Êý
-                totalcount:totalcount//×ÜÌõÊý
+                totalpage:totalpage,//ï¿½ï¿½Ò³ï¿½ï¿½
+                totalcount:totalcount//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             };
             option.success(result);
         },
-        error:function(error){console.log(error)} //²éÑ¯Ê§°Ü
+        error:function(error){console.log(error)} //ï¿½ï¿½Ñ¯Ê§ï¿½ï¿½
     });
 };
 

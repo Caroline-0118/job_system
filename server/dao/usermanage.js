@@ -19,7 +19,7 @@ exports.login=function(request,response){
                 request.session.u_id=data[0].u_id;
                 request.session.u_name=data[0].u_name;
                 request.session.u_type=data[0].u_type;
-                response.send({result: true});
+                response.send({result: true,data:data});
             }else{
                 response.send({result: false});
             }
