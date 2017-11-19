@@ -7,22 +7,36 @@ var util=require("./class/util.js");
 var date_edit=require("./class/date_edit.js");
 var mysqlConnect=require("./class/sqlConnect.js");
 var mysql=require("./class/newSql.js");
-//»ñÈ¡°à¼¶ÁÐ±í
+//获取班级列表
 exports.getclassroomlist=function(request,response){
+    // 1. 获取登录用户基本信息
+    var user_id = request.session.u_id || 0;
+    var user_type = request.session.u_type || '04';
+    var user_name = request.session.u_name || '人事经理';
+
     var c_name=request.query.c_name,c_endtime=request.query.c_endtime,
         option={
             request:request,  //ÇëÇó²ÎÊý
             table:"em_class",  //²éÑ¯µÄÊý¾Ý±í
-            order:"c_id"  //ÅÅÐòÁÐ
+            order:"c_id",  //ÅÅÐòÁÐ
+            limitname : "WHERE 1 = 1 ",
+            limitdata : []
         };
     if(c_name!=undefined){
         if(c_endtime==""){
-            option.limitname="WHERE c_name LIKE ?";
+            option.limitname="AND c_name LIKE ?";
             option.limitdata=["%"+c_name+"%"]
         }else{
-            option.limitname="WHERE c_name LIKE ? AND c_endtime>?";
+            option.limitname="AND c_name LIKE ? AND c_endtime>?";
             option.limitdata=["%"+c_name+"%",c_endtime]
         }
+    }
+    if(user_type == '04'){
+        option.limitname+=" AND c_hr = ?";
+        option.limitdata.push(user_name);
+    }else if(user_type == '05'){
+        option.limitname+=" AND c_manager  = ?";
+        option.limitdata.push(user_name);
     }
     option.success=function(data){  //·µ»ØÊý¾Ý´¦Àíº¯Êý
         for(var i=0;i<data.content.length;i++) {

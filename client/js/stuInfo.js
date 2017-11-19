@@ -165,7 +165,10 @@ $("#add-stu").click(function(){
     //重置表单
     $("#stu-form").get(0).reset();
     $("#stu-form").attr('action','/addstu.do');
-    getclass();
+    var u_type = JSON.parse(localStorage.getItem('user')).u_type
+    if (u_type != '04') {
+        getclass();
+    }
     formValidator();
 });
 
@@ -181,7 +184,10 @@ $("#stu-table").click(function () {
 });
 //编辑学员
 $("#edit-stu").click(function () {
-    getclass();
+    var u_type = JSON.parse(localStorage.getItem('user')).u_type
+    if (u_type != '04') {
+        getclass();
+    }
     if($("#stu-table").jqGrid('getGridParam','selarrrow').length==1){
         var selrow = $("#stu-table").jqGrid('getGridParam','selrow');
         var seldata = $("#stu-table").jqGrid("getRowData",selrow);
@@ -252,18 +258,19 @@ function formValidator(){
 // $("#showSearch").click(function () {
     // 默认展示查询信息
     $("#form-search").css({"display":"block","width":$(".alert-block").width()+30+"px"});
-    $.ajax({
-        url:"/queryclasslist.do",
-        success: function (data) {
-            $("#calss-search").html("<option value=''>全部</option>");
-            var mydata=JSON.parse(data);
-            for(var i=0;i<mydata.content.length;i++){
-                $("#calss-search").html($("#calss-search").html()+"<option value='"+mydata.content[i].c_id+"'>"+
-                    mydata.content[i].c_name+"</option>");
+        $.ajax({
+            url:"/queryclasslist.do",
+            success: function (data) {
+                $("#calss-search").html("<option value=''>全部</option>");
+                var mydata=JSON.parse(data);
+                for(var i=0;i<mydata.content.length;i++){
+                    $("#calss-search").html($("#calss-search").html()+"<option value='"+mydata.content[i].c_id+"'>"+
+                        mydata.content[i].c_name+"</option>");
+                }
+                $("#calss-search").selectpicker();
             }
-            $("#calss-search").selectpicker();
-        }
-    });
+        });
+    
 // });
 
 //查看详情
