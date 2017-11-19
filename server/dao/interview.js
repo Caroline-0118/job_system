@@ -27,6 +27,19 @@ exports.getinterlist=function(request,response){
             "i_faceresult","i_retestresult","i_employ","i_entryresult","i_job","i_remark","i_jobpay","i_xishijobpay"
         ]
     };
+
+    // 1. 获取登录用户基本信息
+    var user_id = request.session.u_id || 0;
+    var user_type = request.session.u_type || '04';
+    var user_name = request.session.u_name || '人事经理';
+    // 判断是否是人事经理或者项目经理
+    if(user_type == '04'){
+        option.limitname+=" AND c_hr = ?";
+        option.limitdata.push(user_name);
+    }else if(user_type == '05'){
+        option.limitname+=" AND c_manager  = ?";
+        option.limitdata.push(user_name);
+    }
     //判断查询项
     if(request.query.c_id!=undefined){
         for(var key in request.query){

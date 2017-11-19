@@ -37,7 +37,12 @@ $("#login").click(function () {
                 localStorage.setItem('user',user);
                 window.location = "view/home.html";
             }else{
-                $("#warning").html("用户名或密码错误！");
+                if (data.msg) {
+                    $("#warning").html(data.msg);
+                }else{
+                    $("#warning").html("用户名或密码错误！");
+                }
+                
             }
         }
     })

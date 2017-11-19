@@ -22,6 +22,20 @@ exports.getvisitedlist=function(request,response){
     };
     option.limitdata=[];
     option.limitname="WHERE v_s_id=s_id AND v_u_id=u_id AND s_c_id=c_id";
+
+    // 1. 获取登录用户基本信息
+    var user_id = request.session.u_id || 0;
+    var user_type = request.session.u_type || '04';
+    var user_name = request.session.u_name || '人事经理';
+    // 判断是否是人事经理或者项目经理
+    if(user_type == '04'){
+        option.limitname+=" AND c_hr = ?";
+        option.limitdata.push(user_name);
+    }else if(user_type == '05'){
+        option.limitname+=" AND c_manager  = ?";
+        option.limitdata.push(user_name);
+    }
+
     if(c_id!=undefined&&c_id!=""&&c_id!=null){
             option.limitname+=" AND c_id=?";
             option.limitdata.push(c_id)

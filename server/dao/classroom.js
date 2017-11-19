@@ -22,22 +22,23 @@ exports.getclassroomlist=function(request,response){
             limitname : "WHERE 1 = 1 ",
             limitdata : []
         };
+        if(user_type == '04'){
+            option.limitname+=" AND c_hr = ?";
+            option.limitdata.push(user_name);
+        }else if(user_type == '05'){
+            option.limitname+=" AND c_manager  = ?";
+            option.limitdata.push(user_name);
+        }
     if(c_name!=undefined){
         if(c_endtime==""){
-            option.limitname="AND c_name LIKE ?";
-            option.limitdata=["%"+c_name+"%"]
+            option.limitname +=" AND c_name LIKE ?";
+            option.limitdata.push("%"+c_name+"%")
         }else{
-            option.limitname="AND c_name LIKE ? AND c_endtime>?";
-            option.limitdata=["%"+c_name+"%",c_endtime]
+            option.limitname +=" AND c_name LIKE ? AND c_endtime>?";
+            option.limitdata.push("%"+c_name+"%",c_endtime)
         }
     }
-    if(user_type == '04'){
-        option.limitname+=" AND c_hr = ?";
-        option.limitdata.push(user_name);
-    }else if(user_type == '05'){
-        option.limitname+=" AND c_manager  = ?";
-        option.limitdata.push(user_name);
-    }
+    
     option.success=function(data){  //·µ»ØÊý¾Ý´¦Àíº¯Êý
         for(var i=0;i<data.content.length;i++) {
             //¿ª°àÊ±¼ä

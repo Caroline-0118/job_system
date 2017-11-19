@@ -16,21 +16,26 @@ exports.getstulist=function(request,response){
     var user_type = request.session.u_type || '04';
     var user_name = request.session.u_name || '人事经理';
     //2. 查询用户管理的班级列表
-    if(user_type == '04'){
-        var sql = "SELECT c_id FROM em_class WHERE c_hr = ?"
+    if(user_type == '04' ||user_type == "05"){
+        if(user_type == '04'){
+            var sql = "SELECT c_id FROM em_class WHERE c_hr = ?"
+        }else{
+            var sql = "SELECT c_id FROM em_class WHERE c_manager = ?"
+        }
+        
         mysqlConnect.sqlConnect({
             sql:sql,
             dataArr:[user_name],
             success:function(data){
+                var c_i_id = null
                 if(data && data.length>0){
                     var classArr = []
                     data.forEach(function(item){
                         classArr.push(item.c_id)   
                     })
-                    request.query.c_id = classArr.toString();
-                    
+                    c_i_id = classArr.toString();
                 }
-                getUserList(request,response)
+                getUserList(request,response,c_i_id)
             },
             error:function(e){
                 console.log(e);
@@ -44,7 +49,7 @@ exports.getstulist=function(request,response){
 /**
  * 获得学员列表
  */
-var getUserList = function(request,response){
+var getUserList = function(request,response,c_i_id){
         //定义数据
         var req={
             query:{
@@ -68,9 +73,7 @@ var getUserList = function(request,response){
                 if(request.query[key]!=""&&key.indexOf("_")>0&&key!="_search"){
                     option.limitdata.push(request.query[key]);
                     req.query[key]=request.query[key];
-                    if(key=="c_id") {
-                        option.limitname+=" AND s_c_id=?";
-                    }
+                    if(key=="c_id") option.limitname+=" AND s_c_id=?";
                     if(key=="s_name"){
                         option.limitdata.pop();
                         option.limitname+=" AND s_name LIKE ?";
@@ -108,8 +111,8 @@ var getUserList = function(request,response){
             option.limitname+=" AND s_id=?";
             option.limitdata.push(request.query.s_id);
         }
-        if(request.query.c_id){
-            option.limitname+=" AND s_c_id  in  (" + request.query.c_id.split(',')+')';
+        if(c_i_id){
+            option.limitname+=" AND s_c_id  in  (" + c_i_id.split(',')+')';
         }
         //返回数据处理函数
         option.success=function(data){

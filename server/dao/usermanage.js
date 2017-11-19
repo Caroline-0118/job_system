@@ -15,6 +15,10 @@ exports.login=function(request,response){
         dataArr:[username,password], //查询条件值
         success:function(data){   //成功
             if(data.length>0){
+                if(data[0].u_type == '06'){
+                    response.send({result: false,msg:"该用户无权限登录"});
+                    return false
+                }
                 //设置session
                 request.session.u_id=data[0].u_id;
                 request.session.u_name=data[0].u_name;
@@ -78,7 +82,10 @@ exports.getAuthInfo=function(request,response){
 };
 //获取用户列表
 exports.getuserlist=function(request,response){
-
+    // 1. 获取登录用户基本信息
+    var user_id = request.session.u_id || 0;
+    var user_type = request.session.u_type || '04';
+    var user_name = request.session.u_name || '人事经理';
 
     var u_name=request.query.u_name,
         option={
@@ -91,6 +98,10 @@ exports.getuserlist=function(request,response){
         };
     option.limitname="WHERE 1=1";
     option.limitdata=[];
+    if(user_type == '04'||user_type=='05'){
+        option.limitname += ' AND u_name=?'
+        option.limitdata=[user_name];
+    }
     if(u_name!=undefined){
         option.limitname+=" AND u_name LIKE ?";
         option.limitdata.push("%"+u_name+"%")
