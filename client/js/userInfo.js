@@ -65,7 +65,8 @@ $("#user-table").jqGrid({
             if(typelist[i].innerHTML=="02")typelist[i].innerHTML="管理员";
             if(typelist[i].innerHTML=="03")typelist[i].innerHTML="普通用户";
             if(typelist[i].innerHTML=="04")typelist[i].innerHTML="人事专员";
-            if(typelist[i].innerHTML=="05")typelist[i].innerHTML="推荐人";
+            if(typelist[i].innerHTML=="05")typelist[i].innerHTML="项目经理";
+            if(typelist[i].innerHTML=="06")typelist[i].innerHTML="推荐人";
         }
     },
     caption: "用户列表",
@@ -112,7 +113,8 @@ $("#edit-user").click(function () {
         if(seldata.u_type=="管理员") $("#u_type").val("02");
         if(seldata.u_type=="普通用户") $("#u_type").val("03");
         if(seldata.u_type=="人事专员") $("#u_type").val("04");
-        if(seldata.u_type=="推荐人") $("#u_type").val("05");
+        if(seldata.u_type=="项目经理") $("#u_type").val("05");
+        if(seldata.u_type=="推荐人") $("#u_type").val("06");
         $("#user-form").attr('action','/edituser.do');
         formValidator();
     }else{

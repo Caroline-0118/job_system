@@ -3,7 +3,8 @@ $(function(){
 	*  获取班级详细信息
 	*/
 	var getClassDetail = function(id){
-		var url = "/getClassDetail.do?c_id=24"
+		var class_id = sessionStorage.getItem("class_id");
+		var url = "/getClassDetail.do?c_id="+class_id
 		$.get(url,function(data){
 			if (data.status == 0) {
 				// 1. 填充基本信息
@@ -17,7 +18,13 @@ $(function(){
 				$('#c_address').text(baseInfo.c_address)
 				$('#c_remark').text(baseInfo.c_remark)
 				$('#c_qq').text(baseInfo.c_qq)
-				$('#c_status').text(baseInfo.c_status)
+				var statusObj = {
+					'00' : '未结班',
+					'01' : '正在申请结班',
+					'02' : '结业申请被拒绝',
+					'11' : '已结班'
+				}
+				$('#c_status').text(statusObj[baseInfo.c_status])
 				$('#c_closetime').text(baseInfo.c_closetime)
 				// 2. 填充班级学生信息
 				var mail = 0 ; //男生人数
@@ -67,7 +74,7 @@ $(function(){
 				educateArr[5].length > 0 ? $('#delayjob').text("推迟就业"+educateArr[5].length+"人，"+educateArr[5].toString()) :  $('#delayjob').hide()
 				educateArr[6].length > 0 ? $('#rejob').text("再就业"+educateArr[6].length+"人，"+educateArr[6].toString()) :  $('#rejob').hide()
 				educateArr[1].length > 0 ? $('#nojob').text("再就业"+educateArr[1].length+"人，"+educateArr[6].toString()) :  $('#nojob').hide()
-				var percent = (educateArr[2].length + educateArr[3].length)/total
+				var percent = (educateArr[2].length + educateArr[3].length)/total ||0
 				$("#c_percent").text("就业率："+percent*100+"%");
 				// 3. 填充最近动态
 				$(".approInfo").empty();

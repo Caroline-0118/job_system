@@ -126,6 +126,7 @@ function handleFormatter(cellvalue, options, rowdata){
 }
 $(document).on('click','.class-info',function(){
     var class_id = $(this).attr('data-id');
+    sessionStorage.setItem("class_id",class_id);
     $("#w-page").load("../view/class-detail.html");
 })
 //表单验证函数
