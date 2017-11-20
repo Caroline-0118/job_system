@@ -98,6 +98,7 @@ app.post("/up_avata.do", load.upAvata);//上传头像
 
 //统计
 app.post("/getclass.do", census.getclassstu);//班级统计
+app.post("/getReDetail.do",census.getReDetail);//获取推荐人员详情
 app.get("/getuserreco.do", census.getuserreco);//用户统计
 app.post("/getwaitjobstu.do", census.getwaitjobstu);//待就业班级人数统计
 app.post("/getthisweek.do", census.getthisweek);//本周就业人数统计
