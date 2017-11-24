@@ -120,3 +120,8 @@ a[role="button"]{
     text-align: right;
     margin-right: 20px;
   }
+  .ceensus_info td,th{
+    border: 1px solid lightgray;
+    line-height: 24px;
+    padding: 5px;
+  }

@@ -3,6 +3,8 @@ var date_edit=require("./class/date_edit.js");
 var mysqlConnect=require("./class/sqlConnect.js");
 var async=require("../node_modules/async");
 var nodeExcel = require('excel-export');
+var mysql=require("./class/newSql.js");
+
 //°à¼¶¾ÍÒµÐÅÏ¢Í³¼Æ
 exports.getclassstu= function (request, response) {
     async.waterfall([function(cb) 
@@ -439,33 +441,37 @@ exports.getReDetail = function(request,response){
     var u_id = request.body.u_id
     var type = request.body.type
     if(type == 1){
-        var url = "SELECT r_id,s_name,r_time,b_name,s_jobstatus FROM em_recommend ,em_business,em_student WHERE r_s_id = s_id  AND r_b_id=b_id AND r_u_id=?"
-    }else if(type == 2){
-        var url = "SELECT i_u_id,COUNT(*) AS interNum FROM em_interview WHERE i_u_id=? "
-    }else if(type == 3){
-        var url = "SELECT i_u_id,COUNT(*) AS employNum FROM em_interview WHERE i_employ=1 AND i_u_id =? "
-    }else {
-        var url = "SELECT s_u_id,COUNT(*) AS getjobNum FROM em_student WHERE s_u_id=? " 
+        var sql = "SELECT r_id,s_name,r_time,b_name,s_jobstatus FROM em_recommend ,em_business,em_student WHERE r_s_id = s_id  AND r_b_id=b_id AND r_u_id= "+u_id;
+    }else if(type==2){
+        var sql = "SELECT i_id,s_name,i_time, b_name,s_jobstatus  FROM em_interview,em_student,em_business WHERE i_s_id = s_id AND i_b_id=b_id AND i_u_id= "+u_id;
+    }else if(type==3){
+        var sql = "SELECT i_u_id,`s_name`,b_name,`i_time`,s_jobstatus FROM em_interview,`em_student`,em_business WHERE i_employ=1 AND `i_s_id`=`s_id` AND `i_b_id`= b_id AND i_u_id = "+u_id;
+    }else if(type==4){
+        var sql = "SELECT s_u_id,s_name,c_name,`s_getjobtime`,`s_jobstatus` FROM em_student,em_class WHERE  s_c_id=c_id AND s_u_id= "+u_id;
     }
-    var dataArr = [u_id];
     //ÍÆ¼ö¿ªÊ¼Ê±¼ä
     if(request.body.start){
-        dataArr.push(request.body.start+" 00:00:00");
-        url += " AND r_time>=?"
+        sql += " AND r_time>="+ request.body.start+" 00:00:00"
     }
     //ÍÆ¼ö½áÊøÊ±¼ä
     if(request.body.end){
-        dataArr.push(request.body.end+" 23:59:59");
-        url += " AND r_time<=?"
+        sql += " AND r_time<="+request.body.end+" 23:59:59"
     }
     //开始查询
-    mysqlConnect.sqlConnect({
-        sql:url,
-        dataArr:dataArr,
-        success:function(data){
-            response.send(data)
-        },
-        error: function (e) {console.log(e)}
+    mysql.query(sql,function(err,result){
+        if(err){
+            response.send({
+                status:1,
+                data : err,
+                msg : "数据库查询失败"
+            })
+        }else{
+            response.send({
+                status : 0,
+                data : result,
+                msg : ""
+            })
+        }
     })
 }
 //Î´½áÒµ°à¼¶´ý¾ÍÒµÈËÊý
