@@ -21,10 +21,10 @@ exports.getclassstu= function (request, response) {
             }
             // 1. 获取登录用户基本信息
             var user_id = request.session.u_id || 0;
-            var user_type = request.session.u_type || '04';
-            var user_name = request.session.u_name || '人事经理';
+            var u_type = request.session.u_type || '';
+            var user_name = request.session.u_name || '';
             var sql = "select c_hr,c_closetime,c_name,c_id,c_endtime,c_status from em_class where c_endtime<=?"+$limit
-            if(u_type = '04' ){
+            if(u_type == '04' ){
                 sql += ' AND c_hr=?'
                 dataArr.push(user_name)
             }else if(u_type == '05'){

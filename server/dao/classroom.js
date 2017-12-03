@@ -144,9 +144,9 @@ exports.applyCloseClass=function(request,response){
         success:function(data){
             // 更新消息到message数据库
             var content = time+',     '+user_name+"发起了结班申请"
-            var dataArr = [user_name,content]
+            var dataArr = [class_id,content]
             mysqlConnect.sqlConnect({
-                sql:"insert into em_message values(null,now(),?,?,0,0);",
+                sql:"insert into em_message values(null,now(),(select c_hr from `em_class` where c_id=?),?,0,0);",
                 dataArr : dataArr,
                 success:function(data){
                     // 申请成功回调

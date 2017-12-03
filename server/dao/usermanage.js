@@ -98,10 +98,10 @@ exports.getuserlist=function(request,response){
         };
     option.limitname="WHERE 1=1";
     option.limitdata=[];
-    if(user_type == '04'||user_type=='05'){
-        option.limitname += ' AND u_name=?'
-        option.limitdata=[user_name];
-    }
+    // if(user_type == '04'||user_type=='05'){
+    //     option.limitname += ' AND u_name=?'
+    //     option.limitdata=[user_name];
+    // }
     if(u_name!=undefined){
         option.limitname+=" AND u_name LIKE ?";
         option.limitdata.push("%"+u_name+"%")

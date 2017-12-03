@@ -38,7 +38,7 @@ function showtable(data){
             "<td class='center' onclick='getReDetail("+data[i].u_id+",2)'  >"+data[i].interNum+"</td>"+
             "<td class='center' onclick='getReDetail("+data[i].u_id+",3)'  >"+data[i].employNum+"</td>"+
             "<td class='center' onclick='getReDetail("+data[i].u_id+",4)'  >"+data[i].getjobNum+"</td>"+
-            "<td class='center'>"+Math.round(percent*100)/100+"%</td>"+
+            "<td class='center'>"+((Math.round(percent*100)/100) || 0)+"%</td>"+
             "</tr>");
     }
     $("#user-table tbody").html($("#user-table tbody").html()+

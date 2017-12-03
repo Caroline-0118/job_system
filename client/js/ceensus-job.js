@@ -84,21 +84,20 @@ function showtable(start,end){
                                 "<td class='center' onclick=\"showJobDetail("+i+",9,'本周就业人员')\">"+weeknum+"</td>"+
                                 "<td class='center' onclick=\"showJobDetail("+i+",10,'剩余就业人员')\">"+nojob+"</td>"+
                                 "<td class='center'>"+percent+"%</td>";
-                                var auth = JSON.parse(localStorage.getItem('auth') )
+                                var user = JSON.parse(localStorage.getItem('user') )
                                 if (percent == 100) {
                                     if (data[i].c_status == '00') {
-                                        if(auth && auth['/applyCloseClass.do'].indexOf('03')>=0){
+                                        if(user && (user.u_type =='03') ){
                                             classDOM += "<td class='center classClose'><button  data-id='"+data[i].c_id+"' id='applyClose' data-auth='/applyCloseClass.do'>申请结班</button></td>"
                                         }else{
-                                            classDOM += "<td class='center classClose'>就业结班级</td>"
+                                            classDOM += "<td class='center classClose'>待结班</td>"
                                         }
                                         
                                     }else if(data[i].c_status == '01'){
-                                        debugger
-                                        if(auth && auth['/handleCloseClass.do'].indexOf('04')>=0){
+                                        if(user && user.u_name == data[i].c_hr){
                                             classDOM += "<td class='center classClose'><button data-id='"+data[i].c_id+"' id='approval'>结班审批</button></td>"
                                         }else{
-                                            classDOM +="<td class='center'>已提交结班申请</td>"
+                                            classDOM +="<td class='center'>待审核</td>"
                                         }
                                         
                                     }else if(data[i].c_status == '02'){
@@ -107,7 +106,7 @@ function showtable(start,end){
                                         classDOM +="<td class='center'>已结班</td>"
                                     }
                                 }else{
-                                   classDOM +="<td class='center'>未结班</td>"
+                                   classDOM +="<td class='center'> -- </td>"
                                 }
                                 classDOM += "</tr>"
                             $("#class-table tbody").html($("#class-table tbody").html()+ classDOM)
@@ -237,6 +236,7 @@ $(document).on('click','#applyClose',function(){
            }else{
                 alert(data.message);
            }
+           $('#time-search').click()
         }
     });
     
