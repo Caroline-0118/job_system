@@ -8,7 +8,7 @@ $("#user-table").jqGrid({
     colModel:[
         {name:'u_id',index:'u_id', width:50, sorttype:"text", editable: true},
         {name:'u_name',index:'u_name', width:100, sorttype:"text", editable: true},
-        {name:'u_password',index:'u_password', width:100,editable: true, sorttype:"text"},
+        {name:'u_password',index:'u_password', width:100,   formatter: handleFormatter},
         {name:'u_stutas',index:'u_stutas', width:100, editable: true, sorttype:"text"},
         {name:'u_type',index:'u_type', width:100, editable: true, sorttype:"text"}
     ],
@@ -72,6 +72,17 @@ $("#user-table").jqGrid({
     caption: "用户列表",
     autowidth: true
 });
+
+//密码隐藏
+function handleFormatter(cellvalue, options, rowdata){
+    // var user = JSON.parse(localStorage.getItem('user'));
+    // debugger
+    // if (user&&user.u_type != '01' &&user.u_type !='02') {
+    //     options.colModel.hidden = true
+    // }
+    return cellvalue
+
+}
 //查询
 $("#search").click(function(){
     var data=$(".form-search").serialize();
@@ -116,6 +127,8 @@ $("#edit-user").click(function () {
         if(seldata.u_type=="项目经理") $("#u_type").val("05");
         if(seldata.u_type=="推荐人") $("#u_type").val("06");
         $("#user-form").attr('action','/edituser.do');
+        //权限控制
+        var user = JSON.parse(localStorage.getItem('user'));
         formValidator();
     }else{
         alertBox({message:"请选择一行进行编辑！"});
