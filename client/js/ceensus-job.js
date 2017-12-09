@@ -88,25 +88,30 @@ function showtable(start,end){
                                 if (percent == 100) {
                                     if (data[i].c_status == '00') {
                                         if(user && (user.u_type =='03') ){
-                                            classDOM += "<td class='center classClose'><button  data-id='"+data[i].c_id+"' id='applyClose' data-auth='/applyCloseClass.do'>申请结班</button></td>"
+                                            classDOM += "<td class='center classClose'><button  data-id='"+data[i].c_id+"' data-name='"+data[i].c_name+"'  id='applyClose' data-auth='/applyCloseClass.do'>申请结班</button></td>"
                                         }else{
                                             classDOM += "<td class='center classClose'>待结班</td>"
                                         }
                                         
                                     }else if(data[i].c_status == '01'){
                                         if(user && user.u_name == data[i].c_hr){
-                                            classDOM += "<td class='center classClose'><button data-id='"+data[i].c_id+"' id='approval'>结班审批</button></td>"
+                                            classDOM += "<td class='center classClose'><button data-id='"+data[i].c_id+"' data-name='"+data[i].c_name+"' id='approval'>结班审批</button></td>"
                                         }else{
                                             classDOM +="<td class='center'>待审核</td>"
                                         }
                                         
                                     }else if(data[i].c_status == '02'){
-                                        classDOM +="<td class='center'>申请被拒绝</td>"
+                                        if(user && (user.u_type =='03') ){
+                                            classDOM += "<td class='center classClose'><button  data-id='"+data[i].c_id+"' data-name='"+data[i].c_name+"'  id='applyClose' data-auth='/applyCloseClass.do'>再次申请结班</button></td>"
+                                        }else{
+                                            classDOM +="<td class='center'>申请被拒绝</td>"
+                                        }
+                                        
                                     }else if(data[i].c_status == '11'){
                                         classDOM +="<td class='center'>已结班</td>"
                                     }
                                 }else{
-                                   classDOM +="<td class='center'> -- </td>"
+                                   classDOM +="<td class='center'> / </td>"
                                 }
                                 classDOM += "</tr>"
                             $("#class-table tbody").html($("#class-table tbody").html()+ classDOM)
@@ -226,9 +231,10 @@ $("#daochu").click(function(){
 $(document).on('click','#applyClose',function(){
     var url = $(this).attr('data-auth');
     var c_id = $(this).attr('data-id');
+    var c_name = $(this).attr('data-name');
     $.ajax({
         url : url,
-        data : {c_id:c_id},//获取用户ID getcol:"id" 获取用户姓名 getcol:"name"
+        data : {c_id:c_id,c_name:c_name},//获取用户ID getcol:"id" 获取用户姓名 getcol:"name"
         type:"post",
         success:function(data){
             if (data.status == 0) {
@@ -249,6 +255,7 @@ $(document).on('click','#applyClose',function(){
 $(document).on('click','#approval',function(){
     $("#myAppModalLabel").html("结班审批")
     $("#c_id").val($(this).data('id'))
+    $("#c_name").val($(this).data('name'))
     $('#applyModal').modal('show') 
 })
 /**
@@ -258,10 +265,12 @@ $(document).on('click','#approval',function(){
 $(document).on('click','.handler',function(){
     var type = $(this).attr('data-type');
     var c_id = $("#c_id").val();
+    var c_name = $("#c_name").val();
     var url = '/handleCloseClass.do'
     var reason = $('#reason').val()
     var reqData = {
         c_id:c_id,
+        c_name:c_name,
         c_status:type,
         reason : reason
     }
@@ -272,6 +281,8 @@ $(document).on('click','.handler',function(){
         success:function(data){
             if (data.status == 0) {
                 alert('处理成功');
+                $('#applyModal').modal('hide') 
+                $('#time-search').click()
            }else{
                 alert(data.message);
            }

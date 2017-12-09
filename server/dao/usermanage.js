@@ -84,8 +84,8 @@ exports.getAuthInfo=function(request,response){
 exports.getuserlist=function(request,response){
     // 1. 获取登录用户基本信息
     var user_id = request.session.u_id || 0;
-    var user_type = request.session.u_type || '04';
-    var user_name = request.session.u_name || '人事经理';
+    var user_type = request.session.u_type || '';
+    var user_name = request.session.u_name || '';
 
     var u_name=request.query.u_name,
         option={
