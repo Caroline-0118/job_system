@@ -120,7 +120,7 @@ $(".sure_change").click(function(){
     var $form=$(this).parent().parent().parent();
     var $value=$form.serializeArray(),$data={};
     for(var i=0;i<$value.length;i++){
-        $data[$value[i].name]=$value[i].value;
+        $data[$value[i].name]=$value[i].value || '';
     }
     $data.s_id=stu_id;
     $.ajax({

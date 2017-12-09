@@ -8,7 +8,7 @@ $("#visit-table").jqGrid({
     colNames:['沟通时间','沟通方式','学员班级','学员姓名','回访人',"沟通内容","备注"],
     colModel:[
         {name:'v_time',index:'v_time', width:100, sorttype:"text"},
-        {name:'v_type',index:'v_type', width:100, sorttype:"text"},
+        {name:'v_type',index:'v_type', width:100, sorttype:"text",formatter: communit},
         {name:'c_name',index:'c_name', width:100, sorttype:"text"},
         {name:'s_name',index:'s_name', width:100, sorttype:"text"},
         {name:'u_name',index:'u_name', width:100,sorttype:"text"},
@@ -59,6 +59,13 @@ $("#visit-table").jqGrid({
     autowidth: true
 });
 
+
+//回访方式过滤
+function communit(cellvalue, options, rowdata){
+    var typeArr = ['','电话回访','QQ/微信回访','当面沟通','其他']
+    var value = cellvalue || 4
+    return typeArr[value]
+}
 //查询
 $("#search").click(function(){
     jQuery("#visit-table").jqGrid("setGridParam",{

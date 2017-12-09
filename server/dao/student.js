@@ -283,6 +283,11 @@ exports.editstu=function(request,response){
     if(request.body.s_graduation=="") request.body.s_graduation="0000-00-00";
     if(request.body.s_getjobtime=="") request.body.s_getjobtime="0000-00-00";
     if(request.body.s_u_id=="") request.body.s_u_id==null;
+    for(var key in request.body){
+        if(!request.body[key]){
+            request.body[key] = null
+        }
+    }
     console.log(request.body);
     var option={
         request:request,

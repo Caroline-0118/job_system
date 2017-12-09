@@ -60,21 +60,21 @@ $(function(){
 				})
 				$('#s_education').text(eduStr) 
 				// 拼接工作状况
-				var eduObj = {
-					"1":"无工作" ,
-					"2":"自主就业" ,
-					"3":"推荐就业" ,
-					"4":"放弃工作" ,
-					"5":"推迟就业" ,
-					"6":"拒绝就业" 
-				}
-				educateArr[2].length > 0 ? $('#self_job').text("自主就业"+educateArr[2].length+"人，"+educateArr[2].toString()) :  $('#self_job').hide()
-				educateArr[3].length > 0 ? $('#recom_job').text("推荐就业"+educateArr[3].length+"人，"+educateArr[3].toString()) :  $('#recom_job').hide()
-				educateArr[4].length > 0 ? $('#giveupjob').text("放弃就业"+educateArr[4].length+"人，"+educateArr[4].toString()) : $('#giveupjob').hide()
-				educateArr[5].length > 0 ? $('#delayjob').text("推迟就业"+educateArr[5].length+"人，"+educateArr[5].toString()) :  $('#delayjob').hide()
-				educateArr[6].length > 0 ? $('#rejob').text("再就业"+educateArr[6].length+"人，"+educateArr[6].toString()) :  $('#rejob').hide()
-				educateArr[1].length > 0 ? $('#nojob').text("再就业"+educateArr[1].length+"人，"+educateArr[6].toString()) :  $('#nojob').hide()
-				var percent = (educateArr[2].length + educateArr[3].length)/total ||0
+				// var eduObj = {
+				// 	"1":"无工作" ,
+				// 	"2":"自主就业" ,
+				// 	"3":"推荐就业" ,
+				// 	"4":"放弃工作" ,
+				// 	"5":"推迟就业" ,
+				// 	"6":"拒绝就业" 
+				// }
+				jobStuArr[1].length > 0 ? $('#self_job').text("无工作"+jobStuArr[1].length+"人，"+jobStuArr[1].toString()) :  $('#self_job').hide()
+				jobStuArr[2].length > 0 ? $('#self_job').text("自主就业"+jobStuArr[2].length+"人，"+jobStuArr[2].toString()) :  $('#self_job').hide()
+				jobStuArr[3].length > 0 ? $('#recom_job').text("推荐就业"+jobStuArr[3].length+"人，"+jobStuArr[3].toString()) :  $('#recom_job').hide()
+				jobStuArr[4].length > 0 ? $('#giveupjob').text("放弃就业"+jobStuArr[4].length+"人，"+jobStuArr[4].toString()) : $('#giveupjob').hide()
+				jobStuArr[5].length > 0 ? $('#delayjob').text("推迟就业"+jobStuArr[5].length+"人，"+jobStuArr[5].toString()) :  $('#delayjob').hide()
+				jobStuArr[6].length > 0 ? $('#rejob').text("再就业"+jobStuArr[6].length+"人，"+jobStuArr[6].toString()) :  $('#rejob').hide()
+				var percent = (jobStuArr[2].length + jobStuArr[3].length)/total ||0
 				$("#c_percent").text("就业率："+percent*100+"%");
 				// 3. 填充最近动态
 				$(".approInfo").empty();
