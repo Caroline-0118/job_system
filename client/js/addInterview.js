@@ -178,8 +178,21 @@ $("#addinterstu").click(function () {
     for(var i=0;i<selids.length;i++){
         var seldata = $("#stu-table").jqGrid("getRowData",selids[i]);
         var resume="";
-        if(seldata.s_trueresume)resume+="<a style='color: #0092ef' href='../files/"+seldata.s_trueresume+"'>真实简历 </a>";
-        if(seldata.s_falseresume)resume+="<a style='color: #0092ef' href='../files/"+seldata.s_falseresume+"'>包装简历 </a>";
+        debugger
+        // 更改简历名称
+        
+        if(seldata.s_trueresume){
+            var typeArr = seldata.s_trueresume.split('.');
+            var type = typeArr[typeArr.length-1]
+            var s_trueresume = seldata.s_name + seldata.s_phone+'.'+type
+            resume+="<a style='color: #0092ef' href='../files/"+seldata.s_trueresume+"' download="+s_trueresume+">真实简历 </a>";
+        }
+        if(seldata.s_falseresume){
+            var typeArr = seldata.s_falseresume.split('.');
+            var type = typeArr[typeArr.length-1]
+            var s_falseresume = seldata.s_name +'-'+ seldata.s_phone +'.'+type
+            resume+="<a style='color: #0092ef' href='../files/"+seldata.s_falseresume+"' download="+s_falseresume+">包装简历 </a>";
+        }
         $("#hasselect>tbody").html($("#hasselect>tbody").html()+"<tr><td class='stu_id'>"+selids[i]
             +"</td><td class='stu_name'>"+seldata.s_name+"</td><td>"+seldata.c_name+"</td><td>"+seldata.s_sex+"</td><td>"+seldata.s_phone+
             "</td><td>"+resume+"</td><td><a href='#' role='button' class='delstu'>删除</a></td></tr>");

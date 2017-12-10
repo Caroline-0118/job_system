@@ -42,8 +42,22 @@ $.ajax({
                                         if(this.name==key) $(this).val($student[key]);
                                     }
                                 });
-                                if($student.s_trueresume)$("#s_trueresume").attr("href","../files/"+$student.s_trueresume).html($student.s_trueresume);
-                                if($student.s_falseresume)$("#s_falseresume").attr("href","../files/"+$student.s_falseresume).html($student.s_falseresume);
+                                if($student.s_trueresume){
+                                    $("#s_trueresume").attr("href","../files/"+$student.s_trueresume).html($student.s_trueresume);
+                                    // 获取文件后缀
+                                    var typeArr = $student.s_trueresume.split('.')
+                                    var type = typeArr[typeArr.length-1]
+                                    var names = $student.s_name + $student.s_phone+'.'+type
+                                    $("#s_trueresume").attr("download",names);
+                                }
+                                if($student.s_falseresume){
+                                   $("#s_falseresume").attr("href","../files/"+$student.s_falseresume).html($student.s_falseresume); 
+                                   // 获取文件后缀
+                                    var typeArr = $student.s_falseresume.split('.')
+                                    var type = typeArr[typeArr.length-1]
+                                    var names = $student.s_name + '-' + $student.s_phone+'.'+type
+                                    $("#s_falseresume").attr("download",names);
+                                }
                                 $("#s_education option").each(function(){
                                     if(this.innerHTML==$student.s_education) this.selected=true;
                                     else this.selected=false;
