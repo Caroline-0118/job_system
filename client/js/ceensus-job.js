@@ -213,13 +213,14 @@ function showtable(start,end){
 
 $("#daochu").click(function(){
     var mycheck=$("#myTab4 li.active a").text();
-    if(mycheck=="未结业班级") ExportToExcel("class-table");
-    else  ExportToExcel("hasclass-table");
+    var data = $("#form-search").serialize();
+    if(mycheck=="未结业班级") {
+        var URL = "/getclass.do?isExport=true&type=1&fileName=jobDetail.xlsx&start_time="+$("#starttime").val()+"end_time="+$("#endtime").val()
+    }else  {
+        var URL = "/getclass.do?isExport=true&type=1&isClose=true&fileName=jobDetail.xlsx&start_time="+$("#starttime").val()+"end_time="+$("#endtime").val()
+    }
 
-// 导出功能尚未完善
-    // var data = $("#form-search").serialize();
-    // var URL = "/getclass.do?isExport=true&fileName=jobDetail.xlsx&start_time="+$("#starttime").val()+"end_time="+$("#endtime").val()
-    // window.location = URL
+    window.location = URL
 
 });
 

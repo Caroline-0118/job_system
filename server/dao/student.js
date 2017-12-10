@@ -13,8 +13,8 @@ var fs = require('fs');
 exports.getstulist=function(request,response){
     // 1. 获取登录用户基本信息
     var user_id = request.session.u_id || 0;
-    var user_type = request.session.u_type || '04';
-    var user_name = request.session.u_name || '人事经理';
+    var user_type = request.session.u_type || '';
+    var user_name = request.session.u_name || '';
     //2. 查询用户管理的班级列表
     if(user_type == '04' ||user_type == "05"){
         if(user_type == '04'){
@@ -80,7 +80,7 @@ var getUserList = function(request,response,c_i_id){
                         option.limitdata.push("%"+request.query.s_name+"%")
                     }
                     if(key=="s_sex") option.limitname+=" AND s_sex=?";
-                    if(key=="s_jobstatus") option.limitname+=" AND s_jobstatus=?";
+                    
                     if(key=="s_skill") option.limitname+=" AND s_skill>=?";
                     if(key=="s_quality") option.limitname+=" AND s_quality>=?";
                     if(key=="s_graduate") option.limitname+=" AND s_graduation>?";
@@ -106,6 +106,8 @@ var getUserList = function(request,response,c_i_id){
                 }
             }
         }
+        // 就业状态为未就业和再就业
+        option.limitname+=" AND s_jobstatus in(1,6) ";
         //s_id查询单条数据
         if(request.query.s_id!=undefined){
             option.limitname+=" AND s_id=?";

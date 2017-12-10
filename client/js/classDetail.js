@@ -74,7 +74,10 @@ $(function(){
 				jobStuArr[4].length > 0 ? $('#giveupjob').text("放弃就业"+jobStuArr[4].length+"人，"+jobStuArr[4].toString()) : $('#giveupjob').hide()
 				jobStuArr[5].length > 0 ? $('#delayjob').text("推迟就业"+jobStuArr[5].length+"人，"+jobStuArr[5].toString()) :  $('#delayjob').hide()
 				jobStuArr[6].length > 0 ? $('#rejob').text("再就业"+jobStuArr[6].length+"人，"+jobStuArr[6].toString()) :  $('#rejob').hide()
-				var percent = (jobStuArr[2].length + jobStuArr[3].length)/total ||0
+				
+				var shouldrecostu =jobStuArr[3].length+jobStuArr[2].length+jobStuArr[1].length+jobStuArr[6].length;
+				var hasjoballstu =jobStuArr[3].length+jobStuArr[2].length+jobStuArr[6].length;
+				var percent = (hasjoballstu / shouldrecostu).toFixed(2);
 				$("#c_percent").text("就业率："+percent*100+"%");
 				// 3. 填充最近动态
 				$(".approInfo").empty();

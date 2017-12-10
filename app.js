@@ -24,7 +24,7 @@ app.configure(function(){
     app.use(session({//启用和配置session模块
         secret:"123",
         name:"test",
-        // cookie:{maxAge:600000},//session存储时间(毫秒)
+        cookie:{maxAge:600000},//session存储时间(毫秒)
         resave:false,
         saveUninitialized:true
     }));
@@ -98,6 +98,7 @@ app.post("/up_avata.do", load.upAvata);//上传头像
 
 //统计
 app.post("/getclass.do", census.getclassstu);//班级统计
+app.get("/getclass.do", census.getclassstu);//班级统计
 app.post("/getReDetail.do",census.getReDetail);//获取推荐人员详情
 app.get("/getuserreco.do", census.getuserreco);//用户统计
 app.post("/getwaitjobstu.do", census.getwaitjobstu);//待就业班级人数统计

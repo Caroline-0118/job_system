@@ -23,7 +23,15 @@ exports.getclassstu= function (request, response) {
             var user_id = request.session.u_id || 0;
             var u_type = request.session.u_type || '';
             var user_name = request.session.u_name || '';
-            var sql = "select c_hr,c_closetime,c_name,c_id,c_endtime,c_status from em_class where c_endtime<=?"+$limit
+            var isExport = request.query.isExport || false ;//判断是否是导出
+            var isClose = request.query.isClose || false ;//判断是否是结班
+            if(isExport && isClose){
+                var sql = "select c_hr,c_closetime,c_name,c_id,c_endtime,c_status from em_class where c_status=22 and c_endtime<=?"+$limit
+            }else if(isExport && !isClose){
+                var sql = "select c_hr,c_closetime,c_name,c_id,c_endtime,c_status from em_class where c_status!=22 and c_endtime<=?"+$limit
+            }else{
+                var sql = "select c_hr,c_closetime,c_name,c_id,c_endtime,c_status from em_class where c_endtime<=?"+$limit
+            }
             if(u_type == '04' ){
                 sql += ' AND c_hr=?'
                 dataArr.push(user_name)
@@ -173,6 +181,7 @@ exports.getclassstu= function (request, response) {
                 conf.stylesXmlFile =  __dirname+"/export.xml";
                 conf.name = "mysheet";
                 var rows = [];
+                // 未完善
                 if (request.query.type == '1') {
                      conf.cols = [{caption:'毕业时间',type:'string',width:15
                     },{caption:'班级名称',type:'string',width:15
