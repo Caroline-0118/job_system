@@ -171,7 +171,7 @@ var c_id = request.body.c_id
 var c_name = request.body.c_name
 var c_status = request.body.c_status
 var res = (c_status=='11') ? '已经通过' : '被拒绝'
-var content = time+',     '+user_name+"对'"+c_name+"'的申请就行了审批，结班申请"+res+"，如有疑问请直接联系本人"
+var content = time+',     '+user_name+"对'"+c_name+"'的申请进行了审批，结班申请"+res+"，如有疑问请直接联系本人"
 
     var sql1 = 'UPDATE em_class SET c_status=? WHERE c_id =?';
     var sql2 = "insert into em_message values(null,now(),?,?,0,?);";

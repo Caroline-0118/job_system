@@ -28,7 +28,8 @@
     <style type="text/css">
         .sidebar-shortcuts-large>.btn{height:32px;}
         .bootbox-body{font-size: 20px;font-weight: 600;}
-        /*.quanxian{display:none !important;}*/
+        .user-manage{display:none !important;}
+        .company-list{display:none !important;}
     </style>
 
     <!--[if lte IE 8]>
@@ -251,7 +252,7 @@
                             </a>
                         </li>
                         <!--面试企业信息-->
-                        <li>
+                        <li class="company-list">
                             <a href="#" class="w-menu dropdown-toggle">
                                 <i class="icon-double-angle-right"></i>
                                 <span>面试企业信息</span>
@@ -292,7 +293,7 @@
                     </ul>
                 </li>
                 <!--系统管理-->
-                <li class="quanxian">
+                <li class="user-manage">
                     <a href='#' class='w-menu dropdown-toggle'>
                         <i class='icon-desktop'></i>
                         <span class='menu-text'>系统管理</span>
@@ -301,12 +302,23 @@
                     <!--2级-->
                     <ul class='submenu'>
                         <!--用户管理-->
-                        <li>
+                        <li >
                             <a href="#" class="w-menu dropdown-toggle">
                                 <i class="icon-double-angle-right"></i>
                                 <span>用户管理</span>
                             </a>
                         </li>
+                    </ul>
+                </li>
+                <!--消息管理-->
+                <li >
+                    <a href='#' class='w-menu dropdown-toggle'>
+                        <i class='icon-desktop'></i>
+                        <span class='menu-text'>消息管理</span>
+                        <b class='arrow icon-angle-down'></b>
+                    </a>
+                    <!--2级-->
+                    <ul class='submenu'>
                         <!--消息中心-->
                         <li>
                             <a href="#" class="w-menu dropdown-toggle">

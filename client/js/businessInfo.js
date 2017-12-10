@@ -4,6 +4,7 @@ if(bustype) {
     height=200;
     sessionStorage.removeItem('bustype');
 }else  height=$(window).height()-313;
+
 //获取班级列表
 $("#bus-table").jqGrid({
     url:"/querybuslist.do",
@@ -58,9 +59,12 @@ $("#bus-table").jqGrid({
     autowidth: true
 });
 
+
+
 //查询
 $("#search").click(function(){
-    jQuery("#bus-table").jqGrid("setGridParam",{
+    debugger
+        jQuery("#bus-table").jqGrid("setGridParam",{
         url:"/querybuslist.do?b_name="+encodeURIComponent($("#busname-search").val())
     }).trigger("reloadGrid");
 });

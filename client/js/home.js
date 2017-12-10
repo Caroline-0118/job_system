@@ -6,9 +6,12 @@
             console.log(document.cookie);
             if(data.length)$("#uname").html(data[0].u_name+"<small>你好！</small>");
             else window.location = "../index.html";
-            // if(data[0].u_id=="1"){
-            //     $("head").append("<style type='text/css'>.quanxian{display:block !important;}</style>");
-            // }
+            if(data[0].u_type=="01"){
+                $("head").append("<style type='text/css'>.user-manage{display:block !important;}</style>");
+            }
+            if (data[0].u_type=="01" ||  data[0].u_type=="03") {
+                $("head").append("<style type='text/css'>.company-list{display:block !important;}</style>");
+            }
             $("#msgNumber").text(data[0].noRead)
         }
     })
@@ -35,6 +38,7 @@ var getAuthInfo = function (u_type){
                     }
                     authObj[item.url] = item.u_type
                 })
+                // 这是用户权限
                 if(!localStorage.getItem('auth') ){
                     localStorage.setItem("auth",JSON.stringify(authObj) );
                 }
@@ -76,8 +80,19 @@ function getsession(option){
     });
 }
 
+function GetQueryString(name)
+{
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+}
+
 //加载首页
-$("#w-page").load("../view/index.html");
+if (GetQueryString('student_infor') ) {
+    $("#w-page").load("../view/student_information.html");
+}else{
+    $("#w-page").load("../view/index.html");
+}
 //返回首页
 $("#back_index").click(function () {
     $("#w-page").load("../view/index.html");

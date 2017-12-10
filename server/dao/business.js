@@ -12,6 +12,14 @@ exports.getbuslist=function(request,response){
             table:"em_business",  //查询的数据表
             order:"b_id",  //排序列
             success:function(data){  //返回数据处理函数
+                for(var i=0;i<data.content.length;i++){
+                    var item  = data.content[i]
+                    var u_type = request.session.u_type
+                    if(u_type != '01' && u_type != '03'){
+                        item.b_contactor = "***"
+                        item.b_contactnum = "******"
+                    }
+                }
                 response.send(JSON.stringify(data));
             }
         };

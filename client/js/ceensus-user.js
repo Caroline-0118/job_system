@@ -1,6 +1,6 @@
 
 //初始化
-$.get("/getuserreco.do",function(data){
+$.get("/getuserreco.do",'u_type='+$('#recomentUserType').val(),function(data){
     showtable(data);
     $('#user-table').dataTable({
         "lengthMenu": [ 5, 10, 15 ],
@@ -11,14 +11,22 @@ $.get("/getuserreco.do",function(data){
     });
 });
 
+
+// 初始化查询选项权限信息
+var user = JSON.parse(localStorage.getItem('user'))
+var user_type = user.u_type
+if (user_type != '01' && user_type != '02' && user_type!='03') {
+    $('.superType').css('display','none')
+}
+
 //时间筛选
 $("#time-search").click(function () {
-    $.get("/getuserreco.do","start="+$("#starttime").val()+"&end="+$("#endtime").val(),function(data){showtable(data);});
+    $.get("/getuserreco.do","start="+$("#starttime").val()+"&end="+$("#endtime").val()+'&u_type='+$('#recomentUserType').val(),function(data){showtable(data);});
 });
 // 导出
 $('#export').click(function(){
     var data = $("#form-search").serialize();
-    var URL = "/getuserreco.do?isExport=true&fileName=staffPicks.xlsx&start="+$("#starttime").val()+"&end="+$("#endtime").val()
+    var URL = "/getuserreco.do?isExport=true&fileName=staffPicks.xlsx&start="+$("#starttime").val()+"&end="+$("#endtime").val()+'&u_type='+$('#recomentUserType').val()
     window.location = URL
 })
 //table配置函数

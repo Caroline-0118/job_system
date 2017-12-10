@@ -8,7 +8,7 @@ var mysql=require("./class/newSql.js");
 //用户登录
 exports.login=function(request,response){
     var username=request.body.username,password=request.body.password;
-    var loginSql="select u_id,u_name,u_type from em_user where u_name=? and u_password=?";
+    var loginSql="select u_id,u_name,u_type from em_user where u_name=? and u_password=? and u_stutas=1";
     
     mysqlConnect.sqlConnect({
         sql:loginSql,   //sql语句

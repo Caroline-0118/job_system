@@ -130,6 +130,36 @@ $(".changeInfo").click(function(){
     $("#s_falseresume").attr("disabled",true);
 });
 
+//推荐人选择
+$('#s_u_id').change(function(item){
+    if ($(this).val() == 'addUserBtn') {
+        var name=prompt("请输入推荐人的名字","");
+        if (name) {
+            var reqData = {
+                u_name : name,
+                u_password : '123456',
+                u_stutas : 1,
+                u_type : '06'
+            }
+            var url = "/adduser.do"
+            $.post(url,reqData,function(data){
+                if (data.result) {
+                        
+                        alertBox({message:"添加成功,将刷新页面"});
+                        setInterval(function(){
+                            location.reload()
+                        },1000)
+                    }else{
+                        alertBox({message:"添加失败"});
+                    }
+            })
+        }else{
+            $(this).val('')
+        }
+    }
+})
+
+addUserBtn
 $(".sure_change").click(function(){
     var $form=$(this).parent().parent().parent();
     var $value=$form.serializeArray(),$data={};

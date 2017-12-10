@@ -286,7 +286,8 @@ $("#stu-table").on("click",".take_detail",function(){
     //页面跳转
     var selid = $("#stu-table").jqGrid('getGridParam','selrow');
     window.sessionStorage.s_id=selid;
-    $("#w-page").load("../view/student_information.html");
+    window.open('/view/home.html?student_infor=true')
+    // $("#w-page").load("../view/student_information.html");
 });
 
 //删除学员

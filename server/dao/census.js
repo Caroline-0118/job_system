@@ -243,9 +243,11 @@ exports.getclassstu= function (request, response) {
 
 //ÓÃ»§ÍÆ¼öÍ³¼Æ
 exports.getuserreco=function(request,response){
+    
+    var u_type = request.query.u_type || request.session.u_type
     async.waterfall([function(cb){//ÇëÇóÔÚÖ°ÓÃ»§
         mysqlConnect.sqlConnect({
-            sql:"select u_id,u_name from em_user where u_stutas=1",
+            sql:"select u_id,u_name from em_user where u_stutas=1 and u_type="+u_type,
             dataArr:[],
             success:function(data){
                 cb(null,data);

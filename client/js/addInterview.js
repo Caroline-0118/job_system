@@ -42,7 +42,6 @@ $("#stu-table").jqGrid({
         page:"page",
         rows:"rows"
     },
-
     //设置按钮图标
     loadComplete : function() {
         var table = this;
@@ -100,6 +99,33 @@ $("#stu-table").jqGrid({
     },
     autowidth: true
 });
+
+//推荐人选择
+$('#i_u_id').change(function(item){
+    if ($(this).val() == 'addUserBtn') {
+        var name=prompt("请输入推荐人的名字","");
+        if (name) {
+            var reqData = {
+                u_name : name,
+                u_password : '123456',
+                u_stutas : 1,
+                u_type : '06'
+            }
+            var url = "/adduser.do"
+            $.post(url,reqData,function(data){
+                if (data.result) {
+                        
+                        alert("添加成功,请重新点击添加面试");
+                        $('#i_u_id').val('')
+                    }else{
+                        alertBox({message:"添加失败"});
+                    }
+            })
+        }else{
+            $(this).val('')
+        }
+    }
+})
 
 //加载公司列表
 $("#gongsi").click(function(){
@@ -178,9 +204,7 @@ $("#addinterstu").click(function () {
     for(var i=0;i<selids.length;i++){
         var seldata = $("#stu-table").jqGrid("getRowData",selids[i]);
         var resume="";
-        debugger
         // 更改简历名称
-        
         if(seldata.s_trueresume){
             var typeArr = seldata.s_trueresume.split('.');
             var type = typeArr[typeArr.length-1]
@@ -301,13 +325,16 @@ setTimeout(function () {
                 +"</td><td class='stu_name'>"+data.content[0].s_name+"</td><td>"+data.content[0].c_name+"</td><td>"
                 +data.content[0].s_sex+"</td><td>"+data.content[0].s_phone+
                 "</td><td>"+resume+"</td><td><a href='#' role='button' class='delstu'>删除</a></td></tr>");
+                    debugger
             $.ajax({
                 url:"/querybuslist.do?b_id="+data.content[0].r_b_id,
                 success: function (data) {
                     var mydata=JSON.parse(data);
-                    $("#bus_name").val(mydata.content[0].b_name);
+
                     $("#bus_contactor").val(mydata.content[0].b_contactor);
                     $("#bus_contactnum").val(mydata.content[0].b_contactnum);
+                    $("#bus_name").val(mydata.content[0].b_name);
+                    
                     $("#bus_remark").val(mydata.content[0].b_remark);
                     $("#bus_address").val(mydata.content[0].b_address);
                 }
