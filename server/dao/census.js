@@ -169,12 +169,12 @@ exports.getclassstu= function (request, response) {
                 cb(null,values[0])
              });
         }],
-        function(err, result) {
+        function(err, data) {
             // response.send(result);
             var isExport = request.query.isExport || false ;//判断是否是导出
             var fileName = request.query.fileName || "查询结果";
             if(!isExport){
-                response.send(result);
+                response.send(data);
             }else{
                 var conf = {}
                 // 导出数据
@@ -193,52 +193,42 @@ exports.getclassstu= function (request, response) {
                     },{caption:'放弃就业人数',type:'string',width:30
                     },{caption:'推迟就业人数',type:'string',width:30
                     },{caption:'再就业人数',type:'string',width:30
-                    },{caption:'本周就业人数',type:'string',width:30
+                    // },{caption:'本周就业人数',type:'string',width:30
                     },{caption:'剩余人数',type:'string',width:30
                     },{caption:'就业率',type:'string',width:30
                     }];
                     
-                    for(var i=0;i<data.content.length;i++){
+                    for(var i=0;i<data.length;i++){
+                        var nojob=0,hasjob1= 0,hasjob2=0,giveupjob= 0,delayjob= 0,rejob=0;
+                        for(var j=0;j<data[i].jobstatus_count.length;j++){
+                            //全部学生
+                            switch (data[i].jobstatus_count[j].s_jobstatus){
+                                case 1 :  nojob  =parseInt(data[i].jobstatus_count[j].num); break;
+                                case 2 :  hasjob1    =parseInt(data[i].jobstatus_count[j].num); break;
+                                case 3 :  hasjob2    =parseInt(data[i].jobstatus_count[j].num);  break;
+                                case 4 :  giveupjob  =parseInt(data[i].jobstatus_count[j].num); break;
+                                case 5 : delayjob   =parseInt(data[i].jobstatus_count[j].num); break;
+                                case 6 : rejob      =parseInt(data[i].jobstatus_count[j].num); break;
+                            }
+                        }
+                        var percent=Math.round((hasjob2+hasjob1+rejob)/(hasjob2+hasjob1+rejob+nojob)*100) || 0;
                         var rr = [];
-                        rr.push(data.content[i].c_name); //毕业时间
-                        rr.push(data.content[i].s_name); //班级名称
-                        rr.push(data.content[i].s_sex); //总人数
-                        rr.push(data.content[i].s_sex); //需要推荐人数
-                        rr.push(data.content[i].s_phone); //已就业人数
-                        rr.push(data.content[i].s_jobstatus); //推荐就业人数
-                        rr.push(data.content[i].s_phone); //自主就业人数
-                        rr.push(data.content[i].s_english); //放弃就业人数
-                        rr.push(data.content[i].s_education); //推迟就业人数
-                        rr.push(data.content[i].s_school); //再就业人数
-                        rr.push(data.content[i].s_major); //本周就业人数
-                        rr.push(data.content[i].s_graduation); //剩余人数
-                        rr.push(data.content[i].s_remark); //就业率
+                        rr.push(data[i].c_endtime);    //毕业时间
+                        rr.push(data[i].c_name);       //班级名称
+                        rr.push((hasjob2+hasjob1+rejob+nojob+giveupjob+delayjob).toString()); //总人数
+                        rr.push((hasjob2+hasjob1+nojob+rejob).toString() ); //需要推荐人数
+                        rr.push((hasjob2+hasjob1+rejob).toString() ); //已就业人数
+                        rr.push(hasjob2.toString()); //推荐就业人数
+                        rr.push(hasjob1.toString()); //自主就业人数
+                        rr.push(giveupjob.toString()); //放弃就业人数
+                        rr.push(delayjob.toString()); //推迟就业人数
+                        rr.push(rejob.toString()); //再就业人数
+                        // rr.push(data[i].weeknum); //本周就业人数
+                        rr.push(nojob.toString()); //剩余人数
+                        rr.push(percent+'%'); //就业率
                         rows.push(rr);   
                         }
-                    }else if(request.query.type == 'stuJob'){
-                         conf.cols = [{caption:'班级',type:'string',width:15
-                        },{caption:'姓名',type:'string',width:15
-                        },{caption:'毕业学校',type:'string',width:30
-                        },{caption:'就业状态',type:'string',width:30
-                        },{caption:'就业企业',type:'string',width:30
-                        },{caption:'试用／实习期工资',type:'string',width:30
-                        },{caption:'转正工资',type:'string',width:30
-                        },{caption:'备注',type:'string',width:30
-                        }];
-                        
-                        for(var i=0;i<data.content.length;i++){
-                            var rr = [];
-                            rr.push(data.content[i].c_name); //班级
-                            rr.push(data.content[i].s_name); //姓名
-                            rr.push(data.content[i].s_school); //毕业学校
-                            rr.push(data.content[i].s_jobstatus); //就业状态
-                            rr.push(data.content[i].s_jobunit); //就业企业
-                            rr.push(data.content[i].s_shixijobpay); //试用／实习期工资
-                            rr.push(data.content[i].s_jobpay); //转正工资
-                            rr.push(data.content[i].s_remark); //备注
-                            rows.push(rr); 
                     }
-                }
                 
                 conf.rows = rows;
 
