@@ -8,20 +8,21 @@ $("#time-search").click(function () {
 });
 
 var studentJobList = [];
+var weekDataList = []
 //table配置函数
 function showtable(start,end){
     var mydata=[];
     if(start!=undefined&&start!=null){mydata.push("start_time="+$("#starttime").val())}
     if(end!=undefined&&end!=null){mydata.push("end_time="+$("#endtime").val())}
     $.post("/getclass.do",mydata.join("&"),function(data){
-
+            studentJobList = data;
         //初始化本周数据
         $.post("/getclass.do","type=1&"+mydata.join("&"),function(d){
+            weekDataList = d; //本周就业统计
             var allstu= 0,shouldrecostu= 0,hasjoballstu= 0,hasjobrecostu= 0,hasjobownstu= 0,giveupstu= 0,delaystu= 0,regetjob= 0,thisweekstu= 0,nojobstu=0;
             var allstu1= 0,shouldrecostu1= 0,hasjoballstu1= 0,hasjobrecostu1= 0,hasjobownstu1= 0,giveupstu1= 0,delaystu1= 0,regetjob1= 0,thisweekstu1= 0,nojobstu1=0;
             $("#class-table tbody").html("");
             $("#hasclass-table tbody").html("");
-            studentJobList = data;
             for(var k=0;k< d.length;k++){
                 for(var i=0;i<data.length;i++){
                     // nojob未就业 hasjob1自主就业 hasjob2推荐就业 giveupjob放弃就业 delayjob推迟就业 rejob再就业
@@ -348,12 +349,12 @@ var showJobDetail = function(i,type,title){
                 break;
         case 8 : userlist = rejoblist
                 break;
-        case 9 : userlist = weeknum
+        case 9 : userlist = weekDataList[i].jobstatus_count
                 break;
         case 10 : userlist = nojoblist
                 break;
     }
-
+    // debugger
 
     var userTable = "<table style='width:100%'><th>学员姓名</th><th>推荐人</th><th>就业时间</th>"
     for(var i=0;i<userlist.length;i++){

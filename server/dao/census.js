@@ -25,6 +25,7 @@ exports.getclassstu= function (request, response) {
             var user_name = request.session.u_name || '';
             var isExport = request.query.isExport || false ;//判断是否是导出
             var isClose = request.query.isClose || false ;//判断是否是结班
+            //判断是否是导出，结班
             if(isExport && isClose){
                 var sql = "select c_hr,c_closetime,c_name,c_id,c_endtime,c_status from em_class where c_status=22 and c_endtime<=?"+$limit
             }else if(isExport && !isClose){
@@ -32,6 +33,7 @@ exports.getclassstu= function (request, response) {
             }else{
                 var sql = "select c_hr,c_closetime,c_name,c_id,c_endtime,c_status from em_class where c_endtime<=?"+$limit
             }
+            // 判断登录用户类型是否为人事专员或者项目经理
             if(u_type == '04' ){
                 sql += ' AND c_hr=?'
                 dataArr.push(user_name)
@@ -61,7 +63,7 @@ exports.getclassstu= function (request, response) {
                 function bbbb(){//±Õ°üÌí¼Ó´«µÝº¯Êý
                     function func(cb){
                         mysqlConnect.sqlConnect({
-                            sql:"SELECT s_name,s_c_id FROM em_student WHERE  s_getjobtime>=?"+
+                            sql:"SELECT s_jobstatus ,s_c_id,s_name,s_getjobtime,s_c_id,(SELECT u_name FROM em_user AS U WHERE S.s_u_id = U.u_id) AS recommend  FROM em_student AS S WHERE  s_getjobtime>=?"+
                             " AND s_getjobtime<=?",
                             dataArr:[week[0],week[1]],
                             success:function(data){
@@ -77,12 +79,15 @@ exports.getclassstu= function (request, response) {
                                     // 遍历每个班级
                                     for(var j=0;j<n.length;j++){
                                         var cla = n[j]
+                                        cla.jobstatus_count = []
+                                        cla.weeknum = 0
                                         // 找到所在的班级
                                         if(stu.s_c_id == cla.c_id){
-                                            cla.weeknum = cla.weeknum++ 
-                                            cla.list += stu.s_name
+                                            ++cla.weeknum
+                                            cla.jobstatus_count.push(stu)
                                         }
                                     }
+                                    
                                    
                                 }
                                 for(var k=0;k<n.length;k++){
