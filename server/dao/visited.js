@@ -5,6 +5,7 @@ var edit=require("./class/edit.js");
 var mydelete=require("./class/delete.js");
 var date_edit=require("./class/date_edit.js");
 var nodeExcel = require('excel-export');
+var mysqlConnect=require("./class/sqlConnect.js");
 //»ñÈ¡»Ø·ÃÁÐ±í
 exports.getvisitedlist=function(request,response){
     var c_id=request.query.c_id,
@@ -134,11 +135,29 @@ exports.getvisitedlist=function(request,response){
 exports.addvisited=function(request,response){
     request.body.v_u_id=request.session.u_id;
     request.body.v_time=date_edit.datetime(new Date());
+    var stu_name = request.body.v_s_name;
+    delete request.body.v_s_name;
     add.add({
         request:request,
         table:"em_visited",
         success:function(data){
-            response.send(data);
+            if(data.result){
+                var time = new Date().Format("yyyy-MM-dd hh:mm:ss");  
+                var message = time +'，     ' +request.session.u_name + '对'+stu_name+'的就业信息进行了回访。内容为：'+request.body.v_content
+                var sql = "insert into em_message values(null,now(),(select c_hr from em_class AS C , em_student  AS S where S.s_c_id = C.c_id  and s_id = ?),?,0,0),(null,now(),(select c_manager from em_class AS C , em_student  AS S where S.s_c_id = C.c_id  and s_id = ?),?,0,0)"
+                mysqlConnect.sqlConnect({
+                    sql:sql,
+                    dataArr : [request.body.v_s_id,message,request.body.v_s_id,message],
+                    success:function(data){
+                        response.send({
+                            result : true
+                        });
+                    },
+                    error: function (e) {console.log(e)}
+                })
+            }else{
+                response.send(data)
+            }
         }
     });
 };

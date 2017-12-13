@@ -296,7 +296,26 @@ exports.editstu=function(request,response){
         table:"em_student",
         editid:"s_id",  //编辑列的id键名
         success:function(data){
-            response.send(data);
+            if(data.result){
+                // 编辑成功，开始写入消息内容
+                var time = new Date().Format("yyyy-MM-dd hh:mm:ss");  
+                var message = time +'，     ' +request.session.u_name + '更新了'+request.body.s_name+'的学员就业信息。'
+                var sql = "insert into em_message values(null,now(),(select c_hr from em_class AS C , em_student  AS S where S.s_c_id = C.c_id  and s_id = ?),?,0,0),(null,now(),(select c_manager from em_class AS C , em_student  AS S where S.s_c_id = C.c_id  and s_id = ?),?,0,0)"
+                mysqlConnect.sqlConnect({
+                    sql:sql,
+                    dataArr : [request.body.s_id,message,request.body.s_id,message],
+                    success:function(data){
+                        response.send({
+                            result : true
+                        });
+                    },
+                    error: function (e) {console.log(e)}
+                })
+            }else{
+                response.send(data);
+            }
+            
+            
         }
     };
     if(request.body.s_id.split(",").length>1) option.type="many";//同时编辑多列

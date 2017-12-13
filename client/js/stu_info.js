@@ -1,6 +1,7 @@
 ﻿//获取学员id
 var stu_id=window.sessionStorage.s_id;
-sessionStorage.removeItem('s_id');
+var stu_name = ""
+// localStorage.removeItem('s_id');
 //初始化下拉框
 $.ajax({
     url:"/queryclasslist.do",
@@ -35,6 +36,7 @@ $.ajax({
                             data:{s_id:stu_id},
                             success: function (data) {
                                 var $student=JSON.parse(data).content[0];
+                                stu_name = $student.s_name
                                 var $input=$("#stu-info input,#stu-info select,#stu-job input,#stu-job select");
                                 $input.each(function () {
                                     $(this).attr("disabled",true);
@@ -159,7 +161,7 @@ $('#s_u_id').change(function(item){
     }
 })
 
-addUserBtn
+// addUserBtn
 $(".sure_change").click(function(){
     var $form=$(this).parent().parent().parent();
     var $value=$form.serializeArray(),$data={};
@@ -167,6 +169,7 @@ $(".sure_change").click(function(){
         $data[$value[i].name]=$value[i].value || '';
     }
     $data.s_id=stu_id;
+    $data.s_name=stu_name;
     $.ajax({
         url:"/editstu.do",
         type:"post",
@@ -230,7 +233,7 @@ $("#add_visited").click(function(){
     var v_content=$("#v_content").val();
     if(!v_content)alertBox({message:"请输入回访信息！"});
     else{
-        $.post("/addvisited.do","v_s_id="+stu_id+"&v_type="+$("#v_type").val()+"&v_content="+$("#v_content").val(),function(data){
+        $.post("/addvisited.do","v_s_id="+stu_id +"&v_s_name="+stu_name+"&v_type="+$("#v_type").val()+"&v_content="+$("#v_content").val(),function(data){
             console.log(data);
             if(data.result)initVisited();
             else alertBox({message:"添加失败！"})
