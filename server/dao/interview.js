@@ -359,6 +359,7 @@ exports.interresult=function(request,response){
                         limit.push("s_jobpay=?");
                         dataArr.push(request.body.s_jobpay);
                     }
+                    limit.push("s_jobstatus=3 ");
                     limit.push("s_getjobtime=?");
                     dataArr.push(employtime);
                     limit.push("s_u_id=?");

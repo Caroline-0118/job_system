@@ -107,7 +107,11 @@ var getUserList = function(request,response,c_i_id){
             }
         }
         // 就业状态为未就业和再就业
-        option.limitname+=" AND s_jobstatus in(1,6) ";
+        if(request.query.s_jobstatus){
+            option.limitname+=" AND s_jobstatus in(?) ";
+            // option.limitdata.push(request.query.s_jobstatus);
+        }
+        
         //s_id查询单条数据
         if(request.query.s_id!=undefined){
             option.limitname+=" AND s_id=?";

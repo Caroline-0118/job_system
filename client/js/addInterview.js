@@ -1,7 +1,7 @@
 
 //获取学员列表
 $("#stu-table").jqGrid({
-    url:"/querystulist.do",
+    url:"/querystulist.do?s_jobstatus=1,6",
     datatype: "json",
     height: 200,
     colNames:['班级','','姓名','性别','联系电话','就业状态','','','专业技能评价',"综合素质评价","学历","毕业学校","毕业专业","毕业时间","备注"],
@@ -139,7 +139,7 @@ $("#gongsi").click(function(){
 $("#mysearch").click(function(){
     var data=$("#form-search").serialize();
     jQuery("#stu-table").jqGrid("setGridParam",{
-        url:"/querystulist.do?"+data
+        url:"/querystulist.do?s_jobstatus=1,6&"+data
     }).trigger("reloadGrid");
 });
 //监听回车查询
