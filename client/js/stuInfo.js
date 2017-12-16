@@ -135,6 +135,7 @@ function getclass(){
                 $("#s_c_id").html($("#s_c_id").html()+"<option value='"+mydata.content[i].c_id+"'>"+
                     mydata.content[i].c_name+"</option>");
             }
+            $("#s_c_id").val(sessionStorage.getItem('s_c_id'))
             $("#s_c_id").selectpicker();
         }
     });
@@ -166,9 +167,7 @@ $("#add-stu").click(function(){
     $("#stu-form").get(0).reset();
     $("#stu-form").attr('action','/addstu.do');
     var u_type = JSON.parse(localStorage.getItem('user')).u_type
-    if (u_type != '04') {
-        getclass();
-    }
+    getclass();
     formValidator();
 });
 
@@ -185,9 +184,7 @@ $("#stu-table").click(function () {
 //编辑学员
 $("#edit-stu").click(function () {
     var u_type = JSON.parse(localStorage.getItem('user')).u_type
-    if (u_type != '04') {
-        getclass();
-    }
+    getclass();
     if($("#stu-table").jqGrid('getGridParam','selarrrow').length==1){
         var selrow = $("#stu-table").jqGrid('getGridParam','selrow');
         var seldata = $("#stu-table").jqGrid("getRowData",selrow);
@@ -198,7 +195,8 @@ $("#edit-stu").click(function () {
         $("#s_major").val(seldata.s_major);
         $("#s_graduation").val(seldata.s_graduation);
         $("#s_remark").val(seldata.s_remark);
-        setTimeout(function(){$("#s_c_id").val(seldata.c_id);},10);
+        sessionStorage.setItem('s_c_id',seldata.c_id);
+        
         for(var i=0;i<$("#s_education option").length;i++){
             if(seldata.s_education==$("#s_education option")[i].innerHTML)
                 $("#s_education option")[i].selected=true;

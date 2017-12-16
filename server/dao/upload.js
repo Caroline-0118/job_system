@@ -96,7 +96,10 @@ exports.upstu=function(req, response) {
                         console.log(data);
                         response.send({result:true});
                     },
-                    error: function(error){console.log(error)}
+                    error: function(error){
+                        console.log(error);
+                        response.send({result:false});
+                    }
                 });
             }else {
                 response.send({result:false})

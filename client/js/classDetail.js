@@ -68,7 +68,7 @@ $(function(){
 				// 	"5":"推迟就业" ,
 				// 	"6":"拒绝就业" 
 				// }
-				jobStuArr[1].length > 0 ? $('#self_job').text("无工作"+jobStuArr[1].length+"人，"+jobStuArr[1].toString()) :  $('#self_job').hide()
+				jobStuArr[1].length > 0 ? $('#nojob').text("剩余未就业"+jobStuArr[1].length+"人，"+jobStuArr[1].toString()) :  $('#nojob').hide()
 				jobStuArr[2].length > 0 ? $('#self_job').text("自主就业"+jobStuArr[2].length+"人，"+jobStuArr[2].toString()) :  $('#self_job').hide()
 				jobStuArr[3].length > 0 ? $('#recom_job').text("推荐就业"+jobStuArr[3].length+"人，"+jobStuArr[3].toString()) :  $('#recom_job').hide()
 				jobStuArr[4].length > 0 ? $('#giveupjob').text("放弃就业"+jobStuArr[4].length+"人，"+jobStuArr[4].toString()) : $('#giveupjob').hide()
