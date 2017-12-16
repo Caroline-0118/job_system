@@ -168,8 +168,8 @@ $(".sure_change").click(function(){
     for(var i=0;i<$value.length;i++){
         $data[$value[i].name]=$value[i].value || '';
     }
-    $data.s_id=stu_id;
     $data.s_name=stu_name;
+    $data.s_id=stu_id;
     $.ajax({
         url:"/editstu.do",
         type:"post",

@@ -282,6 +282,7 @@ exports.delinter=function(request,response){
 exports.interresult=function(request,response){
     var editSql,dataArr;
     var employtime=date_edit.date(new  Date());
+    // 当type==1时表示标记为未录用，该功能现已废弃
     if(request.body.type=="1"){
         var $zhanwei=[];
         dataArr=request.body.i_id.split(",");
@@ -360,6 +361,8 @@ exports.interresult=function(request,response){
                         dataArr.push(request.body.s_jobpay);
                     }
                     limit.push("s_jobstatus=3 ");
+                    limit.push("s_jobunit=? ");
+                    dataArr.push(request.body.b_name);
                     limit.push("s_getjobtime=?");
                     dataArr.push(employtime);
                     limit.push("s_u_id=?");

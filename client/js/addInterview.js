@@ -100,6 +100,7 @@ $("#stu-table").jqGrid({
     autowidth: true
 });
 
+
 //推荐人选择
 $('#i_u_id').change(function(item){
     if ($(this).val() == 'addUserBtn') {
@@ -170,6 +171,9 @@ $.ajax({
             $("#i_u_id").html($("#i_u_id").html()+"<option value='"+mydata.content[i].u_id+"'>"+
                 mydata.content[i].u_name+"</option>");
         }
+        // 默认推荐人为当前登录用户
+        var user = JSON.parse(localStorage.getItem('user'))
+        $('#i_u_id').val(user.u_id)
     }
 });
 

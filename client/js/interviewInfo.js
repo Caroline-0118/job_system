@@ -234,7 +234,7 @@ $("#inter-table").on("click",".edit-fankui",function(){
 
         var seldata = $("#inter-table").jqGrid("getRowData",i_id);
         console.log(seldata);
-        $.post($form.attr('action'),$form.serialize()+"&i_id="+i_id+"&i_u_id="+seldata.i_u_id, function(data) {
+        $.post($form.attr('action'),$form.serialize()+"&i_id="+i_id+"&i_u_id="+seldata.i_u_id+"&b_name="+seldata.b_name, function(data) {
             if(data.result) alertBox({message:"修改成功！"});
             else alertBox({message:"修改失败！"});
             $("#inter-table").trigger("reloadGrid");
