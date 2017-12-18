@@ -140,7 +140,7 @@ $("#gongsi").click(function(){
 $("#mysearch").click(function(){
     var data=$("#form-search").serialize();
     jQuery("#stu-table").jqGrid("setGridParam",{
-        url:"/querystulist.do?s_jobstatus=1,6&"+data
+        url:"/querystulist.do?"+data+"&s_jobstatus=1,6"
     }).trigger("reloadGrid");
 });
 //监听回车查询
