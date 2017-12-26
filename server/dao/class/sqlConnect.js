@@ -15,9 +15,9 @@ var mysql = require("../../node_modules/mysql");
 
 exports.sqlConnect=function(option){
     var myConnect=mysql.createConnection({
-        host: "192.168.1.98",
+        host: "tanjunyi.xin",
         user: "root",
-        password: "123456",
+        password: "mysqlpasswd",
         port: "3306",
         database: "job_system",
         multipleStatements:true
