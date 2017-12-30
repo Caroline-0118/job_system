@@ -216,3 +216,43 @@ exports.upAvata=function(req, response) {
 
 };
 
+//上传附件
+exports.upStuFile=function(req, response) {
+    var up_file = "";
+    if (req.files && req.files.content != undefined) {
+        console.log(req.files.content.path);
+        var path1= req.files.content.path;
+        if(path1){
+            var true_path =path1.split("\\");//获取文件保存路径
+            up_file=true_path[true_path.length-1];
+        }
+    }
+    var update_file=[];
+    var dataArr=[];
+    if(up_file!=""){
+        update_file.push(req.body.file+"=?");
+        dataArr.push(up_file);
+    }else{
+        response.send({result:false});  
+    }
+    dataArr.push(req.query.s_id);
+
+    console.log(update_file)
+    console.log(dataArr)
+    if(update_file.length>0){
+        var upresumeSql="UPDATE em_student SET "+update_file.join()+" WHERE s_id=? ";
+        mysqlConnect.sqlConnect({
+            sql:upresumeSql,
+            dataArr:dataArr,
+            success:function(data){
+                console.log(data);
+                response.send({result:true});
+            },
+            error: function(error){
+                console.log(error);
+                response.send({result:false});
+            }
+        });
+    }
+
+};

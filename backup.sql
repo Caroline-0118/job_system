@@ -214,6 +214,6 @@ CREATE TABLE `em_visited` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 
 
-alter table em_user add file1 varchar(100) ;
-alter table em_user add file2 varchar(100) ;
-alter table em_user add file3 varchar(100) ;
+alter table em_student add file1 varchar(100) ;
+alter table em_student add file2 varchar(100) ;
+alter table em_student add file3 varchar(100) ;

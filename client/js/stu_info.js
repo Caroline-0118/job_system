@@ -71,6 +71,66 @@ $.ajax({
                                 if($student.s_avata){
                                     $("#yushow").attr('src','/files/'+$student.s_avata);//设置头像  
                                 }
+                                // 设置附件1
+                                if($student.file1){
+                                    $("#s_file1").attr("href","../files/"+$student.file1).html($student.file1); 
+                                    // 获取文件后缀
+                                     var typeArr = $student.file1.split('.')
+                                     var type = typeArr[typeArr.length-1]
+                                     if(type=='png' || tpye=='jpeg'||type=='jpg'||type=='gif'){
+                                        $("#s_file1").attr("target","_blank"); 
+                                     }else{
+                                        var names = $student.s_name + '-' + $student.s_phone+'.'+type
+                                        $("#s_file1").attr("download",names); 
+                                     }
+                                     $("#file1_u").hide()
+                                     $("#file1_f").show()
+                                }else{
+                                    $("#file1_u").show()
+                                    $("#file1_f").hide()
+                                }
+
+                                 // 设置附件2
+                                 if($student.file2){
+                                    $("#s_file2").attr("href","../files/"+$student.file2).html($student.file2); 
+                                    // 获取文件后缀
+                                     var typeArr = $student.file2.split('.')
+                                     var type = typeArr[typeArr.length-1]
+                                     if(type=='png' || tpye=='jpeg'||type=='jpg'||type=='gif'){
+                                        $("#s_file2").attr("target","_blank"); 
+                                     }else{
+                                        var names = $student.s_name + '-' + $student.s_phone+'.'+type
+                                        $("#s_file2").attr("download",names); 
+                                     }
+                                     $("#file2_u").hide()
+                                     $("#file2_f").show()
+                                     
+                                }else{
+                                    $("#file2_u").show()
+                                    $("#file2_f").hide()
+                                    
+                                }
+
+                                 // 设置附件3
+                                 if($student.file3){
+                                    $("#s_file3").attr("href","../files/"+$student.file3).html($student.file3); 
+                                    // 获取文件后缀
+                                     var typeArr = $student.file3.split('.')
+                                     var type = typeArr[typeArr.length-1]
+                                     if(type=='png' || tpye=='jpeg'||type=='jpg'||type=='gif'){
+                                        $("#s_file3").attr("target","_blank"); 
+                                     }else{
+                                        var names = $student.s_name + '-' + $student.s_phone+'.'+type
+                                        $("#s_file3").attr("download",names); 
+                                     }
+                                     $("#file3_u").hide()
+                                     $("#file3_f").show()
+                                     
+                                }else{
+                                    $("#file3_u").show()
+                                    $("#file3_f").hide()
+                                }
+
                                 $("#s_u_id").selectpicker({noneSelectedText:''});
                                 $("button[data-id='s_u_id']").removeClass("btn").removeClass("btn-default").removeClass("dropdown-toggle")
                                     .css({"width":"83.3%","height":"100%"})
@@ -199,6 +259,20 @@ $(".delresume").click(function(){
         })
     }
 });
+//删除附件
+$(".delfile").click(function(){
+    var file = $(this).attr('data-file');
+        $.post("/delfile.do","s_id="+stu_id+"&"+$(this).prev().attr("id")+"="+$(this).prev().html()+"&file="+file,function(data){
+            if(data.result) {
+                alertBox({message:"删除成功！"});
+                window.location.reload();
+            }
+            else alertBox({message:"删除失败！"});
+        })
+    
+});
+
+
 
 //初始化回访记录
 initVisited();
@@ -263,7 +337,21 @@ $('#false-resume').ace_file_input({
     btn_choose:'Choose',
     btn_change:'Change'
 });
-
+$('#upload_file1').ace_file_input({
+    no_file:'请上传附件1！',
+    btn_choose:'Choose',
+    btn_change:'Change'
+});
+$('#upload_file2').ace_file_input({
+    no_file:'请上传附件2！',
+    btn_choose:'Choose',
+    btn_change:'Change'
+});
+$('#upload_file3').ace_file_input({
+    no_file:'请上传附件3！',
+    btn_choose:'Choose',
+    btn_change:'Change'
+});
 //上传简历
 $("#upload_resume").click(function(){
     var true_sesume=$("#true-resume").val();
@@ -297,6 +385,32 @@ $("#upload_resume").click(function(){
         });
     }
 });
+
+//上传附件
+$(document).on('click','.upload_file',function(){
+    var file = $(this).attr("data-file")
+    var data = new FormData();
+    var imgFile = $("#"+file)
+    data.append('content',imgFile[0].files[0]);
+    data.append('file',file.substring(7,12))
+    $.ajax({
+        url:'/updata_stu_file.do?s_id='+stu_id,
+        cache: false,
+        type: 'post',
+        dataType: 'json',
+        data : data,
+        contentType: false,
+        processData: false,
+        success : function (data) {
+            $('.close').trigger('click');//关闭弹框
+            if(data.result) {
+                alertBox({message:"上传附件成功！"})
+                window.location.reload();
+            }
+            else alertBox({message:"上传附件失败！"});
+        }
+    });
+})
 
 //时间编辑器
 $("#s_getjobtime").datetimepicker({
@@ -341,6 +455,10 @@ $("#s_getjobtime").datetimepicker({
      }
  }
  
+
+
+
+
  //开始上传
  function uploadImg(imgFile){
     var data = new FormData();
@@ -357,9 +475,11 @@ $("#s_getjobtime").datetimepicker({
                 $('.close').trigger('click');//关闭弹框
                 if(data.result) {
                     alertBox({message:"上传头像成功！"})
+                    location.reload();
                 }
                 else alertBox({message:"上传头像失败！"});
             }
         });
  }
  
+

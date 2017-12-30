@@ -359,6 +359,24 @@ exports.delsturemuse=function(request,response){
     })
 };
 
+
+//删除学员附件
+exports.delFile=function(request,response){
+    var s_id=request.body.s_id
+    var file = request.body.file;
+    console.log("UPDATE em_student SET "+file+"=null WHERE s_id="+s_id);
+    mysqlConnect.sqlConnect({
+        sql:"UPDATE em_student SET "+file +"=null WHERE s_id="+s_id,
+        success:function(data){
+            fs.unlink(temp_path);
+            response.send({result:true})
+        },
+        error:function(e){
+            console.log(e);
+            response.send({result:false})
+        }
+    })
+};
 //获取就业方向列表
 exports.queryjobdirelist= function (request, response) {
     console.log(1111);

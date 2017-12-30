@@ -422,28 +422,62 @@
                     </div><!-- /widget-main -->
 
                 </div><!-- /widget-body -->
-                <div>
+                <div style="margin-top:10px;">
                     <div class="form-group row">
-                        <label class="col-sm-2 control-label no-padding-right"> 附件1： </label>
-                        <div class="col-sm-8">
-                            <a style="line-height: 29px;color: #0092ef" href="#" id="s_file1">未上传</a>
-                            <a href="#" style="color: red" class="delresume">删除</a>
+                        <label class="col-sm-2 control-label no-padding-right" > 附件1： </label>
+                        <div id="file1_u">
+                            <div class="col-sm-4">
+                                <input type="file" id="upload_file1">
+                            </div>
+                            <div class="col-sm-6">
+                                <button class="btn btn-sm btn-info upload_file" data-file="upload_file1" style="width: 74px;position:relative; left:50%;margin-left: -37px" type="button">
+                                        <i class="icon-upload-alt"></i>
+                                        上传
+                                    </button>
+                            </div>
+                        </div>
+                        <div id="file1_f" hidden>
+                            <a style="line-height: 29px;color: #0092ef" href="javascript:void(0)" id="s_file1">未上传</a>
+                            <a href="#" style="color: red" class="delfile" data-file="file1">删除</a>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-2 control-label no-padding-right"> 附件2： </label>
-                        <div class="col-sm-8">
-                            <a style="line-height: 29px;color: #0092ef" href="#" id="s_file2">未上传</a>
-                            <a href="#" style="color: red" class="delresume">删除</a>
+                            <label class="col-sm-2 control-label no-padding-right" > 附件2： </label>
+                            <div id="file2_u">
+                                <div class="col-sm-4">
+                                    <input type="file" id="upload_file2">
+                                </div>
+                                <div class="col-sm-6">
+                                    <button class="btn btn-sm btn-info upload_file" data-file="upload_file2" style="width: 74px;position:relative; left:50%;margin-left: -37px" type="button">
+                                            <i class="icon-upload-alt"></i>
+                                            上传
+                                        </button>
+                                </div>
+                            </div>
+                            <div id="file2_f" hidden>
+                                <a style="line-height: 29px;color: #0092ef" href="javascript:void(0)" id="s_file2">未上传</a>
+                                <a href="#" style="color: red" class="delfile" data-file="file2">删除</a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 control-label no-padding-right"> 附件3： </label>
-                        <div class="col-sm-8">
-                            <a style="line-height: 29px;color: #0092ef" href="#" id="s_file3">未上传</a>
-                            <a href="#" style="color: red" class="delresume">删除</a>
-                        </div>
-                    </div>
+                        <div class="form-group row">
+                                <label class="col-sm-2 control-label no-padding-right" > 附件3： </label>
+                                <div id="file3_u">
+                                    <div class="col-sm-4">
+                                        <input type="file" id="upload_file3">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <button class="btn btn-sm btn-info upload_file" data-file="upload_file3"  style="width: 74px;position:relative; left:50%;margin-left: -37px" type="button">
+                                                <i class="icon-upload-alt"></i>
+                                                上传
+                                            </button>
+                                    </div>
+                                </div>
+                                <div id="file3_f" hidden>
+                                    <a style="line-height: 29px;color: #0092ef" href="javascript:void(0)" id="s_file3">未上传</a>
+                                    <a href="#" style="color: red" class="delfile" data-file="file3">删除</a>
+                                </div>
+                            </div>
+                        
                 </div>
             </div><!-- /widget-box -->
         </div>

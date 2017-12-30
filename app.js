@@ -65,6 +65,7 @@ app.post("/addstu.do",student.addstu);//添加学员
 app.post("/editstu.do",student.editstu);//编辑学员
 app.post("/delstu.do",student.delstu);//删除学员
 app.post("/delsturemuse.do",student.delsturemuse);//删除学员简历
+app.post("/delfile.do",student.delFile);//删除学员附件
 app.get("/queryjobdirelist.do",student.queryjobdirelist);//获取学员就业方向列表
 
 //企业模块
@@ -95,6 +96,8 @@ app.post("/delvisited.do",visited.delvisited);//删除回访
 app.post("/upstu.do", load.upstu);//导入学员
 app.post("/up_semue.do", load.upResume);//上传简历
 app.post("/up_avata.do", load.upAvata);//上传头像
+app.post("/updata_stu_file.do", load.upStuFile);//上传附件
+
 
 //统计
 app.post("/getclass.do", census.getclassstu);//班级统计
