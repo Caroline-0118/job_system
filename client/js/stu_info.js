@@ -77,7 +77,7 @@ $.ajax({
                                     // 获取文件后缀
                                      var typeArr = $student.file1.split('.')
                                      var type = typeArr[typeArr.length-1]
-                                     if(type=='png' || tpye=='jpeg'||type=='jpg'||type=='gif'){
+                                     if(type=='png' || type=='jpeg'||type=='jpg'||type=='gif'){
                                         $("#s_file1").attr("target","_blank"); 
                                      }else{
                                         var names = $student.s_name + '-' + $student.s_phone+'.'+type
@@ -96,7 +96,7 @@ $.ajax({
                                     // 获取文件后缀
                                      var typeArr = $student.file2.split('.')
                                      var type = typeArr[typeArr.length-1]
-                                     if(type=='png' || tpye=='jpeg'||type=='jpg'||type=='gif'){
+                                     if(type=='png' || type=='jpeg'||type=='jpg'||type=='gif'){
                                         $("#s_file2").attr("target","_blank"); 
                                      }else{
                                         var names = $student.s_name + '-' + $student.s_phone+'.'+type
@@ -117,7 +117,7 @@ $.ajax({
                                     // 获取文件后缀
                                      var typeArr = $student.file3.split('.')
                                      var type = typeArr[typeArr.length-1]
-                                     if(type=='png' || tpye=='jpeg'||type=='jpg'||type=='gif'){
+                                     if(type=='png' || type=='jpeg'||type=='jpg'||type=='gif'){
                                         $("#s_file3").attr("target","_blank"); 
                                      }else{
                                         var names = $student.s_name + '-' + $student.s_phone+'.'+type

@@ -368,7 +368,6 @@ exports.delFile=function(request,response){
     mysqlConnect.sqlConnect({
         sql:"UPDATE em_student SET "+file +"=null WHERE s_id="+s_id,
         success:function(data){
-            fs.unlink(temp_path);
             response.send({result:true})
         },
         error:function(e){
