@@ -24,7 +24,7 @@ app.configure(function(){
     app.use(session({//启用和配置session模块
         secret:"123",
         name:"test",
-        cookie:{maxAge:1800000},//session存储时间(毫秒)
+        //cookie:{maxAge:1800000},//session存储时间(毫秒)
         resave:false,
         saveUninitialized:true
     }));
