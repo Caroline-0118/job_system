@@ -36,8 +36,8 @@ app.configure(function(){
     app.use(express.static(__dirname+"/client"));
     app.use(express.errorHandler());//打印错误日志
 });
-app.listen(8866);//设置服务器端口号
-console.log("服务器已经从8866端口启动");
+app.listen(80);//设置服务器端口号
+console.log("服务器已经从80端口启动");
 //用户模块
 
 app.post("/getAuthInfo.do",user.getAuthInfo);//获取用户权限信息

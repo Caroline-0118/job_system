@@ -5,9 +5,9 @@
  */
 var mysql=require("mysql");
 var pool = mysql.createPool({
-    host: 'tanjunyi.xin',
+    host: 'localhost',
     user: 'root',
-    password: 'mysqlpasswd',
+    password: '123456',
     database: 'job_system',
     port: 3306,
     multipleStatements:true
